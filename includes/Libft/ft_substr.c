@@ -1,37 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 18:10:04 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/18 17:38:49 by namalier         ###   ########.fr       */
+/*   Created: 2023/11/08 18:46:02 by namalier          #+#    #+#             */
+/*   Updated: 2023/11/16 15:39:18 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-/* cpyenv is copying char **envp to infos->env adding NULL in last char * */
-
-int	ft_cpyenv(t_infos *infos, char **envp)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	i;
+	char	*str;
 
 	i = 0;
-	while (envp[i])
-		i++;
-	infos->env = malloc((i + 1) * sizeof(char *));
-	if (!infos->env)
-		return (0);
-	i = 0;
-	while (envp[i])
+	if (!s)
+		return (NULL);
+	if (ft_strlen(s) <= start)
 	{
-		infos->env[i] = ft_strdup(envp[i]);
-		if (!infos->env[i])
-			return (0);
-		i++;
+		str = malloc(sizeof(char));
+		str[i] = '\0';
+		return (str);
 	}
-	infos->env[i] = NULL;
-	return (1);
+	if (start + len > ft_strlen(s))
+		len = ft_strlen(s) - start;
+	str = malloc((len + 1) * sizeof(char));
+	if (!str)
+		return (NULL);
+	while (s[start] && i < len)
+		str[i++] = s[start++];
+	str[i] = '\0';
+	return (str);
 }

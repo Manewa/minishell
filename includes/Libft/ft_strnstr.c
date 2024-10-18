@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 18:01:29 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/18 17:37:52 by namalier         ###   ########.fr       */
+/*   Created: 2023/11/06 16:54:26 by namalier          #+#    #+#             */
+/*   Updated: 2023/11/13 20:25:06 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include"libft.h"
 
-int main (int argc, char **argv, char **envp)
+char	*ft_strnstr(const char *str, const char *tofind, size_t n)
 {
-	t_infos	infos;
+	size_t	i;
+	size_t	j;
 
-	if (argc!= 1)
-		return (1);
-	(void)argv;
-	ft_lstnew(&infos);
-	if (!ft_lstnew(&infos))
-		return (1);
-	if (!init_prompt(&infos, envp))
-		return (1);
+	i = 0;
+	if (!tofind[i])
+		return ((char *) str);
+	while (i < n && str[i])
+	{
+		if (str[i] == tofind[0])
+		{
+			j = 0;
+			while (tofind[j] && str[i + j] == tofind[j] && i + j < n)
+					j++;
+			if (!tofind[j])
+				return ((char *)&str[i]);
+		}
+		i++;
+	}
 	return (0);
 }

@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 18:01:29 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/18 17:37:52 by namalier         ###   ########.fr       */
+/*   Created: 2023/11/06 16:52:43 by namalier          #+#    #+#             */
+/*   Updated: 2023/11/06 16:52:45 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include"libft.h"
 
-int main (int argc, char **argv, char **envp)
+int	ft_isascii(int c)
 {
-	t_infos	infos;
-
-	if (argc!= 1)
+	if (c >= 0 && c <= 127)
 		return (1);
-	(void)argv;
-	ft_lstnew(&infos);
-	if (!ft_lstnew(&infos))
-		return (1);
-	if (!init_prompt(&infos, envp))
-		return (1);
-	return (0);
+	else
+		return (0);
 }

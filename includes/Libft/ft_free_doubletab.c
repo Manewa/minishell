@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_free_doubletab.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 18:01:29 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/18 17:37:52 by namalier         ###   ########.fr       */
+/*   Created: 2024/09/06 13:48:59 by namalier          #+#    #+#             */
+/*   Updated: 2024/09/24 17:44:09 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int main (int argc, char **argv, char **envp)
+void	*ft_free_doubletab(char **str)
 {
-	t_infos	infos;
+	size_t	i;
 
-	if (argc!= 1)
-		return (1);
-	(void)argv;
-	ft_lstnew(&infos);
-	if (!ft_lstnew(&infos))
-		return (1);
-	if (!init_prompt(&infos, envp))
-		return (1);
-	return (0);
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+	return (NULL);
 }

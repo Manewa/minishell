@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 18:01:29 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/18 17:37:52 by namalier         ###   ########.fr       */
+/*   Created: 2023/11/06 16:54:33 by namalier          #+#    #+#             */
+/*   Updated: 2023/11/13 20:25:39 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int main (int argc, char **argv, char **envp)
+char	*ft_strrchr(const char *s, int c)
 {
-	t_infos	infos;
+	int	i;
 
-	if (argc!= 1)
-		return (1);
-	(void)argv;
-	ft_lstnew(&infos);
-	if (!ft_lstnew(&infos))
-		return (1);
-	if (!init_prompt(&infos, envp))
-		return (1);
-	return (0);
+	i = ft_strlen(s);
+	while (i >= 0 && s[i] != (char)c)
+		i--;
+	if (i < 0)
+		return (0);
+	else
+		return ((char *) &s[i]);
 }

@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 18:01:29 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/18 17:37:52 by namalier         ###   ########.fr       */
+/*   Created: 2023/11/13 15:26:11 by namalier          #+#    #+#             */
+/*   Updated: 2023/11/13 20:19:58 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int main (int argc, char **argv, char **envp)
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	t_infos	infos;
+	unsigned int	i;
 
-	if (argc!= 1)
-		return (1);
-	(void)argv;
-	ft_lstnew(&infos);
-	if (!ft_lstnew(&infos))
-		return (1);
-	if (!init_prompt(&infos, envp))
-		return (1);
-	return (0);
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i])
+	{
+		f(i, &s[i]);
+		i++;
+	}
 }

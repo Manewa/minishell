@@ -1,37 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 18:10:04 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/18 17:38:49 by namalier         ###   ########.fr       */
+/*   Created: 2023/11/06 16:53:46 by namalier          #+#    #+#             */
+/*   Updated: 2023/11/13 20:22:17 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include"libft.h"
 
-/* cpyenv is copying char **envp to infos->env adding NULL in last char * */
-
-int	ft_cpyenv(t_infos *infos, char **envp)
+size_t	ft_strlcat(char *dest, const char *src, size_t size)
 {
 	size_t	i;
+	size_t	j;
 
+	if ((!dest || !src) && size == 0)
+		return ((size_t) NULL);
+	j = ft_strlen((const char *)dest);
+	if (j > size)
+		return (size + ft_strlen(src));
+	if (!src)
+		return (j);
+	if (!size)
+		return (ft_strlen(src) + j);
 	i = 0;
-	while (envp[i])
-		i++;
-	infos->env = malloc((i + 1) * sizeof(char *));
-	if (!infos->env)
-		return (0);
-	i = 0;
-	while (envp[i])
+	while (src[i] && (i + j) < size - 1)
 	{
-		infos->env[i] = ft_strdup(envp[i]);
-		if (!infos->env[i])
-			return (0);
+		dest[i + j] = src[i];
 		i++;
 	}
-	infos->env[i] = NULL;
-	return (1);
+	dest[i + j] = '\0';
+	return (j + ft_strlen(src));
 }

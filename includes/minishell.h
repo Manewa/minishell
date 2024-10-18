@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 18:01:29 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/18 17:37:52 by namalier         ###   ########.fr       */
+/*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
+/*   Updated: 2024/10/18 15:33:43 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#ifndef PIPEX_H
+# define PIPEX_H
 
-int main (int argc, char **argv, char **envp)
-{
-	t_infos	infos;
+# include "structs.h"
+# include "Libft/libft.h"
+# include "libs.h"
 
-	if (argc!= 1)
-		return (1);
-	(void)argv;
-	ft_lstnew(&infos);
-	if (!ft_lstnew(&infos))
-		return (1);
-	if (!init_prompt(&infos, envp))
-		return (1);
-	return (0);
-}
+/************		main 			**********/
+
+int		main(int argc, char **argv, char **envp);
+
+/************		init_prompt		**********/
+
+int		init_prompt(t_infos *infos, char **envp);
+
+/************		env				**********/
+
+int		ft_cpyenv(t_infos *infos, char **envp);
+
+#endif

@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   libs.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 18:01:29 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/18 17:37:52 by namalier         ###   ########.fr       */
+/*   Created: 2024/10/18 14:51:49 by namalier          #+#    #+#             */
+/*   Updated: 2024/10/18 16:32:08 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#ifndef	LIBS_H
+# define LIBS_H
 
-int main (int argc, char **argv, char **envp)
-{
-	t_infos	infos;
+# include <unistd.h>
+# include <stdio.h>
+# include <limits.h>
+# include <stdlib.h>
+# include <stddef.h>
+# include <fcntl.h>
+# include <errno.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
-	if (argc!= 1)
-		return (1);
-	(void)argv;
-	ft_lstnew(&infos);
-	if (!ft_lstnew(&infos))
-		return (1);
-	if (!init_prompt(&infos, envp))
-		return (1);
-	return (0);
-}
+#endif
