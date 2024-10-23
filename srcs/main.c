@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:01:29 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/18 17:37:52 by namalier         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:18:09 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int main (int argc, char **argv, char **envp)
 {
 	t_infos	infos;
+	t_token	*token;
 
 	if (argc!= 1)
 		return (1);
@@ -22,7 +23,8 @@ int main (int argc, char **argv, char **envp)
 	ft_lstnew(&infos);
 	if (!ft_lstnew(&infos))
 		return (1);
-	if (!init_prompt(&infos, envp))
+	if (init_prompt(&infos, envp) == 0)
 		return (1);
+	token = tokenization(&infos);
 	return (0);
 }

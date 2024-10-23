@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 17:43:47 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/15 18:16:04 by namalier         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:39:02 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@ typedef struct s_infos
 	char		*line;
 	char		**env;
 }					t_infos;
+
+typedef struct s_token
+{
+	void	*head;
+	void	*next;
+char	;
+	
+	
+}
 
 #endif
 
