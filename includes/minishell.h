@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/23 18:18:07 by namalier         ###   ########.fr       */
+/*   Updated: 2024/10/29 18:07:05 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 #define WORD			6
 #define SINGLE_QUOTE	7
 #define APPEND_MODE		8
-#define SPACE			9
+#define SPACES			9
 
 /************		main 			**********/
 
@@ -38,5 +38,23 @@ int		init_prompt(t_infos *infos, char **envp);
 /************		env				**********/
 
 int		ft_cpyenv(t_infos *infos, char **envp);
+
+/************		tokenization	**********/
+
+t_token	*tokenization(t_infos *infos);
+t_token	*token_type(t_infos *infos, size_t *i);
+
+/************		token_quotes	***********/
+
+void	token_doublequote(t_infos *infos, size_t *i, t_token *token);
+
+/************		utils_lst		***********/
+
+void	ft_tokenadd_back(t_token **lst, t_token *new);
+t_token	*ft_tokenlast(t_token *lst);
+
+/************		utils_parsing	***********/
+
+int		is_special_char(t_infos *infos, size_t *i);
 
 #endif

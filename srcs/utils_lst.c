@@ -1,35 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   structs.h                                          :+:      :+:    :+:   */
+/*   utils_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 17:43:47 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/29 15:13:08 by namalier         ###   ########.fr       */
+/*   Created: 2024/10/29 17:50:57 by namalier          #+#    #+#             */
+/*   Updated: 2024/10/29 18:08:07 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRUCTS_H
-# define STRUCTS_H
+#include "../includes/minishell.h"
 
-typedef struct s_infos
+t_token	*ft_tokenlast(t_token *lst)
 {
-	int			s_in;
-	int			s_out;
-	char		*line;
-	char		**env;
-}					t_infos;
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}
 
-typedef struct s_token
+void	ft_tokenadd_back(t_token **lst, t_token *new)
 {
-	void	*head;
-	void	*prev;
-	void	*next;
-	int		type;
-	char	*word;
-	char	**token;
-}					t_token;
+	t_token	*tmp;
 
-#endif
+	if (!new)
+		return ;
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	tmp = *lst;
+	ft_tokenlast(tmp)->next = new;
+}
 

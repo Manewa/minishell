@@ -1,35 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   structs.h                                          :+:      :+:    :+:   */
+/*   tokens_for_exec.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 17:43:47 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/29 15:13:08 by namalier         ###   ########.fr       */
+/*   Created: 2024/10/29 15:28:29 by namalier          #+#    #+#             */
+/*   Updated: 2024/10/29 16:29:08 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRUCTS_H
-# define STRUCTS_H
-
-typedef struct s_infos
+void	tokens_for_exec(t_token **lst_token, t_infos *infos)
 {
-	int			s_in;
-	int			s_out;
-	char		*line;
-	char		**env;
-}					t_infos;
+	t_token	**head;
 
-typedef struct s_token
-{
-	void	*head;
-	void	*prev;
-	void	*next;
-	int		type;
-	char	*word;
-	char	**token;
-}					t_token;
-
-#endif
-
+	head = lst_token;
+	
+}

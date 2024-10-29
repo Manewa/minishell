@@ -6,7 +6,7 @@
 #    By: namalier <namalier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 16:29:28 by namalier          #+#    #+#              #
-#    Updated: 2024/10/18 16:35:56 by namalier         ###   ########.fr        #
+#    Updated: 2024/10/29 18:04:17 by namalier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,8 @@ OBJDIR 			= obj
 LIBA			= includes/Libft/libft.a
 
 SRCS 			=	srcs/main.c srcs/init_prompt.c srcs/env.c \
+					srcs/tokenization.c srcs/token_quotes.c srcs/utils_lst.c \
+					srcs/utils_parsing.c \
 
 OBJS 			=	$(patsubst %.c,${OBJDIR}/%.o,$(notdir ${SRCS}))
 

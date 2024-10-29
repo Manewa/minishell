@@ -1,35 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   structs.h                                          :+:      :+:    :+:   */
+/*   utils_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 17:43:47 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/29 15:13:08 by namalier         ###   ########.fr       */
+/*   Created: 2024/10/29 17:55:57 by namalier          #+#    #+#             */
+/*   Updated: 2024/10/29 18:08:35 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRUCTS_H
-# define STRUCTS_H
+#include "../includes/minishell.h"
 
-typedef struct s_infos
+int	is_special_char(t_infos *infos, size_t *i)
 {
-	int			s_in;
-	int			s_out;
-	char		*line;
-	char		**env;
-}					t_infos;
-
-typedef struct s_token
-{
-	void	*head;
-	void	*prev;
-	void	*next;
-	int		type;
-	char	*word;
-	char	**token;
-}					t_token;
-
-#endif
-
+	if (infos->line[*i] == 34 || infos->line[*i] == 39 || infos->line[*i] == '<'
+			|| infos->line[*i] == '>' || infos->line[*i] == '|'
+			|| infos->line[*i] == ' ')
+		return (1);
+	return (0);
+}
