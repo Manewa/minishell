@@ -6,18 +6,21 @@
 #    By: namalier <namalier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 16:29:28 by namalier          #+#    #+#              #
-#    Updated: 2024/10/29 18:04:17 by namalier         ###   ########.fr        #
+#    Updated: 2024/11/26 11:11:14 by namalier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-PARSING			= srcs/Parsing
+ENV				= srcs/Parsing/env
+TOKENS			= srcs/Parsing/tokenization
+UTILS			= srcs/Parsing/utils
 EXEC			= srcs/Exec
 OBJDIR 			= obj
 LIBA			= includes/Libft/libft.a
 
-SRCS 			=	srcs/main.c srcs/init_prompt.c srcs/env.c \
-					srcs/tokenization.c srcs/token_quotes.c srcs/utils_lst.c \
-					srcs/utils_parsing.c \
+SRCS 			=	srcs/main.c srcs/init_prompt.c ${ENV}/env.c \
+					${TOKENS}/tokenization.c ${TOKENS}/token_quotes.c \
+					${UTILS}/utils_lst.c ${UTILS}/utils_parsing.c \
+					${UTILS}/ft_error.c \
 
 OBJS 			=	$(patsubst %.c,${OBJDIR}/%.o,$(notdir ${SRCS}))
 
@@ -37,7 +40,16 @@ $(OBJDIR)		:
 ${OBJDIR}/main.o	: srcs/main.c
 				cc ${CFLAGS} -c $< -o $@
 
-${OBJDIR}/%.o	: srcs/%.c
+${OBJDIR}/init_prompt.o	: srcs/init_prompt.c
+				cc ${CFLAGS} -c $< -o $@
+
+${OBJDIR}/%.o	: ${ENV}/%.c
+				cc ${CFLAGS} -c $< -o $@
+
+${OBJDIR}/%.o	: ${TOKENS}/%.c
+				cc ${CFLAGS} -c $< -o $@
+
+${OBJDIR}/%.o	: ${UTILS}/%.c
 				cc ${CFLAGS} -c $< -o $@
 
 ${LIBA}			:

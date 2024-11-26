@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/29 18:07:05 by namalier         ###   ########.fr       */
+/*   Updated: 2024/11/26 11:17:04 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 #define SINGLE_QUOTE	7
 #define APPEND_MODE		8
 #define SPACES			9
+#define	ERROR_PARSING	10
 
 /************		main 			**********/
 
@@ -39,12 +40,12 @@ int		init_prompt(t_infos *infos, char **envp);
 
 int		ft_cpyenv(t_infos *infos, char **envp);
 
-/************		tokenization	**********/
+/************	token/tokenization	**********/
 
 t_token	*tokenization(t_infos *infos);
 t_token	*token_type(t_infos *infos, size_t *i);
 
-/************		token_quotes	***********/
+/************	token/token_quotes	***********/
 
 void	token_doublequote(t_infos *infos, size_t *i, t_token *token);
 

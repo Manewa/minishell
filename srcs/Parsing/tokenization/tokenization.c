@@ -3,15 +3,73 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:59:53 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/29 17:53:19 by namalier         ###   ########.fr       */
+/*   Updated: 2024/11/26 16:25:14 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
+int	token_type(char *line, int *readed, int start, char sep)
+{
+	while (line[*readed] == sep)
+		readed++;
+	if (sep == ' ')
+		sep = is_separator(line[*readed]);
+	if (!sep)
+		return (WORD);
+	else if (start == sep && sep == '>')
+	{
+		if (line[*readed++] == '>')
+			return (APPEND_MODE);
+		else
+			return (OUTREDIR);
+	}
+	else if (sep == '<')
+	{
+		if (line[*readed++] == '<')
+			return (HEREDOC);
+		else
+			return (INREDIR);
+	}
+}
+
+t_token *init_token(t_infos *infos, t_token *head)
+{
+	t_token	*token;
+
+	if (!ft_lstnew(token))
+		return (token);
+	token->head = head;
+	token->next = NULL;
+	token->type = 0;
+	token->full_path = 0;
+	token->token = 0;
+	return (token);
+}
+
+t_token	*create_token(t_infos *infos)
+{
+	t_token	*token;
+	size_t	readed;
+	size_t	start;
+
+	readed = 0;
+	start = 0;
+	token = init_token(infos, 0);
+	if (!token)
+		return (NULL);
+	if (is_separator(infos->line[0]))
+		token->type = token_type(infos->line, *readed, start,
+				is_separator(infos->line[readed]));
+
+		
+}
+
+
+/*
 t_token	*token_type(t_infos *infos, size_t *i)
 {
 	t_token	*token;
@@ -93,3 +151,4 @@ t_token	*tokenization(t_infos *infos)
 	}
 	return (token);
 }*/
+*/

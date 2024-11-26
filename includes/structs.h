@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 17:43:47 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/29 15:13:08 by namalier         ###   ########.fr       */
+/*   Updated: 2024/11/26 11:33:11 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_token
 	void	*prev;
 	void	*next;
 	int		type;
-	char	*word;
+	char	*full_path;
 	char	**token;
 }					t_token;
 

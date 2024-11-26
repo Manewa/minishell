@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 17:50:57 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/29 18:08:07 by namalier         ###   ########.fr       */
+/*   Updated: 2024/11/26 10:58:23 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 t_token	*ft_tokenlast(t_token *lst)
 {
