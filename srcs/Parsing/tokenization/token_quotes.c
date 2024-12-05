@@ -6,13 +6,43 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:30:55 by namalier          #+#    #+#             */
-/*   Updated: 2024/11/26 13:56:08 by namalier         ###   ########.fr       */
+/*   Updated: 2024/12/05 17:06:07 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-int	new_doublequote(t_infos	*infos, size_t *i, size_t *count_flags,
+/* Out of dquote for double quote 
+ * out of squote for single quote
+ * Both move the index to the char right after the second quote*/
+
+int	out_of_dquote(char *line, int *readed)
+{
+	int	count_quote;
+
+	count_quote = 1;
+	while (line[*readed++] && count_quote != 0)
+	{
+		if (line[*readed] && line[*readed] == '"')
+			count_quote += 1;
+	}
+	return(count_quote);
+}
+
+int	out_of_squote(char *line, int *readed)
+{
+	int	count_quote;
+
+	count_quote = 1;
+	while (line[*readed++] && count_quote != 0)
+	{
+		if (line[*readed] == 39)
+			count_quote += 1;
+	}
+	return(count_quote);
+}
+
+/*int	new_doublequote(t_infos	*infos, size_t *i, size_t *count_flags,
 						size_t count_quote)
 {
 	while (infos->line[*i] && (infos->line[*i++] == 34 || ))
@@ -55,7 +85,7 @@ void	token_doublequote(t_infos *infos, size_t *i, t_token *token)
 			}
 			while (infos->line[*i] && 
 		}
-	
+*/	
 /*	while (infos->line[*i] && (infos->line[*i] == 34 || !is_special_char(infos, i)))
 	{
 		*i += 1;
@@ -65,10 +95,10 @@ void	token_doublequote(t_infos *infos, size_t *i, t_token *token)
 			*i += 1;
 		if (infos->line[*i] == 34)
 			count_quote += 1;
-	}*/
+	}
 	if (!infos->line[*i])
 		token->type = ERROR_PARSING;
 	token->word = malloc((*i - j - count_quote + 1) * sizeof(char));
 
 	
-}
+}*/
