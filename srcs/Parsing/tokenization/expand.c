@@ -6,15 +6,28 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:36 by namalier          #+#    #+#             */
-/*   Updated: 2024/12/05 17:35:51 by namalier         ###   ########.fr       */
+/*   Updated: 2024/12/11 16:16:00 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char *expander(char *part_of_line)
+char *find_from_env(char *expand, t_infos *infos, int *start)
 {
-	size_t	i;
+	size_t	end;
+
+	end = *i;
+	while (expand[end] && expand[end] != ' '))
+	{
+		
+	}
+}
+
+
+char *expander(char *part_of_line, t_infos *infos)
+{
+	int		i;
 	size_t	j;
 	char	*str;
+
 
 	i = 0;
 	j = 0;
