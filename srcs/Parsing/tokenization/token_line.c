@@ -6,13 +6,13 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:47:11 by namalier          #+#    #+#             */
-/*   Updated: 2024/12/05 17:36:09 by namalier         ###   ########.fr       */
+/*   Updated: 2024/12/11 18:00:34 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-char	**parse_word(char *line, int *readed, int start, int count_quote)
+char	**parse_word(char *line, int *readed, int start, t_token *token)
 {
 	size_t	i;
 	size_t	j;
@@ -23,7 +23,7 @@ char	**parse_word(char *line, int *readed, int start, int count_quote)
 	j = 0;
 	part_of_line = strdup_end(line, readed, start);
 	part_of_line = expander(part_of_line);
-	tab = split_off_quote(part_of_line, ' ');
+	tab = split_with_quote(part_of_line, ' ');
 	while (tab[j])
 	{
 
@@ -54,7 +54,7 @@ char	**token_line(t_token *token, char *line, int *readed, int start)
 	if (count_quote % 2 != 0)
 		token->type = QUOTE_NOT_CLOSED;
 	if (token->type == WORD)
-		line_token = parse_word(line, readed, start, count_quote);
+		line_token = parse_word(line, readed, start, token);
 	else if (token->type != ERROR_PARSING && token->type != QUOTE_NOT_CLOSED)
 		line_token = parse_
 }
