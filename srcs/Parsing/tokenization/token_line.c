@@ -6,41 +6,42 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:47:11 by namalier          #+#    #+#             */
-/*   Updated: 2024/12/11 18:00:34 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/17 18:07:30 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-char	**parse_word(char *line, int *readed, int start, t_token *token)
+void ft_cpytoken(t_token *token, char *line,  int start, int readed)
 {
 	size_t	i;
-	size_t	j;
-	char	**tab;
-	char	*part_of_line;
 
 	i = 0;
-	j = 0;
-	part_of_line = strdup_end(line, readed, start);
-	part_of_line = expander(part_of_line);
-	tab = split_with_quote(part_of_line, ' ');
-	while (tab[j])
-	{
-
-		j++;
-	}
+	while (line[start] == ' ')
+		start++;
+	token->line_wip = malloc((readed - start + 1) * sizeof(char));
+	if (!token->line_wip)
+		return ;
+	while (start < readed)
+		token->line_wip[i++] = line[start++];
+	token->line_wip[i] = '\0';
 }
 
-/* token_line a pour but de rendre une line prete a etre envoyee a l'exec dans un double tableau
- * permet aussi de verifier que les quote sont bien fermees, sinon change le type de la node*/
+/* token_line a pour but de remplir la line_wip dans token, et donc de connaitre
+ * le debut du token et ou il s'arrete
+ * Permet aussi de verifier que les quotes sont bien fermees, sinon change le type de la node*/
 
-char	**token_line(t_token *token, char *line, int *readed, int start)
+void	token_line_wip(t_token *token, char *line, int *readed, int *start)
 {
 	char	**line_token;
 	int		count_quote;
 
-	start = *readed;
 	count_quote = 0;
+	while (line[*readed] && line[*readed] == ' ')
+		(*readed)++;
+	*start = *readed;
+	while (line[*readed] && is_separator(line[*readed]) != 0)
+		(*readed)++;
 	while (line[*readed] && is_separator(line[*readed]) == 0
 			&& count_quote % 2 == 0);
 	{
@@ -53,8 +54,5 @@ char	**token_line(t_token *token, char *line, int *readed, int start)
 	}
 	if (count_quote % 2 != 0)
 		token->type = QUOTE_NOT_CLOSED;
-	if (token->type == WORD)
-		line_token = parse_word(line, readed, start, token);
-	else if (token->type != ERROR_PARSING && token->type != QUOTE_NOT_CLOSED)
-		line_token = parse_
+	ft_cpytoken(token, line, start, readed);
 }

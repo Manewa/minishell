@@ -6,16 +6,16 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:30:27 by namalier          #+#    #+#             */
-/*   Updated: 2024/12/05 16:29:29 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/14 16:00:24 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static int	ft_count_word_quote(char const *s, char c)
+static int	ft_count_word_quote(char *s, char c)
 {
-	int		count_word;
-	size_t	i;
+	int	count_word;
+	int	i;
 
 	i = 0;
 	count_word = 0;
@@ -26,9 +26,9 @@ static int	ft_count_word_quote(char const *s, char c)
 			count_word++;
 			while (s[i] && s[i] != c)
 			{
-				if (s[*i] == 39)
+				if (s[i] == 39)
 					out_of_squote(s, &i);
-				else if (s[*i] == '"')
+				else if (s[i] == '"')
 					out_of_dquote(s, &i);
 				else
 					i++;
@@ -40,10 +40,10 @@ static int	ft_count_word_quote(char const *s, char c)
 	return (count_word);
 }
 
-static char	*ft_cpy_str(char *str, char const *s, size_t *i, char c)
+static char	*ft_cpy_str(char *str, char *s, int *i, char c)
 {
 	size_t	j;
-	size_t	ib;
+	int		ib;
 
 	j = 0;
 	ib = *i;
@@ -69,13 +69,13 @@ static char	*ft_cpy_str(char *str, char const *s, size_t *i, char c)
 	return (str);
 }
 
-static void	*ft_free(char **str, char const *s, char c)
+static void	*ft_free(char **str, char *s, char c)
 {
 	int	i;
 	int	count;
 
 	i = 0;
-	count = ft_count_word(s, c);
+	count = ft_count_word_quote(s, c);
 	while (i <= count)
 	{
 		free(str[i]);
@@ -84,9 +84,9 @@ static void	*ft_free(char **str, char const *s, char c)
 	return (NULL);
 }
 
-char	**split_off_quote(char const *s, char c)
+char	**split_off_quote(char *s, char c)
 {
-	size_t	i;
+	int		i;
 	size_t	j;
 	char	**str;
 
@@ -94,10 +94,10 @@ char	**split_off_quote(char const *s, char c)
 	j = 0;
 	if (!s)
 		return (NULL);
-	str = malloc((ft_count_word(s, c) + 1) * sizeof(char *));
+	str = malloc((ft_count_word_quote(s, c) + 1) * sizeof(char *));
 	if (!str)
 		return (NULL);
-	while ((int)j < ft_count_word(s, c))
+	while ((int)j < ft_count_word_quote(s, c))
 	{
 		while (s[i] == c)
 			i++;

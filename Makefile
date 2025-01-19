@@ -6,7 +6,7 @@
 #    By: namalier <namalier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 16:29:28 by namalier          #+#    #+#              #
-#    Updated: 2024/12/04 16:12:10 by namalier         ###   ########.fr        #
+#    Updated: 2025/01/10 15:53:23 by natgomali        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,11 @@ OBJDIR 			= obj
 LIBA			= includes/Libft/libft.a
 
 SRCS 			=	srcs/main.c srcs/init_prompt.c ${ENV}/env.c \
-					${TOKENS}/tokenization.c \
+					${TOKENS}/tokenization.c ${TOKENS}/expand.c \
+					${TOKENS}/token_line.c ${TOKENS}/token_quotes.c \
+					${TOKENS}/tokens_for_exec.c \
 					${UTILS}/utils_lst.c ${UTILS}/utils_parsing.c \
-					${UTILS}/ft_error.c \
+					${UTILS}/ft_error.c ${UTILS}/split_off_quote.c \
 
 OBJS 			=	$(patsubst %.c,${OBJDIR}/%.o,$(notdir ${SRCS}))
 

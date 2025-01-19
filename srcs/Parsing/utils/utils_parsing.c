@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 17:55:57 by namalier          #+#    #+#             */
-/*   Updated: 2024/12/05 17:36:05 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/14 15:52:38 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	is_separator(char c)
 
 char *strdup_end(char *line, int *readed, int start)
 {
-	size_t	i;
+	int		i;
 	size_t	j;
 	char	*str;
 

@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:59:53 by namalier          #+#    #+#             */
-/*   Updated: 2024/12/11 18:01:07 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:16:50 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,28 @@
  * sep -> Le char qui a defini un nouveau token
  Cette fonction permet de trouver le type du token, sans prendre en compte les quotes*/
 
-int	token_type(char *line, int *readed, int start, char sep)
+int	token_type(char *line, int readed, int start, char sep)
 {
-	while (line[*readed] && line[*readed] == sep)
-		(*readed)++;
-	if (sep == ' ' && line[*readed])
-		sep = is_separator(line[*readed]);
+	while (line[readed] && line[readed] == sep)
+	{
+			readed++;
+		if (sep == ' ' && line[readed])
+			sep = is_separator(line[readed]);
+	}
 	if (sep == 0)
 		return (WORD);
 	else if (sep == '>')
 	{
-		if (*readed - start == 2)
+		if (readed - start == 2)
 			return (APPEND_MODE);
-		else if (*readed - start == 1)
+		else if (readed - start == 1)
 			return (OUTREDIR);
 	}
 	else if (sep == '<')
 	{
-		if (*readed - start == 2)
+		if (readed - start == 2)
 			return (HEREDOC);
-		else if (*readed - start == 1)
+		else if (readed - start == 1)
 			return (INREDIR);
 	}
 	else if (sep == '|')
@@ -51,30 +53,29 @@ t_token *init_token(t_infos *infos, t_token *head)
 {
 	t_token	*token;
 
-	(void)infos;
 	token = ft_tokennew(head);
 	if (token == NULL)
 		return (token);
 	token->type = 0;
-	token->full_path = 0;
-	token->token = 0;
-	token->infos = infos;
+	token->infos = &infos;
 	ft_cpypath(infos);
 	return (token);
 }
 
 /* Permet de creer, pour l'instant, le premier token*/
 
-t_token	*create_token(t_infos *infos, int *readed, int start)
+t_token	*create_token(t_infos *infos, int *readed, int *start)
 {
 	t_token	*token;
 
 	token = init_token(infos, 0);
 	if (!token)
 		return (NULL);
-	token->type = token_type(infos->line, readed, start,
+	token->type = token_type(infos->line, *readed, *start,
 			is_separator(infos->line[*readed]));
-	token->token = token_line(token, infos->line, readed, start);
+	token_line_wip(token, infos->line, readed, start);
+	if (!token->line_wip)
+		return (NULL);
 	return(token);
 }
 
@@ -87,13 +88,20 @@ t_token	*tokenization(t_infos *infos)
 
 	readed = 0;
 	start = 0;
-	token_head = create_token(infos, &readed, start);
-	token_head->token = token_line(token_head, infos->line, &readed, start);
-	while (line[*readed])
+	infos->line = expand_main(infos->line, infos);
+	token_head = create_token(infos, &readed, &start);
+	while (infos->line[readed])
 	{
-
+		start = readed;
+		token_new = init_token(infos, token_head);
+		if (!token_new)
+			return (NULL);
+		token_new->type = token_type(infos->line, readed, start,
+				is_separator(infos->line[readed]));
+		token_line_wip(token_new, infos->line, &readed, &start);
+		ft_tokenadd_back(&token_head, token_new);
 	}
-	return (token);
+	return (token_head);
 }
 
 /*

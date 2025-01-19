@@ -6,111 +6,135 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:36 by namalier          #+#    #+#             */
-/*   Updated: 2024/12/11 18:49:30 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:29:47 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* expand_env va expand la valeur de l'environnement et free to_expand dont on n'auraplus besoin
- */
+# include "../../../includes/minishell.h"
 
-void expand_env(char *env, char *to_expand, size_t j)
+char *check_name(char *value, char *to_expand)
 {
-	char *expanded;
 	size_t	i;
-	
-	i = j;
-	while (env[i])
-		i++;
-	expanded = malloc((i + 1)*sizeof(char));
+	char	*name_value;
+
 	i = 0;
-	while (env[j])
+	while (value[i + 1] && to_expand[i] && value[i + 1] == to_expand[i])
 	{
-		expanded[i] = env[j];
 		i++;
-		j++;
 	}
-	expanded[i] = '\0';
-	free (to_expand);
-	return (expanded);
+	if (!value[i + 1] && !to_expand[i])
+	{
+		i = 0;
+		name_value = malloc(ft_strlen(value)*sizeof(char));
+		if (!name_value)
+			return (NULL);
+		while (value[i + 1])
+		{
+			name_value[i] = value[i + 1];
+			i++;
+		}
+		name_value[i] = '\0';
+		free(value);
+		return (name_value);
+	}
+	return (value);
 }
 
-/* Foction en deux temps :
- * dans un premier temps, to_expand a la valeur a expand ($PATH par exemple)
- * il va checker dans l'env toutes les possibilites afin de trouver la bonne correspondance
- *
- * Dans un deuxieme temps, to_expand va prendre la valeur de la nouvelle line a expand
- * donc la valeur de PATH soit /dev/bin /dev etc.
- *
- * si pas de correspondance, return un \0 afin de remplacer par rien un expand rate
- */
+/* expand_to_env va expand la valeur de l'environnement et free to_expand
+   dont on n'aura plus besoin */
 
-char *expand_find_env(t_infos *infos, char *to_expand)
+char *expand_to_env(char *line, t_infos *infos, char *to_expand, char **env)
 {
+	char *value;
 	size_t	i;
 	size_t	j;
 	size_t	k;
 
+	(void)line;
 	i = 0;
-	while (infos->env[i])
+	while (env[i])
 	{
 		j = 0;
-		k = 1;
+		k = 0;
 		while (infos->env[i][j] && to_expand[k]
-				&& infos->env[i][j] == to_expand[k])
-		{
+				&& infos->env[i][j] == to_expand[k++])
 			j++;
-			k++;
-		}
 		if (!to_expand[k] && infos->env[i][j] == '=')
 			break ;
 		i++;
 	}
-	if (infos->env[i])
-		to_expand = expand_env(infos->env[i], to_expand, j);
-	else 
+	if (env[i])
 	{
-		free (to_expand);
-		return ("\0");
+		value = ft_strdup(&env[i][j + 1]);
+		value = check_name(value, to_expand);
+		if (!value)
+			return(NULL);
+		return (value);
 	}
-	return (to_expand);
+	return (NULL);
 }
 
-/* Va tranformer l'expand et return la valeur de la variable dans env
+/* Va free l'ancienne line avec expand et return la nouvelle line avec la
+	nouvelle valeur de l'expand
  */
 
-char *expanded_new_line(char *old_line, t_infos *infos, char *to_expand)
+char *expanded_new_line(char *old_line, int start, int end, char *expand)
 {
-	size_t	i;
+	int		i;
 	size_t	j;
 	char	*new_line;
 
 	i = 0;
 	j = 0;
-	new_line = expand_find_env(token->infos, to_expand);
+	if (!expand)
+		new_line = malloc((ft_strlen(old_line) - (end - start) + 1)
+				* sizeof(char));
+	else
+		new_line = malloc((ft_strlen(old_line) - (end - start)
+					+ ft_strlen(expand) + 1)*sizeof(char));
+	if (!new_line)
+		return (NULL);
+	while (i < start && old_line[i] != '$')
+	{
+		new_line[i] = old_line[i];
+		i++;
+	}
+	while (expand && expand[j])
+		new_line[i++] = expand[j++];
+	while (old_line[end])
+		new_line[i++] = old_line[end++];
+	new_line[i] = '\0';
+	free(old_line);
+	free(expand);
+	return (new_line);
 }
 
-/* Permet de trouver a fin de l'expand puis de transformer en la ouvelle line
+
+
+/* Permet de trouver a fin de l'expand puis de transformer en la nouvelle line
  * avec l'expand
  */
 
-char *get_to_expand(char *line, t_token *token, int *start)
+char *substitute_expand(char *line, t_infos *infos, int exp)
 {
-	size_t	end;
+	int		end;
 	size_t	j;
-	char	*to_expand;
+	int		start;
+	char	*expand;
 
-	(*i)++;
-	end = *i;
+	start = exp;
+	end = exp;
 	j = 0;
-	while (line[end] && (ft_isalnum(line[end]) == 1 || line[end] != '_'))
+	while (line[end] && (ft_isalnum(line[end]) == 1 || line[end] == '_'))
 			end++;
-	if (end != *start)
-		str = malloc((end - *i + 1)*sizeof(char));
-	while (*i < end)
-		to_expand[j++] = line[*i++];
-	to_expand[j] = '\0';
-	to_expand = expanded_new_line(line, token, to_expand);
-	return (to_expand);
+	if (end != start)
+		expand = malloc((end - start + 1)*sizeof(char));
+	while (start < end)
+		expand[j++] = line[start++];
+	expand[j] = '\0';
+	expand = expand_to_env(line, infos, expand, infos->env);
+	expand = expanded_new_line(line, exp - 1, end, expand);
+	return (expand);
 }
 
 /* C'est la machine a expand :
@@ -119,22 +143,26 @@ char *get_to_expand(char *line, t_token *token, int *start)
  * 		un expand qui se situerai dans un autre expand
  */
 
-char *expander_over_9000(char *part_of_line, t_token *token)
+char *expand_main(char *line, t_infos *infos)
 {
 	int		i;
-	size_t	j;
-	char	*str;
-
 
 	i = 0;
-	j = 0;
-	while (part_of_line[i])
+	while (line[i])
 	{
-		if (part_of_line[i] == 39)
-			out_of_squote(part_of_line, &readed);
-		if (part_of_line[i] == '$')
+		if (line[i] == 39)
+			out_of_squote(line, 0);
+		if (line[i] == '$')
 		{
-			while (
+			line = substitute_expand(line, infos, ++i);
+			if (!line)
+				return (NULL);
+			i = 0;
 		}
+		if (line[i] && (line[0] != '$' || line[0] != 39))
+			i++;
 	}
+	i = 0;
+	printf("line : %s\n", line);
+	return (line);
 }
