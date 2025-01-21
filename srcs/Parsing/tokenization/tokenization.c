@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:59:53 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/16 18:16:50 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/01/20 16:08:59 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,9 @@ t_token	*create_token(t_infos *infos, int *readed, int *start)
 		return (NULL);
 	token->type = token_type(infos->line, *readed, *start,
 			is_separator(infos->line[*readed]));
+	if (token->type = PIPE)
+		token->type = token_type(infos->line, *readed, *start,
+				is_separator(infos->line[*readed]));
 	token_line_wip(token, infos->line, readed, start);
 	if (!token->line_wip)
 		return (NULL);

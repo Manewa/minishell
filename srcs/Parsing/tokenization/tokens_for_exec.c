@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:28:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/17 16:25:10 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/01/20 15:42:50 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,5 @@ void	tokens_for_exec(t_token *lst_token)
 			parse_outredir(current);
 		else if (current->type == INREDIR)
 			parse_inredir(current);
-		else if (current->type == PIPE)
-			parse_PIPE(current);
 	}
 }

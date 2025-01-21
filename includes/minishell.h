@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/14 16:35:47 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/01/20 16:33:03 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@
 #define SPACES				9
 #define	ERROR_PARSING		10
 #define QUOTE_NOT_CLOSED	11
+#define	NO_PATH				12
+#define	NO_ACCESS			15
+#define	ACCESS				16
+#define	NO_WRITE			14
 
 /************		main 			**********/
 

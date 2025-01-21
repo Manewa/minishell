@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 17:55:57 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/14 15:52:38 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/01/20 14:47:04 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,3 +49,4 @@ char *strdup_end(char *line, int *readed, int start)
 	str[j] = '\0';
 	return (str);
 }
+
