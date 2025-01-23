@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 17:50:57 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/23 20:01:49 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:05:21 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_token	*ft_tokennew(t_token *prev)
 {
 	t_token	*new;
 
-	new = malloc(sizeof(*new));
+	new = malloc(sizeof(new));
 	if (!new)
 		return (NULL);
 	if (prev != NULL)

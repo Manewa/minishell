@@ -36,16 +36,10 @@ char	*ft_cpy_envpath(char *argv, char *path)
 	return (cpath);
 }
 
-void	parse_word(t_token *current)
+void	parse_word(t_token *current, size_t i)
 {
-	size_t	i;
-
-	i = 0;
-	while (is_separator(current->line_wip[i]))
-		i++;
-	if (!line_wip[i])
-		return (NULL);
-	current->token_line = split_off_quote(&current->line_wip[i], ' ');
+	current->token_line = split_off_quote(&(current->line_wip[i]), ' ');
 	quotes_detecter(current);
 	access_cmd(current);
+	check_builtins(current);
 }

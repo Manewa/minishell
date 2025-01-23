@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:59:53 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/20 16:08:59 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/23 20:04:45 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_token *init_token(t_infos *infos, t_token *head)
 	if (token == NULL)
 		return (token);
 	token->type = 0;
+	token->access = 0;
 	token->infos = &infos;
 	ft_cpypath(infos);
 	return (token);
@@ -73,9 +74,8 @@ t_token	*create_token(t_infos *infos, int *readed, int *start)
 		return (NULL);
 	token->type = token_type(infos->line, *readed, *start,
 			is_separator(infos->line[*readed]));
-	if (token->type = PIPE)
-		token->type = token_type(infos->line, *readed, *start,
-				is_separator(infos->line[*readed]));
+	if (token->type == PIPE)
+		return (token);
 	token_line_wip(token, infos->line, readed, start);
 	if (!token->line_wip)
 		return (NULL);
@@ -101,7 +101,10 @@ t_token	*tokenization(t_infos *infos)
 			return (NULL);
 		token_new->type = token_type(infos->line, readed, start,
 				is_separator(infos->line[readed]));
-		token_line_wip(token_new, infos->line, &readed, &start);
+		if (token_new->type != PIPE)
+			token_line_wip(token_new, infos->line, &readed, &start);
+		else
+			readed++;
 		ft_tokenadd_back(&token_head, token_new);
 	}
 	return (token_head);

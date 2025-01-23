@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:47:11 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/17 18:07:30 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/01/23 19:11:31 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void ft_cpytoken(t_token *token, char *line,  int start, int readed)
 	i = 0;
 	while (line[start] == ' ')
 		start++;
-	token->line_wip = malloc((readed - start + 1) * sizeof(char));
+	token->line_wip = malloc((readed - start + 1)*sizeof(char));
 	if (!token->line_wip)
 		return ;
 	while (start < readed)
@@ -33,7 +33,7 @@ void ft_cpytoken(t_token *token, char *line,  int start, int readed)
 
 void	token_line_wip(t_token *token, char *line, int *readed, int *start)
 {
-	char	**line_token;
+//	char	**line_token;
 	int		count_quote;
 
 	count_quote = 0;
@@ -43,7 +43,7 @@ void	token_line_wip(t_token *token, char *line, int *readed, int *start)
 	while (line[*readed] && is_separator(line[*readed]) != 0)
 		(*readed)++;
 	while (line[*readed] && is_separator(line[*readed]) == 0
-			&& count_quote % 2 == 0);
+			&& count_quote % 2 == 0)
 	{
 		if (line[*readed] == '"')
 			count_quote += out_of_dquote(line, readed);
@@ -54,5 +54,6 @@ void	token_line_wip(t_token *token, char *line, int *readed, int *start)
 	}
 	if (count_quote % 2 != 0)
 		token->type = QUOTE_NOT_CLOSED;
-	ft_cpytoken(token, line, start, readed);
+	ft_cpytoken(token, line, *start, *readed);
+	*start = *readed;
 }

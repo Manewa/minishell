@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/20 16:33:03 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/23 18:44:33 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ int		ft_cpyenv(t_infos *infos, char **envp);
 
 /************	token/tokenization	**********/
 
-int		token_type(char *line, int *readed, int start, char sep);
+int		token_type(char *line, int readed, int start, char sep);
 t_token	*init_token(t_infos *infos, t_token *head);
-t_token	*create_token(t_infos *infos, int *readed, int start);
+t_token	*create_token(t_infos *infos, int *readed, int *start);
 t_token	*tokenization(t_infos *infos);
 
 /************	token/token_quotes	***********/
@@ -62,7 +62,7 @@ int		out_of_squote(char *line, int *readed);
 /************	token/token_line	***********/
 
 char	**parse_word(char *line, int *readed, int start, t_token *token);
-//char	**token_line(t_token *infos, char *line, int *readed, int start);
+void	token_line_wip(t_token *token, char *line, int *readed, int *start);
 
 /***********		expand			***********/
 

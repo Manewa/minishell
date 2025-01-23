@@ -33,6 +33,7 @@ void access_write(t_token *current)
 	while (current->token_line[j])
 	{
 		if (access(current->token_line[j], F_OK) == -1)
+		{
 			current->access = NO_ACCESS;
 		else
 		{
@@ -44,4 +45,5 @@ void access_write(t_token *current)
 	}
 	j++;
 }
+
 

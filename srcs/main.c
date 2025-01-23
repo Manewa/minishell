@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:01:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/17 15:40:02 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/01/23 20:05:20 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,12 @@ int main(int argc, char **argv, char **envp)
 	if (init_prompt(&infos, envp) == 0)
 		return (1);
 	token = tokenization(&infos);
-	token = tokens_for_exec(token);
-	(void)token;
+//	token = tokens_for_exec(token);
+	while (token->next)
+	{
+		printf("line : |%s| // type : %d\n", token->line_wip, token->type);
+		token = token->next;
+	}
+	printf("line : |%s| // type : %d\n", token->line_wip, token->type);
 	return (0);
 }

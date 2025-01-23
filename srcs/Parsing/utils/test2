@@ -1,0 +1,8 @@
+access.c
+ft_error.c
+quotes_remover.c
+split_off_quote.c
+test
+test2
+utils_lst.c
+utils_parsing.c

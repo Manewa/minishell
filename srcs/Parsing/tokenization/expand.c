@@ -6,11 +6,29 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:36 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/14 17:29:47 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/01/23 20:12:41 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../../includes/minishell.h"
+
+void	out_of_heredoc(char *line, int *i)
+{
+	(*i)++;
+	(*i)++;
+	while (line[*i] && line[*i] == ' ')
+	(*i)++;
+	while (line[*i] && line[*i] != ' ' && is_separator(line[*i]) == 0)
+	{
+		if (line[*i] == 39)
+			out_of_squote(line, i);
+		else if (line[*i] == '"')
+			out_of_dquote(line, i);
+		else
+			(*i)++;
+	}
+
+}
 
 char *check_name(char *value, char *to_expand)
 {
@@ -152,6 +170,8 @@ char *expand_main(char *line, t_infos *infos)
 	{
 		if (line[i] == 39)
 			out_of_squote(line, 0);
+		if (line[i] == '<' && line[i + 1] == '<')
+			out_of_heredoc(line, &i);
 		if (line[i] == '$')
 		{
 			line = substitute_expand(line, infos, ++i);
@@ -162,7 +182,6 @@ char *expand_main(char *line, t_infos *infos)
 		if (line[i] && (line[0] != '$' || line[0] != 39))
 			i++;
 	}
-	i = 0;
 	printf("line : %s\n", line);
 	return (line);
 }
