@@ -6,11 +6,37 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:47:11 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/23 19:11:31 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/24 17:53:09 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+void	line_heredoc(char *line, int *start, int *readed)
+{
+	int	count_quote;
+
+	counte_quote = 0;
+	while (line[*readed] == '<')
+		(*readed)++;
+	while (line[*readed] == ' ')
+		(*readed)++;
+	*start = *readed;
+	while (line[*readed] && is_separator(line[*readed]) == 0
+			&& count_quote % 2 == 0 && line[*readed] != ' ')
+	{
+		if (line[*readed] == '"')
+			count_quote += out_of_dquote(line, readed);
+		if (line[*readed] == 39)
+			count_quote += out_of_squote(line, readed);
+		if (line[*readed])
+			(*readed)++;
+	}
+	if (count_quote % 2 != 0)
+		token->type = QUOTE_NOT_CLOSED;
+	ft_cpytoken(token, line, *start, *readed);
+	*start = *readed;	
+}
 
 void ft_cpytoken(t_token *token, char *line,  int start, int readed)
 {
@@ -33,15 +59,19 @@ void ft_cpytoken(t_token *token, char *line,  int start, int readed)
 
 void	token_line_wip(t_token *token, char *line, int *readed, int *start)
 {
-//	char	**line_token;
 	int		count_quote;
 
 	count_quote = 0;
+	if (token->type == HEREDOC)
+		return (line_heredoc(line, start, readed));
+	else if (token->type == word
+	while (line[*readed] && line[*readed] == ' ')
+		(*readed)++;
+	while (line[*readed] && is_separator(line[*readed]) != 0)
+		(*readed)++;
 	while (line[*readed] && line[*readed] == ' ')
 		(*readed)++;
 	*start = *readed;
-	while (line[*readed] && is_separator(line[*readed]) != 0)
-		(*readed)++;
 	while (line[*readed] && is_separator(line[*readed]) == 0
 			&& count_quote % 2 == 0)
 	{
@@ -49,6 +79,8 @@ void	token_line_wip(t_token *token, char *line, int *readed, int *start)
 			count_quote += out_of_dquote(line, readed);
 		if (line[*readed] == 39)
 			count_quote += out_of_squote(line, readed);
+		if (line[*readed] && line[*readed] == ' ' && token->type != WORD)
+			break;
 		if (line[*readed])
 			(*readed)++;
 	}

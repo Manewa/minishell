@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/23 18:44:33 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/24 15:42:17 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 # include "Libft/libft.h"
 # include "libs.h"
 
-#define	PIPE				1
+#define NON					0
+#define OUI					1
+#define	PIPE				13
 #define DOUBLE_QUOTE		2
 #define INREDIR				3
 #define OUTREDIR			4

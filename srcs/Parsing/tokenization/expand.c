@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:36 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/23 20:12:41 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:32:38 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ char *expand_main(char *line, t_infos *infos)
 	while (line[i])
 	{
 		if (line[i] == 39)
-			out_of_squote(line, 0);
+			out_of_squote(line, &i);
 		if (line[i] == '<' && line[i + 1] == '<')
 			out_of_heredoc(line, &i);
 		if (line[i] == '$')

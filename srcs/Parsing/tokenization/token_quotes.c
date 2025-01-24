@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:30:55 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/23 20:36:06 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:36:54 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	out_of_dquote(char *line, int *readed)
 {
 	int	count_quote;
 
+	if (line[*readed])
+		(*readed)++;
 	count_quote = 1;
 	while (line[*readed] && count_quote == 1)
 	{
@@ -35,11 +37,15 @@ int	out_of_squote(char *line, int *readed)
 {
 	int	count_quote;
 
+	if (line[*readed])
+		(*readed)++;
 	count_quote = 1;
-	while (line[*readed++] && count_quote == 1)
+	while (line[*readed] && count_quote == 1)
 	{
 		if (line[*readed] == 39)
 			count_quote += 1;
+		else
+			(*readed)++;
 	}
 	return(count_quote);
 }
