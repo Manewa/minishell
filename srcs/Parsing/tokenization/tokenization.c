@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:59:53 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/28 17:20:49 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/01/29 14:49:01 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_token *init_token(t_infos *infos, t_token *head)
 		return (token);
 	token->type = 0;
 	token->access = 0;
-	token->infos = &infos;
+	token->infos = infos;
 	ft_cpypath(infos);
 	return (token);
 }

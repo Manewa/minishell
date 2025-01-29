@@ -66,7 +66,7 @@ void	token_line_wip(t_token *token, char *line, int *readed, int *start)
 	count_quote = 0;
 	if (token->type == HEREDOC)
 		return (line_heredoc(line, start, readed, token));
-//	else if (token->type == WORD)		
+//	else if (token->type == WORD)	
 	while (line[*readed] && line[*readed] == ' ')
 		(*readed)++;
 	while (line[*readed] && is_separator(line[*readed]) != 0)

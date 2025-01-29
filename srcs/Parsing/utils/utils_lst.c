@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 17:50:57 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/24 14:16:31 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/29 14:37:55 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ void	ft_tokenadd_back(t_token **lst, t_token *new)
 	ft_tokenlast(tmp)->next = new;
 }
 
-t_exec *ft_execnew(t_exec *prev)
+t_exec *ft_execnew(t_exec *head)
 {
 	t_exec	*new;
 
 	new = malloc(sizeof(*new));
 	if (!new)
 		return (NULL);
-	if (prev != NULL)
-		new->prev = prev;
+	if (head != NULL)
+		new->head = head;
 	new->next = NULL;
 	return (new);
 }
@@ -77,8 +77,8 @@ t_files	*ft_filenew(void)
 	outfile = malloc(sizeof(*outfile));
 	if (!outfile)
 		return (NULL);
-	new->infile_info = infile;
-	new->outfile_info = outfile;
+	new->infile = infile;
+	new->outfile = outfile;
 	new->opening_failure = 0;
 	return (new);
 }

@@ -1,3 +1,5 @@
+# include "../../../includes/minishell.h"
+
 void exec_heredoc(t_token *current, t_exec *exec)
 {
 	exec->is_heredoc = OUI;

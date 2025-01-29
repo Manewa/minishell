@@ -12,24 +12,6 @@
 
 # include "../../../includes/minishell.h"
 
-void	out_of_heredoc(char *line, int *i)
-{
-	(*i)++;
-	(*i)++;
-	while (line[*i] && line[*i] == ' ')
-	(*i)++;
-	while (line[*i] && line[*i] != ' ' && is_separator(line[*i]) == 0)
-	{
-		if (line[*i] == 39)
-			out_of_squote(line, i);
-		else if (line[*i] == '"')
-			out_of_dquote(line, i);
-		else
-			(*i)++;
-	}
-
-}
-
 char *check_name(char *value, char *to_expand)
 {
 	size_t	i;
@@ -182,6 +164,5 @@ char *expand_main(char *line, t_infos *infos)
 		if (line[i] && (line[0] != '$' || line[0] != 39))
 			i++;
 	}
-	printf("line : %s\n", line);
 	return (line);
 }

@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:01:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/28 17:24:38 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/01/29 16:47:46 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ int main(int argc, char **argv, char **envp)
 {
 	t_infos	infos;
 	t_token	*token;
-//	t_exec	*to_exec;
+	t_exec	*to_exec;
+
+	int i = 0;
+
 
 	(void)argv;
 	if (argc!= 1)
@@ -28,11 +31,72 @@ int main(int argc, char **argv, char **envp)
 		return (1);
 	token = tokenization(&infos);
 	to_exec = tokens_for_exec(token);
-	while (token->next)
+	while (to_exec->next)
 	{
-		printf("path : |%s| // type : %d\n", token->line_wip, token->type);
-		token = token->next;
+		if (to_exec->is_heredoc == 1)
+			printf("heredoc : |%s|\n", to_exec->delimiter);
+		if (to_exec->path[i])
+		{
+			while (to_exec->path[i])
+			{
+				printf("path : |%s|\n", to_exec->path[i]);
+				i++;
+			}
+		}
+		else
+			printf("NO PATH FOUND\n");
+		i = 0;
+		if (to_exec->env[i])
+		{
+			while (to_exec->env[i])
+			{
+				printf("env : |%s|\n", to_exec->env[i]);
+				i++;
+			}
+		}
+		else
+			printf("NO ENV FOUND\n");
+		i = 0;
+		while (to_exec->cmd_array[i])
+		{
+			printf("cmd_array : |%s|\n", to_exec->cmd_array[i]);
+			i++;
+		}
+		printf ("infile : %s\n", to_exec->files->infile->name);
+		printf ("outfile : %s\n", to_exec->files->outfile->name);
+		to_exec = to_exec->next;
 	}
-	printf("Line out of while : |%s| // type : %d\n", token->line_wip, token->type);
+	if (to_exec->is_heredoc == 1)
+		printf("heredoc : |%s|\n", to_exec->delimiter);
+	if (to_exec && to_exec->path[i])
+	{
+		while (to_exec->path[i])
+		{
+			printf("path : |%s|\n", to_exec->path[i]);
+			i++;
+		}
+	}
+	else
+		printf("NO PATH FOUND");
+	i = 0;
+	if (to_exec->env[i])
+	{
+		while (to_exec->env[i])
+		{
+			printf("env : |%s|\n", to_exec->env[i]);
+			i++;
+		}
+	}
+	else
+		printf("NO ENV FOUND");
+	i = 0;
+	while (to_exec->cmd_array[i])
+	{
+		printf("cmd_array : |%s|\n", to_exec->cmd_array[i]);
+		i++;
+	}
+	printf ("infile : %s\n", to_exec->files->infile->name);
+	printf ("outfile : %s\n", to_exec->files->outfile->name);
+	to_exec = to_exec->next;
 	return (0);
 }

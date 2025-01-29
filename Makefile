@@ -6,20 +6,24 @@
 #    By: namalier <namalier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 16:29:28 by namalier          #+#    #+#              #
-#    Updated: 2025/01/28 14:11:18 by natgomali        ###   ########.fr        #
+#    Updated: 2025/01/29 14:56:27 by namalier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 ENV				= srcs/Parsing/env
 TOKENS			= srcs/Parsing/tokenization
 UTILS			= srcs/Parsing/utils
-EXEC			= srcs/Exec
+EXEC_TYPE		= srcs/Parsing/exec_type
 OBJDIR 			= obj
 LIBA			= includes/Libft/libft.a
 
 SRCS 			=	srcs/main.c srcs/init_prompt.c ${ENV}/env.c \
 					${TOKENS}/tokenization.c ${TOKENS}/expand.c \
-					${TOKENS}/token_line.c ${TOKENS}/token_quotes.c \
+					${TOKENS}/token_line.c ${TOKENS}/tokens_for_exec.c \
+					${EXEC_TYPE}/exec_append.c ${EXEC_TYPE}/exec_word.c \
+					${EXEC_TYPE}/exec_heredoc.c ${EXEC_TYPE}/exec_inredir.c \
+					${EXEC_TYPE}/exec_outredir.c \
+					${UTILS}/quotes.c ${UTILS}/quotes_remover.c \
 					${UTILS}/utils_lst.c ${UTILS}/utils_parsing.c \
 					${UTILS}/ft_error.c ${UTILS}/split_off_quote.c \
 
@@ -45,6 +49,9 @@ ${OBJDIR}/init_prompt.o	: srcs/init_prompt.c
 				cc ${CFLAGS} -c $< -o $@
 
 ${OBJDIR}/%.o	: ${ENV}/%.c
+				cc ${CFLAGS} -c $< -o $@
+
+${OBJDIR}/%.o	: ${EXEC_TYPE}/%.c
 				cc ${CFLAGS} -c $< -o $@
 
 ${OBJDIR}/%.o	: ${TOKENS}/%.c
