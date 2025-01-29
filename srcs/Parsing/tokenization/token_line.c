@@ -6,17 +6,32 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:47:11 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/24 17:53:09 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:18:24 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-void	line_heredoc(char *line, int *start, int *readed)
+void ft_cpytoken(t_token *token, char *line,  int start, int readed)
+{
+	size_t	i;
+
+	i = 0;
+	while (line[start] == ' ')
+		start++;
+	token->line_wip = malloc((readed - start + 1)*sizeof(char));
+	if (!token->line_wip)
+		return ;
+	while (start < readed)
+		token->line_wip[i++] = line[start++];
+	token->line_wip[i] = '\0';
+}
+
+void	line_heredoc(char *line, int *start, int *readed, t_token *token)
 {
 	int	count_quote;
 
-	counte_quote = 0;
+	count_quote = 0;
 	while (line[*readed] == '<')
 		(*readed)++;
 	while (line[*readed] == ' ')
@@ -35,22 +50,9 @@ void	line_heredoc(char *line, int *start, int *readed)
 	if (count_quote % 2 != 0)
 		token->type = QUOTE_NOT_CLOSED;
 	ft_cpytoken(token, line, *start, *readed);
+	while (line[*readed] && line[*readed] == ' ')
+		(*readed)++;
 	*start = *readed;	
-}
-
-void ft_cpytoken(t_token *token, char *line,  int start, int readed)
-{
-	size_t	i;
-
-	i = 0;
-	while (line[start] == ' ')
-		start++;
-	token->line_wip = malloc((readed - start + 1)*sizeof(char));
-	if (!token->line_wip)
-		return ;
-	while (start < readed)
-		token->line_wip[i++] = line[start++];
-	token->line_wip[i] = '\0';
 }
 
 /* token_line a pour but de remplir la line_wip dans token, et donc de connaitre
@@ -63,8 +65,8 @@ void	token_line_wip(t_token *token, char *line, int *readed, int *start)
 
 	count_quote = 0;
 	if (token->type == HEREDOC)
-		return (line_heredoc(line, start, readed));
-	else if (token->type == word
+		return (line_heredoc(line, start, readed, token));
+//	else if (token->type == WORD)		
 	while (line[*readed] && line[*readed] == ' ')
 		(*readed)++;
 	while (line[*readed] && is_separator(line[*readed]) != 0)

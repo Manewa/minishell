@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 17:43:47 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/24 16:22:03 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:49:11 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ typedef struct s_filesdata
 
 typedef struct s_files
 {
-	s_fdata	*infile_info;
-	s_fdata	*outfile_info;
-	bool	opening_failure;
+	t_fdata	*infile;
+	t_fdata	*outfile;
+	int	opening_failure;
 }				t_files;
 
 typedef struct s_exec
@@ -53,9 +53,9 @@ typedef struct s_exec
 	void	*head;
 	void	*prev;
 	void	*next;
-	t_files	*files_info;
-	bool	builtin;
-	bool	is_heredoc;
+	t_files	*files;
+	int		builtin;
+	int		is_heredoc;
 	char	*delimiter;
 	char	*path;
 	char	**env;

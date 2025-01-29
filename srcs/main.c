@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:01:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/24 14:19:11 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:24:38 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int main(int argc, char **argv, char **envp)
 {
 	t_infos	infos;
 	t_token	*token;
-	t_exec	*to_exec;
+//	t_exec	*to_exec;
 
 	(void)argv;
 	if (argc!= 1)
@@ -30,9 +30,9 @@ int main(int argc, char **argv, char **envp)
 	to_exec = tokens_for_exec(token);
 	while (token->next)
 	{
-		printf("path : |%s| // line : %d\n", token->full_path, token->type);
+		printf("path : |%s| // type : %d\n", token->line_wip, token->type);
 		token = token->next;
 	}
-	printf("line : |%s| // type : %d\n", token->line_wip, token->type);
+	printf("Line out of while : |%s| // type : %d\n", token->line_wip, token->type);
 	return (0);
 }

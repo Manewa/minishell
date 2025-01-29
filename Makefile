@@ -6,7 +6,7 @@
 #    By: namalier <namalier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 16:29:28 by namalier          #+#    #+#              #
-#    Updated: 2025/01/23 18:44:16 by namalier         ###   ########.fr        #
+#    Updated: 2025/01/28 14:11:18 by natgomali        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ LIBA			= includes/Libft/libft.a
 SRCS 			=	srcs/main.c srcs/init_prompt.c ${ENV}/env.c \
 					${TOKENS}/tokenization.c ${TOKENS}/expand.c \
 					${TOKENS}/token_line.c ${TOKENS}/token_quotes.c \
-					${TOKENS}/tokens_for_exec.c \
 					${UTILS}/utils_lst.c ${UTILS}/utils_parsing.c \
 					${UTILS}/ft_error.c ${UTILS}/split_off_quote.c \
 
