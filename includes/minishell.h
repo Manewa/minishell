@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/29 16:21:41 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:27:00 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		init_prompt(t_infos *infos, char **envp);
 
 /************		env/env				**********/
 
-void 	ft_cpypath(t_infos *infos);
+void 	ft_cpypath(t_infos *infos, t_exec *exec);
 int		ft_cpyenv(t_infos *infos, char **envp);
 int cpy_env_from_infos(t_infos *infos, t_exec *exec);
 
@@ -68,7 +68,7 @@ char	*expand_main(char *line, t_infos *infos);
 
 /***********       tokenization/tokens_for_exec **********/
 
-int     exec_type(t_exec *exec, t_token *start, t_token *head);
+int     exec_type(t_exec *exec, t_token **current, t_token *head);
 t_exec  *exec_init(t_exec *head, t_token *current);
 t_exec	*tokens_for_exec(t_token *head_token);
 
@@ -90,6 +90,11 @@ void	ft_tokenadd_back(t_token **lst, t_token *new);
 t_exec  *ft_execnew(t_exec *prev);
 t_token	*ft_tokennew(t_token *head);
 t_files	*ft_filenew(void);
+
+/************	utils/utils_lst2		*************/
+
+void	ft_execadd_back(t_exec **head, t_exec *new);
+t_exec	*ft_execlast(t_exec *lst);
 
 /************	utils_parsing	***********/
 

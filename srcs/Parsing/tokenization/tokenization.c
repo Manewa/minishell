@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:59:53 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/29 14:49:01 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:59:06 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ t_token *init_token(t_infos *infos, t_token *head)
 	token->type = 0;
 	token->access = 0;
 	token->infos = infos;
-	ft_cpypath(infos);
 	return (token);
 }
 
@@ -73,7 +72,6 @@ t_token	*create_token(t_infos *infos, int *readed, int *start)
 	if (token->type == PIPE)
 		return (token);
 	token_line_wip(token, infos->line, readed, start);
-	(*readed)++;
 	if (!token->line_wip)
 		return (NULL);
 	return(token);

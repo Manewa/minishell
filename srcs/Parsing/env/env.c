@@ -6,13 +6,13 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:10:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/24 15:48:28 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/30 13:03:15 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-void ft_cpypath(t_infos *infos)
+void ft_cpypath(t_infos *infos, t_exec *exec)
 {
 	size_t	i;
 	char	*str;
@@ -22,7 +22,7 @@ void ft_cpypath(t_infos *infos)
 		return ;
 	while (infos->env[i] && ft_strnstr(infos->env[i], "PATH=", 5) == 0)
 		i++;
-	if (infos->env[i])
+	if (!infos->env[i])
 	{
 		infos->path = NULL;
 		return ;
@@ -30,7 +30,7 @@ void ft_cpypath(t_infos *infos)
 	str = ft_strdup(&(infos->env[i][5]));
 	if (!str)
 		return ;
-	infos->path = ft_split(str, ':');
+	exec->path = ft_split(str, ':');
 	free (str);
 	if (!(infos->path))
 		return ;

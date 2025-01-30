@@ -6,7 +6,7 @@
 #    By: namalier <namalier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 16:29:28 by namalier          #+#    #+#              #
-#    Updated: 2025/01/29 14:56:27 by namalier         ###   ########.fr        #
+#    Updated: 2025/01/30 14:23:10 by namalier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,9 @@ SRCS 			=	srcs/main.c srcs/init_prompt.c ${ENV}/env.c \
 					${EXEC_TYPE}/exec_heredoc.c ${EXEC_TYPE}/exec_inredir.c \
 					${EXEC_TYPE}/exec_outredir.c \
 					${UTILS}/quotes.c ${UTILS}/quotes_remover.c \
-					${UTILS}/utils_lst.c ${UTILS}/utils_parsing.c \
-					${UTILS}/ft_error.c ${UTILS}/split_off_quote.c \
+					${UTILS}/utils_lst.c ${UTILS}/utils_lst2.c \
+					${UTILS}/utils_parsing.c ${UTILS}/ft_error.c \
+					${UTILS}/split_off_quote.c \
 
 OBJS 			=	$(patsubst %.c,${OBJDIR}/%.o,$(notdir ${SRCS}))
 

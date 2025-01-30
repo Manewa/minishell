@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:47:11 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/28 17:18:24 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/01/30 15:58:42 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	line_heredoc(char *line, int *start, int *readed, t_token *token)
 	if (count_quote % 2 != 0)
 		token->type = QUOTE_NOT_CLOSED;
 	ft_cpytoken(token, line, *start, *readed);
-	while (line[*readed] && line[*readed] == ' ')
+	while (line[*readed] && line[*readed] && line[*readed] == ' ')
 		(*readed)++;
 	*start = *readed;	
 }

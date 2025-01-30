@@ -6,32 +6,38 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:28:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/29 16:42:06 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:31:24 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../../includes/minishell.h"
 
-int exec_type(t_exec *exec, t_token *start, t_token *head)
+int exec_type(t_exec *exec, t_token **current, t_token *head)
 {
-	t_token	*current;
-
-	current = start;
-	if (current->type == HEREDOC && current != start)
-		exec_heredoc(current, exec);
-	else if (start == head && start->type == PIPE)
-		return (0); /*Error : "zsh: parse error near `|'" si le premier charactere est un pipe*/
-	while (current->next && current->type != HEREDOC && current->type != PIPE)
+	if ((*current)->type == HEREDOC)
 	{
-			if (current->type == INREDIR)
-				exec_inredir(current, exec);
-			else if (current->type == OUTREDIR)
-				exec_outredir(current, exec);
-			else if (current->type == APPEND_MODE)
-				exec_append(current, exec);
-			else if (current->type == WORD)
-				exec_word(current, exec);
-			current = current->next;
+		exec_heredoc(*current, exec);
+		*current = (*current)->next;
+	}
+	else if (*current == head && (*current)->type == PIPE)
+		return (0); /*Error : "zsh: parse error near `|'" si le premier charactere est un pipe*/
+	while (*current && (*current)->type != HEREDOC && (*current)->type != PIPE)
+	{
+			if ((*current)->type == INREDIR)
+				exec_inredir(*current, exec);
+			else if ((*current)->type == OUTREDIR)
+				exec_outredir(*current, exec);
+			else if ((*current)->type == APPEND_MODE)
+				exec_append(*current, exec);
+			else if ((*current)->type == WORD)
+				exec_word(*current, exec);
+			if ((*current) && (*current)->next != NULL)
+				*current = (*current)->next;
+			else
+			{
+				free (*current);
+				*current = NULL;
+			}
 	}
 	return (1);
 }
@@ -39,7 +45,6 @@ int exec_type(t_exec *exec, t_token *start, t_token *head)
 t_exec *exec_init(t_exec *head, t_token *current)
 {
 	t_exec	*exec;
-	t_files	*file;
 
 	exec = ft_execnew(head);
 	if (exec == NULL)
@@ -49,8 +54,9 @@ t_exec *exec_init(t_exec *head, t_token *current)
 	else
 		exec->head = NULL;
 	exec->next = NULL;
-	file = ft_filenew();
+	exec->files = ft_filenew();
 	cpy_env_from_infos(current->infos, exec);
+	ft_cpypath(current->infos, exec);
 /*	if (current->infos->path)
 		exec->path = ft_strdup(current->infos->path);
 	else
@@ -67,16 +73,26 @@ t_exec	*tokens_for_exec(t_token *head_token)
 
 	current_token = head_token;
 	head_exec = exec_init(0, current_token);
-	if (exec_type(head_exec, current_token, head_token) == 0)
+	if (exec_type(head_exec, &current_token, head_token) == 0)
 		return (0);
-	while (current_token->next != NULL)
+	while (current_token != NULL/* && current_token->next != NULL*/)
 	{
-		current_token = current_token->next;
 		current_exec = exec_init(head_exec, current_token);
 		if (!current_exec)
 			return (NULL);
-		if (exec_type(current_exec, current_token, head_token) == 0)
+		if (exec_type(current_exec, &current_token, head_token) == 0)
 			return (0);
+		if (current_token && current_token->type == PIPE)
+		{
+			current_token = current_token->next;
+			continue ;
+		}
+		else
+			ft_execadd_back(&head_exec, current_exec);
+		if (current_token && current_token->next != NULL)
+			current_token = current_token->next;
+		else
+			break ;
 	}
 	return (head_exec);
 }
