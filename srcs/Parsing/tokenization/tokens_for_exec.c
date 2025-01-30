@@ -21,6 +21,8 @@ int exec_type(t_exec *exec, t_token **current, t_token *head)
 	}
 	else if (*current == head && (*current)->type == PIPE)
 		return (0); /*Error : "zsh: parse error near `|'" si le premier charactere est un pipe*/
+	/*else if (*current)->type == pipe)
+		*current = (*current)-> next;*/
 	while (*current && (*current)->type != HEREDOC && (*current)->type != PIPE)
 	{
 			if ((*current)->type == INREDIR)
