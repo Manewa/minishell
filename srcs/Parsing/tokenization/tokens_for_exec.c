@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:28:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/30 17:31:24 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:11:43 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int exec_type(t_exec *exec, t_token **current, t_token *head)
 	}
 	else if (*current == head && (*current)->type == PIPE)
 		return (0); /*Error : "zsh: parse error near `|'" si le premier charactere est un pipe*/
-	/*else if (*current)->type == pipe)
-		*current = (*current)-> next;*/
+	else if ((*current)->type == PIPE)
+		*current = (*current)-> next;
 	while (*current && (*current)->type != HEREDOC && (*current)->type != PIPE)
 	{
 			if ((*current)->type == INREDIR)
@@ -82,17 +82,19 @@ t_exec	*tokens_for_exec(t_token *head_token)
 		current_exec = exec_init(head_exec, current_token);
 		if (!current_exec)
 			return (NULL);
-		if (exec_type(current_exec, &current_token, head_token) == 0)
-			return (0);
 		if (current_token && current_token->type == PIPE)
 		{
 			current_token = current_token->next;
+			free(current_token);
 			continue ;
 		}
-		else
-			ft_execadd_back(&head_exec, current_exec);
-		if (current_token && current_token->next != NULL)
+		if (exec_type(current_exec, &current_token, head_token) == 0)
+			return (0);
+		ft_execadd_back(&head_exec, current_exec);
+		if (current_token && current_token->next != NULL && current_token->type != 5)
 			current_token = current_token->next;
+		else if (current_token && current_token->type == 5)
+			continue ;
 		else
 			break ;
 	}

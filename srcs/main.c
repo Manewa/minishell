@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:01:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/30 16:21:10 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/31 14:04:52 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int main(int argc, char **argv, char **envp)
 		return (1);
 	token = tokenization(&infos);
 	to_exec = tokens_for_exec(token);
-	while (to_exec->next)
+	while (to_exec && to_exec->next)
 	{
 		printf("IN DA WHILE !!!!!!!!!!!!\n");
 		if (to_exec->is_heredoc == OUI)
@@ -70,7 +70,7 @@ int main(int argc, char **argv, char **envp)
 		to_exec = to_exec->next;
 	}
 	printf("\n\nOUT OF DA WHILE !!!!\n\n");
-	if (to_exec->is_heredoc == 1)
+	if (to_exec && to_exec->is_heredoc == 1)
 		printf("heredoc : |%s|\n", to_exec->delimiter);
 /*	if (to_exec && to_exec->path && to_exec->path[i])
 	{

@@ -8,6 +8,12 @@ char	*ft_pathcmd(char *argv, char *path)
 
 	i = 0;
 	j = 0;
+	if (!argv)
+	{
+		cpath = malloc(1*sizeof(char));
+		cpath[0] = '\0';
+		return (cpath);
+	}
 	cpath = malloc((ft_strlen(argv) + ft_strlen(path) + 2) * sizeof(char));
 	if (!cpath)
 		return (NULL);
@@ -52,7 +58,7 @@ void exec_word(t_token *current, t_exec *exec)
 {
 //	char	*path_tab;
 
-	exec->cmd_array = ft_split(current->line_wip, ' ');
+	exec->cmd_array = split_off_quote(current->line_wip, ' ');
 //	path_tab = ft_split(exec->path, ':');
 	if (!exec->cmd_array)
 		return ;

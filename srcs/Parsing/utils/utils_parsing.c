@@ -43,9 +43,9 @@ char	is_separator(char c)
 {
 	if (c == '>')
 		return ('>');
-	if (c == '<')
+	else if (c == '<')
 		return ('<');
-	if (c == '|')
+	else if (c == '|')
 		return ('|');
 	else
 		return (0);

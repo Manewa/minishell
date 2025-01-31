@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:59:53 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/30 15:59:06 by namalier         ###   ########.fr       */
+/*   Updated: 2025/01/31 13:36:53 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	token_type(char *line, int readed, int start, char sep)
 		else if (readed - start == 1)
 			return (INREDIR);
 	}
-	else if (sep == '|')
+	else if (sep == '|' && readed - start == 1)
 		return (PIPE);
 	return  (ERROR_PARSING);
 }
@@ -97,7 +97,11 @@ t_token	*tokenization(t_infos *infos)
 		token_new->type = token_type(infos->line, readed, start,
 				is_separator(infos->line[readed]));
 		if (token_new->type != PIPE)
+		{
 			token_line_wip(token_new, infos->line, &readed, &start);
+			while (infos->line[readed] && infos->line[readed] == ' ')
+				readed++;
+		}
 		else if (infos->line[readed])
 			readed++;
 		ft_tokenadd_back(&token_head, token_new);
