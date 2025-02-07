@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:28:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/31 16:11:43 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/04 12:14:01 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ t_exec	*tokens_for_exec(t_token *head_token)
 		if (current_token && current_token->type == PIPE)
 		{
 			current_token = current_token->next;
-			free(current_token);
 			continue ;
 		}
 		if (exec_type(current_exec, &current_token, head_token) == 0)

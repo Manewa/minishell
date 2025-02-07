@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:10:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/31 16:12:22 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/04 11:09:09 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,15 @@ int cpy_env_from_infos(t_infos *infos, t_exec *exec)
 	i = 0;
 	while (infos->env[i])
 		i++;
-	exec->env = malloc((i + 1)*sizeof(char*));
+	exec->envbis = malloc((i + 1)*sizeof(char*));
 	i = 0;
 	while (infos->env[i])
 	{
-		exec->env[i] = ft_strdup(infos->env[i]);
-		if (!exec->env[i])
+		exec->envbis[i] = ft_strdup(infos->env[i]);
+		if (!exec->envbis[i])
 			return (0);
 		i++;
 	}
-	exec->env[i] = NULL;
+	exec->envbis[i] = NULL;
 	return (1);
 }

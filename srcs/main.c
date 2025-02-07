@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:01:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/31 14:04:52 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/04 10:46:49 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (argc!= 1)
 		return (1);
-	ft_lstnew(&infos);
 	if (!ft_lstnew(&infos))
 		return (1);
 	if (init_prompt(&infos, envp) == 0)

@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/31 16:00:46 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/04 11:09:21 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		init_prompt(t_infos *infos, char **envp);
 
 void 	ft_cpypath(t_infos *infos, t_exec *exec);
 int		ft_cpyenv(t_infos *infos, char **envp);
-int cpy_env_from_infos(t_infos *infos, t_exec *exec);
+int		cpy_env_from_infos(t_infos *infos, t_exec *exec);
 
 /************	tokenization/tokenization	**********/
 

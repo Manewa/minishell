@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 17:43:47 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/31 15:00:43 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/04 10:56:17 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct s_exec
 	int				is_heredoc;
 	char			*delimiter;
 	char			**path;
-	char			**env;
+	char			**envbis;
 	char			**cmd_array;
 }				t_exec;
 
