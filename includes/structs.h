@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 17:43:47 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/04 10:56:17 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/02/10 17:45:35 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define STRUCTS_H
 
 /* Si jamais on a un pipe qui suit un autre pipe, il faut renvoyer une erreur et renvoyer au prompt*/
+/* Changer le heredoc qui est considere comme un delimiter par uniquement le pipe*/
 
 typedef struct s_infos
 {
@@ -50,6 +51,13 @@ typedef struct s_files
 	int		opening_failure;
 }				t_files;
 
+typedef struct s_del
+{
+	struct s_del	*next;
+	char			*lim;
+	int				quotes;
+}				t_del;
+
 typedef struct s_exec
 {
 	struct s_exec	*head;
@@ -58,7 +66,8 @@ typedef struct s_exec
 	t_files			*files;
 	int				builtin;
 	int				is_heredoc;
-	char			*delimiter;
+	int				is_limiter;
+	struct s_del	*limiter;
 	char			**path;
 	char			**envbis;
 	char			**cmd_array;

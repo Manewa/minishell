@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/04 11:09:21 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/02/10 17:53:26 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include "Libft/libft.h"
 # include "libs.h"
 
-#define NON					0
-#define OUI					1
+#define NO					0
+#define YES					1
 #define DOUBLE_QUOTE		2
 #define INREDIR				3
 #define OUTREDIR			4
@@ -30,6 +30,10 @@
 #define QUOTE_NOT_CLOSED	11
 #define	NO_PATH				12
 #define	PIPE				13
+#define	
+#define	CD					15
+#define	ENV					16
+#define	EXPORT				17
 
 /************		main 			**********/
 

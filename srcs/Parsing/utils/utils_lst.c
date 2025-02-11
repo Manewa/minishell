@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 17:50:57 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/29 14:37:55 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:19:01 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,11 @@ t_files	*ft_filenew(void)
 	infile = malloc(sizeof(*infile));
 	if (!infile)
 		return (NULL);
+	infile->name = 0;
 	outfile = malloc(sizeof(*outfile));
 	if (!outfile)
 		return (NULL);
+	outfile->name = 0;
 	new->infile = infile;
 	new->outfile = outfile;
 	new->opening_failure = 0;
