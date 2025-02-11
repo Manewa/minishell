@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:28:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/04 12:14:01 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/02/11 18:15:45 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,11 @@
 
 int exec_type(t_exec *exec, t_token **current, t_token *head)
 {
-	if ((*current)->type == HEREDOC)
-	{
-		exec_heredoc(*current, exec);
-		*current = (*current)->next;
-	}
-	else if (*current == head && (*current)->type == PIPE)
+	if (*current == head && (*current)->type == PIPE)
 		return (0); /*Error : "zsh: parse error near `|'" si le premier charactere est un pipe*/
 	else if ((*current)->type == PIPE)
 		*current = (*current)-> next;
-	while (*current && (*current)->type != HEREDOC && (*current)->type != PIPE)
+	while (*current && (*current)->type != PIPE)
 	{
 			if ((*current)->type == INREDIR)
 				exec_inredir(*current, exec);
@@ -33,6 +28,8 @@ int exec_type(t_exec *exec, t_token **current, t_token *head)
 				exec_append(*current, exec);
 			else if ((*current)->type == WORD)
 				exec_word(*current, exec);
+			else if ((*current)->type == HEREDOC)
+				exec_heredoc(*current, exec);
 			if ((*current) && (*current)->next != NULL)
 				*current = (*current)->next;
 			else

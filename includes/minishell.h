@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/10 17:53:26 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/02/11 18:47:45 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,17 @@
 #define QUOTE_NOT_CLOSED	11
 #define	NO_PATH				12
 #define	PIPE				13
-#define	
+#define	ECHO				14
 #define	CD					15
-#define	ENV					16
+#define PWD					16
 #define	EXPORT				17
+#define UNSET				18
+#define	ENV					19
+#define EXIT				20
+#define DOUBLE_PIPE			21
+#define	NO_INFO				22
+#define	FILE_DOES_NOT_EXIST	23
+#define	PERMISSION_DENIED	24
 
 /************		main 			**********/
 
@@ -59,7 +66,7 @@ t_token	*tokenization(t_infos *infos);
 /************	token/token_line	         ***********/
 
 void    ft_cpytoken(t_token *token, char *line,  int start, int readed);
-void	line_heredoc(char *line, int *start, int *readed, t_token *token);
+int		line_heredoc(char *line, int *start, int *readed, t_token *token);
 void	token_line_wip(t_token *token, char *line, int *readed, int *start);
 
 /***********	tokenization/expand	    ***********/
@@ -99,6 +106,8 @@ t_files	*ft_filenew(void);
 
 void	ft_execadd_back(t_exec **head, t_exec *new);
 t_exec	*ft_execlast(t_exec *lst);
+t_lim	*ft_limnew(void);
+t_lim	*ft_limlast(t_lim *lst);
 
 /************	utils_parsing	***********/
 

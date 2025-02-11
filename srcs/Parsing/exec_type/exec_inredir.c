@@ -1,22 +1,28 @@
 # include "../../../includes/minishell.h"
 
+void error_read(t_token *current, t_exec *exec)
+{
+	exec->files->infile->opening_failure = PERMISSION_DENIED;
+	while (current->next && current->next->type != PIPE)
+	{
+		current = current->next;
+		if (current && current->type == HEREDOC)
+			exec_heredoc(current, token);
+	}
+	return ;
+}
+
 void exec_inredir(t_token *current, t_exec *exec)
 {
-	size_t	i;
-	int		fd;
+	int	fd;
 
-	i = 0;
-	while (current->line_wip[i])
+	exec->files->infile->name = ft_strdup(current->line_wip);
+	exec->files->infile->heredoc = NO;
+	if (access(current->line_wip, F_OK))
 	{
-		exec->files->infile->name[i] = current->line_wip[i];
-		i++;
-	}
-	fd = open(exec->files->infile->name, O_RDONLY);
-	if (fd == -1)
-		exec->files->opening_failure = 1;
-	else
-	{
-		exec->files->opening_failure = 0;
-		close(fd);
+		if (!access(current->line_wip, R_OK))
+			return (error_read(current, token));
+		else
+			exec->files->infile->opening_failure = FILE_DOES_NOT_EXIST;
 	}
 }

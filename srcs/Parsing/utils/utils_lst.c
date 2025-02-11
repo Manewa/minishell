@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 17:50:57 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/07 15:19:01 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/02/11 15:40:23 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ t_files	*ft_filenew(void)
 	outfile->name = 0;
 	new->infile = infile;
 	new->outfile = outfile;
+	new->infile->heredoc = NO_INFO;
 	new->opening_failure = 0;
 	return (new);
 }

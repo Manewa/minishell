@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:47:11 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/30 15:58:42 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/11 15:06:46 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void ft_cpytoken(t_token *token, char *line,  int start, int readed)
 	token->line_wip[i] = '\0';
 }
 
-void	line_heredoc(char *line, int *start, int *readed, t_token *token)
+int	line_heredoc(char *line, int *start, int *readed, t_token *token)
 {
 	int	count_quote;
 
@@ -52,7 +52,8 @@ void	line_heredoc(char *line, int *start, int *readed, t_token *token)
 	ft_cpytoken(token, line, *start, *readed);
 	while (line[*readed] && line[*readed] && line[*readed] == ' ')
 		(*readed)++;
-	*start = *readed;	
+	*start = *readed;
+	return (count_quote);
 }
 
 /* token_line a pour but de remplir la line_wip dans token, et donc de connaitre
@@ -65,8 +66,10 @@ void	token_line_wip(t_token *token, char *line, int *readed, int *start)
 
 	count_quote = 0;
 	if (token->type == HEREDOC)
-		return (line_heredoc(line, start, readed, token));
-//	else if (token->type == WORD)	
+	{
+		token->quotes = line_heredoc(line, start, readed, token);
+		return ;
+	}
 	while (line[*readed] && line[*readed] == ' ')
 		(*readed)++;
 	while (line[*readed] && is_separator(line[*readed]) != 0)

@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 17:43:47 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/10 17:45:35 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/02/11 18:18:36 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,15 @@ typedef struct s_token
 	char			*full_path;
 	char			*line_wip;
 	char			**token_line;
+	int				quotes;
 	t_infos			*infos;
 }					t_token;
 
 typedef struct s_filesdata
 {
 	int		rights;
+	int		heredoc;
+	int		opening_failure;
 	char	*name;
 }				t_fdata;
 
@@ -48,15 +51,14 @@ typedef struct s_files
 {
 	t_fdata	*infile;
 	t_fdata	*outfile;
-	int		opening_failure;
 }				t_files;
 
-typedef struct s_del
+typedef struct s_lim
 {
-	struct s_del	*next;
+	struct s_lim	*next;
 	char			*lim;
 	int				quotes;
-}				t_del;
+}				t_lim;
 
 typedef struct s_exec
 {
@@ -67,7 +69,7 @@ typedef struct s_exec
 	int				builtin;
 	int				is_heredoc;
 	int				is_limiter;
-	struct s_del	*limiter;
+	struct s_lim	*limiter;
 	char			**path;
 	char			**envbis;
 	char			**cmd_array;
