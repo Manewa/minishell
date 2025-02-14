@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 17:50:57 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/11 15:40:23 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/14 14:09:08 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_exec *ft_execnew(t_exec *head)
 		return (NULL);
 	if (head != NULL)
 		new->head = head;
+	new->limiter = NULL;
 	new->next = NULL;
 	return (new);
 }
@@ -82,6 +83,7 @@ t_files	*ft_filenew(void)
 	new->infile = infile;
 	new->outfile = outfile;
 	new->infile->heredoc = NO_INFO;
-	new->opening_failure = 0;
+	new->infile->opening_failure = 0;
+	new->outfile->opening_failure = 0;
 	return (new);
 }

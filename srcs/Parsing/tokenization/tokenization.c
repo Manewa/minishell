@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:59:53 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/11 15:33:09 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:09:02 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ t_token	*tokenization(t_infos *infos)
 		}
 		else if (token_new && token_new->prev && token_new->prev->type == PIPE)
 			token_new->type = DOUBLE_PIPE;
+		else if (token_new->type == PIPE)
+			while (infos->line[++readed] && infos->line[readed] == ' ');
 		else if (infos->line[readed])
 			readed++;
 	}

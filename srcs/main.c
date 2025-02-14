@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:01:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/04 10:46:49 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/02/14 14:41:14 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,15 @@ int main(int argc, char **argv, char **envp)
 	while (to_exec && to_exec->next)
 	{
 		printf("IN DA WHILE !!!!!!!!!!!!\n");
-		if (to_exec->is_heredoc == OUI)
-			printf("heredoc : |%s|\n", to_exec->delimiter);
+		if (to_exec->is_heredoc >= YES)
+		{
+			while(to_exec->limiter && to_exec->limiter->next)
+			{
+				printf("heredoc : |%s| |||| Quotes :%d\n", to_exec->limiter->limit, to_exec->limiter->quotes);
+				to_exec->limiter = to_exec->limiter->next;
+			}
+			printf("heredoc : |%s| |||| Quotes :%d\n", to_exec->limiter->limit, to_exec->limiter->quotes);
+		}	
 /*		if (to_exec->path[i])
 		{
 			while (to_exec->path[i])
@@ -46,11 +53,11 @@ int main(int argc, char **argv, char **envp)
 		else
 			printf("NO PATH FOUND\n");
 		i = 0;
-		if (to_exec && to_exec->path && to_exec->path[i])
+		if (to_exec && to_exec->envbis && to_exec->envbis[i])
 		{
-			while (to_exec->env[i])
+			while (to_exec->envbis[i])
 			{
-				printf("env : |%s|\n", to_exec->env[i]);
+				printf("env : |%s|\n", to_exec->envbis[i]);
 				i++;
 			}
 		}
@@ -59,7 +66,7 @@ int main(int argc, char **argv, char **envp)
 */		i = 0;
 		while (to_exec && to_exec->cmd_array && to_exec->cmd_array[i])
 		{
-			printf("cmd_array : |%s|\n", to_exec->cmd_array[i]);
+			printf("cmd_array[%d] : |%s|\n", i, to_exec->cmd_array[i]);
 			i++;
 		}
 		if (to_exec && to_exec->files && to_exec->files->infile && to_exec->files->infile->name)
@@ -69,8 +76,15 @@ int main(int argc, char **argv, char **envp)
 		to_exec = to_exec->next;
 	}
 	printf("\n\nOUT OF DA WHILE !!!!\n\n");
-	if (to_exec && to_exec->is_heredoc == 1)
-		printf("heredoc : |%s|\n", to_exec->delimiter);
+	if (to_exec->is_heredoc >= YES)
+	{
+		while(to_exec->limiter && to_exec->limiter->next)
+		{
+			printf("heredoc : |%s| |||| Quotes :%d\n", to_exec->limiter->limit, to_exec->limiter->quotes);
+			to_exec->limiter = to_exec->limiter->next;
+		}
+		printf("heredoc : |%s| |||| Quotes :%d\n", to_exec->limiter->limit, to_exec->limiter->quotes);
+	}	
 /*	if (to_exec && to_exec->path && to_exec->path[i])
 	{
 		while (to_exec->path[i])
@@ -82,11 +96,11 @@ int main(int argc, char **argv, char **envp)
 	else
 		printf("NO PATH FOUND");
 	i = 0;
-	if (to_exec->env[i])
+	if (to_exec->envbis[i])
 	{
-		while (to_exec->env[i])
+		while (to_exec->envbis[i])
 		{
-			printf("env : |%s|\n", to_exec->env[i]);
+			printf("env : |%s|\n", to_exec->envbis[i]);
 			i++;
 		}
 	}
@@ -95,7 +109,7 @@ int main(int argc, char **argv, char **envp)
 */	i = 0;
 	while (to_exec && to_exec->cmd_array && to_exec->cmd_array[i])
 	{
-		printf("cmd_array : |%s|\n", to_exec->cmd_array[i]);
+		printf("cmd_array[%d] : |%s|\n", i, to_exec->cmd_array[i]);
 		i++;
 	}
 	if (to_exec && to_exec->files && to_exec->files->infile && to_exec->files->infile->name)

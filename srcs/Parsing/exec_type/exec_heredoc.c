@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_heredoc.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/14 13:17:46 by namalier          #+#    #+#             */
+/*   Updated: 2025/02/14 14:15:05 by namalier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
 t_lim *limiter_init(t_token *token, t_exec *exec)
@@ -6,14 +18,14 @@ t_lim *limiter_init(t_token *token, t_exec *exec)
 
 	lim = ft_limnew();
 	if (exec->limiter)
-		ft_limlast(exec->limiter)->next = lim;
+		(ft_limlast(exec->limiter))->next = lim;
 	lim->next = NULL;
 	if (token->quotes == 0)
 		lim->quotes = NO;
 	else
 		lim->quotes = YES;
-	lim->lim = ft_strdup(token->line_wip);
-	if (!lim->lim)
+	lim->limit = ft_strdup(token->line_wip);
+	if (!lim->limit)
 		return (NULL);
 	return (lim);
 }
@@ -26,4 +38,6 @@ void exec_heredoc(t_token *current, t_exec *exec)
 	lim = limiter_init(current, exec);
 	if (exec->files->infile->heredoc == NO_INFO)
 		exec->files->infile->heredoc = YES;
+	if (!exec->limiter)
+		exec->limiter = lim;
 }

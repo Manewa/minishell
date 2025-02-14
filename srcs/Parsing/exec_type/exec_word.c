@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_word.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/14 13:18:10 by namalier          #+#    #+#             */
+/*   Updated: 2025/02/14 16:24:35 by namalier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include "../../../includes/minishell.h"
 
 char	*ft_pathcmd(char *argv, char *path)
@@ -53,7 +65,8 @@ void	find_pathcmd(char **path, t_exec *exec)
 		}
 	}
 }
-
+/**
+ * exec word ne fonctionne pas avec un truc du style ls -l << Pouet -a. A changer*/
 void exec_word(t_token *current, t_exec *exec)
 {
 //	char	*path_tab;

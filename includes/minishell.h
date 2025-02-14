@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/11 18:47:45 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:37:36 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void    exec_outredir(t_token *current, t_exec *exec);
 char	*ft_pathcmd(char *argv, char *path);
 void	find_pathcmd(char **path, t_exec *exec);
 void    exec_word(t_token *current, t_exec *exec);
+void	error_write(t_token *current, t_exec *exec);
 
 
 /************	utils/utils_lst	    	    ***********/

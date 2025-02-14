@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:28:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/11 18:15:45 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/14 14:44:38 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int exec_type(t_exec *exec, t_token **current, t_token *head)
 {
 	if (*current == head && (*current)->type == PIPE)
 		return (0); /*Error : "zsh: parse error near `|'" si le premier charactere est un pipe*/
-	else if ((*current)->type == PIPE)
-		*current = (*current)-> next;
+/*	else if ((*current)->type == PIPE)
+		*current = (*current)-> next;*/
 	while (*current && (*current)->type != PIPE)
 	{
 			if ((*current)->type == INREDIR)

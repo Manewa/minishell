@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 17:43:47 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/11 18:18:36 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/14 14:13:49 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_files
 typedef struct s_lim
 {
 	struct s_lim	*next;
-	char			*lim;
+	char			*limit;
 	int				quotes;
 }				t_lim;
 
