@@ -6,13 +6,13 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:30:27 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/14 16:00:24 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/02/18 12:20:07 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static int	ft_count_word_quote(char *s, char c)
+int	ft_count_word_quote(char *s, char c)
 {
 	int	count_word;
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:18:10 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/14 16:24:35 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/18 12:44:48 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,12 @@ void	find_pathcmd(char **path, t_exec *exec)
  * exec word ne fonctionne pas avec un truc du style ls -l << Pouet -a. A changer*/
 void exec_word(t_token *current, t_exec *exec)
 {
-//	char	*path_tab;
-
-	exec->cmd_array = split_off_quote(current->line_wip, ' ');
-//	path_tab = ft_split(exec->path, ':');
+	if (exec->cmd_array)
+		return ;
+	exec->cmd_array = malloc(exec_count_word(current) * sizeof(char*));
+	fill_cmd_array(exec, current);
 	if (!exec->cmd_array)
 		return ;
 	find_pathcmd(exec->path, exec);
-//	free (path_tab);
-
 }
 

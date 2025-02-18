@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/14 13:37:36 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/18 12:41:14 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,11 @@ void	find_pathcmd(char **path, t_exec *exec);
 void    exec_word(t_token *current, t_exec *exec);
 void	error_write(t_token *current, t_exec *exec);
 
+/***********		exec_type/count_array	***********/
+
+int exec_count_word(t_token *token);
+void fill_cmd_array(t_exec *exec, t_token *token);
+char *fill_word(t_token *token, int *i);
 
 /************	utils/utils_lst	    	    ***********/
 
@@ -120,6 +125,7 @@ char	*strdup_end(char *line, int *readed, int start);
 /***********	utils/split_off_quote	******/
 
 char		**split_off_quote(char *s, char c);
+int			ft_count_word_quote(char *s, char c);
 
 /***********    utils/ft_error      ***********/
 
