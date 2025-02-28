@@ -6,7 +6,7 @@
 #    By: namalier <namalier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 16:29:28 by namalier          #+#    #+#              #
-#    Updated: 2025/02/18 12:28:19 by namalier         ###   ########.fr        #
+#    Updated: 2025/02/21 11:45:32 by natgomali        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS 			=	srcs/main.c srcs/init_prompt.c ${ENV}/env.c \
 					${EXEC_TYPE}/exec_outredir.c ${EXEC_TYPE}/count_array.c\
 					${UTILS}/quotes.c ${UTILS}/quotes_remover.c \
 					${UTILS}/utils_lst.c ${UTILS}/utils_lst2.c \
+					${UTILS}/utils_lst3.c \
 					${UTILS}/utils_parsing.c ${UTILS}/ft_error.c \
 					${UTILS}/split_off_quote.c \
 

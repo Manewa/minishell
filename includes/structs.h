@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 17:43:47 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/14 14:13:49 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:07:57 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,19 @@
 
 typedef struct s_infos
 {
-	int			s_in;
-	int			s_out;
-	char		*line;
-	char		**env;
-	char		**path;
+	int				exit_val;
+	char			*line;
+	struct s_env	*env;
+//	char			**path;
 }					t_infos;
+
+typedef struct s_env
+{
+	struct s_env	*next;
+	struct s_env	*prev;
+	char			*value;
+	char			*key;
+}						t_env;
 
 typedef struct s_token
 {
@@ -44,6 +51,7 @@ typedef struct s_filesdata
 	int		rights;
 	int		heredoc;
 	int		opening_failure;
+	int		fd;
 	char	*name;
 }				t_fdata;
 
@@ -58,6 +66,7 @@ typedef struct s_lim
 	struct s_lim	*next;
 	char			*limit;
 	int				quotes;
+	char			*h_name;
 }				t_lim;
 
 typedef struct s_exec
@@ -65,13 +74,14 @@ typedef struct s_exec
 	struct s_exec	*head;
 	struct s_exec	*prev;
 	struct s_exec	*next;
+	struct s_infos	*infos;
 	t_files			*files;
 	int				builtin;
 	int				is_heredoc;
 	int				is_limiter;
 	struct s_lim	*limiter;
 	char			**path;
-	char			**envbis;
+	char			**env;
 	char			**cmd_array;
 }				t_exec;
 

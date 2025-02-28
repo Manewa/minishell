@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:01:37 by namalier          #+#    #+#             */
-/*   Updated: 2024/10/18 17:37:50 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:52:09 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,11 @@
 
 int	init_prompt(t_infos *infos, char **envp)
 {
-	infos->s_in = dup(0);
-	infos->s_out = dup(1);
 	infos->line = readline("minishell> ");
 	if (!infos->line)
 		return (0);
 	if (envp)
-		ft_cpyenv(infos, envp);
+		infos->env = ft_cpyenv(envp);
 	else
 
 	if (!infos->env)

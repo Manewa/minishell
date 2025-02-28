@@ -43,3 +43,17 @@ t_lim *ft_limlast(t_lim *lst)
 		lst = lst->next;
 	return (lst);
 }
+
+t_env	*ft_envnew(t_env *prev)
+{
+	t_env	*new;
+
+	new = malloc(sizeof(*new));
+	if (!new)
+		return (NULL);
+	if (prev != NULL)
+		new->prev = prev;
+	new->next = NULL;
+	return (new);
+}
+

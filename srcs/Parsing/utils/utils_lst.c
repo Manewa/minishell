@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 17:50:57 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/14 14:09:08 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:55:16 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_tokenadd_back(t_token **lst, t_token *new)
 	ft_tokenlast(tmp)->next = new;
 }
 
-t_exec *ft_execnew(t_exec *head)
+t_exec *ft_execnew(t_exec *head, t_infos *infos)
 {
 	t_exec	*new;
 
@@ -45,6 +45,8 @@ t_exec *ft_execnew(t_exec *head)
 		return (NULL);
 	if (head != NULL)
 		new->head = head;
+	if (infos)
+		new->infos = infos;
 	new->limiter = NULL;
 	new->next = NULL;
 	return (new);

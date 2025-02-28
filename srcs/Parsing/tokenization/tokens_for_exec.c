@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:28:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/14 14:44:38 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:07:35 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_exec *exec_init(t_exec *head, t_token *current)
 {
 	t_exec	*exec;
 
-	exec = ft_execnew(head);
+	exec = ft_execnew(head, current->infos);
 	if (exec == NULL)
 		return (NULL);
 	if (head != 0)
@@ -54,7 +54,7 @@ t_exec *exec_init(t_exec *head, t_token *current)
 		exec->head = NULL;
 	exec->next = NULL;
 	exec->files = ft_filenew();
-	cpy_env_from_infos(current->infos, exec);
+	exec->env = env_double_tab(exec->infos->env);
 	ft_cpypath(current->infos, exec);
 /*	if (current->infos->path)
 		exec->path = ft_strdup(current->infos->path);

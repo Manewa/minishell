@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:01:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/14 14:41:14 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:29:04 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,15 @@ int main(int argc, char **argv, char **envp)
 		return (1);
 	if (!ft_lstnew(&infos))
 		return (1);
+	infos.exit_val = 0;
 	if (init_prompt(&infos, envp) == 0)
 		return (1);
 	token = tokenization(&infos);
 	to_exec = tokens_for_exec(token);
+
+
+
+
 	while (to_exec && to_exec->next)
 	{
 		printf("IN DA WHILE !!!!!!!!!!!!\n");
@@ -53,11 +58,11 @@ int main(int argc, char **argv, char **envp)
 		else
 			printf("NO PATH FOUND\n");
 		i = 0;
-		if (to_exec && to_exec->envbis && to_exec->envbis[i])
+		if (to_exec && to_exec->env)
 		{
-			while (to_exec->envbis[i])
+			while (to_exec->env[i])
 			{
-				printf("env : |%s|\n", to_exec->envbis[i]);
+				printf("env : |%s|\n", to_exec->env[i]);
 				i++;
 			}
 		}
@@ -96,11 +101,11 @@ int main(int argc, char **argv, char **envp)
 	else
 		printf("NO PATH FOUND");
 	i = 0;
-	if (to_exec->envbis[i])
+	if (to_exec->env[i])
 	{
-		while (to_exec->envbis[i])
+		while (to_exec->env[i])
 		{
-			printf("env : |%s|\n", to_exec->envbis[i]);
+			printf("env : |%s|\n", to_exec->env[i]);
 			i++;
 		}
 	}

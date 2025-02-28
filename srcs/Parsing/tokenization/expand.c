@@ -6,11 +6,19 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:36 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/24 13:32:38 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:39:47 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../../includes/minishell.h"
+
+/* Check_name will verify that there's not a infinite boucle.
+ * For example :
+ * $a = $b
+ * $b = $a
+ *
+ * Problem : won't verify if $a = $b, $b = $c, $c = $a
+ */
 
 char *check_name(char *value, char *to_expand)
 {
@@ -40,32 +48,29 @@ char *check_name(char *value, char *to_expand)
 	return (value);
 }
 
-/* expand_to_env va expand la valeur de l'environnement et free to_expand
-   dont on n'aura plus besoin */
+/* expand_to_env will search for a key in infos->env (lst) and return the value associated to it.
+ * if none is found, return NULL 
+ * */
 
-char *expand_to_env(char *line, t_infos *infos, char *to_expand, char **env)
+char *expand_to_env(char *to_expand, t_env *env)
 {
-	char *value;
-	size_t	i;
-	size_t	j;
-	size_t	k;
+	char 	*value;
+	t_env	*tmp;
 
-	(void)line;
-	i = 0;
-	while (env[i])
+	tmp = env;
+	while (tmp)
 	{
-		j = 0;
-		k = 0;
-		while (infos->env[i][j] && to_expand[k]
-				&& infos->env[i][j] == to_expand[k++])
-			j++;
-		if (!to_expand[k] && infos->env[i][j] == '=')
-			break ;
-		i++;
+		while (tmp &&
+				(ft_memcmp(to_expand, tmp->key, ft_strlen(to_expand)+1)) != 0)
+			tmp = tmp->next;
+		if (tmp && ft_strlen(to_expand) == ft_strlen(tmp->key))
+			break;
+		else if (tmp)
+			tmp = tmp->next;
 	}
-	if (env[i])
+	if (tmp)
 	{
-		value = ft_strdup(&env[i][j + 1]);
+		value = ft_strdup(tmp->value);
 		value = check_name(value, to_expand);
 		if (!value)
 			return(NULL);
@@ -74,8 +79,10 @@ char *expand_to_env(char *line, t_infos *infos, char *to_expand, char **env)
 	return (NULL);
 }
 
-/* Va free l'ancienne line avec expand et return la nouvelle line avec la
-	nouvelle valeur de l'expand
+/* Expanded_new_line will replace the old key by the value in infos->env found by expand_to_env.
+ *
+ * if none is found, delete the $KEY
+ * Will free the old_line and the value and return the new line malloc
  */
 
 char *expanded_new_line(char *old_line, int start, int end, char *expand)
@@ -111,8 +118,10 @@ char *expanded_new_line(char *old_line, int start, int end, char *expand)
 
 
 
-/* Permet de trouver a fin de l'expand puis de transformer en la nouvelle line
- * avec l'expand
+/* Substitute expand defines start and end of an the expand to change ($USER for exemple)
+ *
+ * The expand run until finding anything else than alnum char or '_'
+ * Return expand, the line with the expand.
  */
 
 char *substitute_expand(char *line, t_infos *infos, int exp)
@@ -132,15 +141,22 @@ char *substitute_expand(char *line, t_infos *infos, int exp)
 	while (start < end)
 		expand[j++] = line[start++];
 	expand[j] = '\0';
-	expand = expand_to_env(line, infos, expand, infos->env);
+	expand = expand_to_env(expand, infos->env);
 	expand = expanded_new_line(line, exp - 1, end, expand);
 	return (expand);
 }
 
-/* C'est la machine a expand :
- * part_of_line -> la partie de la line envoye a minishell qui vaut pour le token en cours
- * Va expand dans une double boucle while pour etre sur de ne pas rater
- * 		un expand qui se situerai dans un autre expand
+/* Main expand with rules :
+ * line -> line where we search for a '$'
+ * infos -> Env (lst) inside
+ * 
+ * -> If '$' is between quotes, is not verified
+ * -> check for '$?' with exit_val in infos
+ *
+ *	While until the end of line and get back to 0 each time we find an expand
+ *	to verify that there's no expand in an expand.
+ *
+ * Return line (with the new expand)
  */
 
 char *expand_main(char *line, t_infos *infos)
@@ -154,12 +170,19 @@ char *expand_main(char *line, t_infos *infos)
 			out_of_squote(line, &i);
 		if (line[i] == '<' && line[i + 1] == '<')
 			out_of_heredoc(line, &i);
-		if (line[i] == '$')
+		if (line[i] == '$' && line[i + 1] != '?')
 		{
 			line = substitute_expand(line, infos, ++i);
 			if (!line)
 				return (NULL);
 			i = 0;
+		}
+		if (line[i] == '$' && line[i + 1] == '?')
+		{
+			line = expanded_new_line(line, i, i + 2, ft_itoa(infos->exit_val));
+			i++;
+			if  (!line)
+				return (NULL);
 		}
 		if (line[i] && (line[0] != '$' || line[0] != 39))
 			i++;

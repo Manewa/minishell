@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/18 12:41:14 by namalier         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:06:23 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,13 @@ int		init_prompt(t_infos *infos, char **envp);
 /************		env/env				**********/
 
 void 	ft_cpypath(t_infos *infos, t_exec *exec);
-int		ft_cpyenv(t_infos *infos, char **envp);
-int		cpy_env_from_infos(t_infos *infos, t_exec *exec);
+void 	env_key_n_value(t_env *env, char **envp, size_t i);
+t_env	*ft_cpyenv(char **envp);
+int		len_env_line(t_env *tmp);
+void	cat_key_n_value(t_env *tmp, char **tab, size_t i);
+char	**env_double_tab(t_env *env);
+
+//int		cpy_env_from_infos(t_infos *infos, t_exec *exec);
 
 /************	tokenization/tokenization	**********/
 
@@ -72,7 +77,7 @@ void	token_line_wip(t_token *token, char *line, int *readed, int *start);
 /***********	tokenization/expand	    ***********/
 
 char	*check_name(char *value, char *to_expand);
-char	*expand_to_env(char *line, t_infos *infos, char *to_expand, char **env);
+char	*expand_to_env(char *to_expand, t_env *env);
 char	*expanded_new_line(char *old_line, int start, int end, char *expand);
 char	*substitute_expand(char *line, t_infos *infos, int exp);
 char	*expand_main(char *line, t_infos *infos);
@@ -104,7 +109,7 @@ char *fill_word(t_token *token, int *i);
 
 t_token	*ft_tokenlast(t_token *lst);
 void	ft_tokenadd_back(t_token **lst, t_token *new);
-t_exec  *ft_execnew(t_exec *prev);
+t_exec  *ft_execnew(t_exec *prev, t_infos *infos);
 t_token	*ft_tokennew(t_token *head);
 t_files	*ft_filenew(void);
 
@@ -114,6 +119,13 @@ void	ft_execadd_back(t_exec **head, t_exec *new);
 t_exec	*ft_execlast(t_exec *lst);
 t_lim	*ft_limnew(void);
 t_lim	*ft_limlast(t_lim *lst);
+t_env	*ft_envnew(t_env *prev);
+
+/************	utils/utils_lst3		*************/
+
+t_env *ft_envlast(t_env *lst);
+void	ft_envadd_back(t_env **lst, t_env *new);
+
 
 /************	utils_parsing	***********/
 
@@ -141,6 +153,5 @@ void    quotes_detecter(t_token *token);
 
 int		out_of_dquote(char *line, int *readed);
 int		out_of_squote(char *line, int *readed);
-//void	token_doublequote(t_infos *infos, size_t *i, t_token *token);
 
 #endif
