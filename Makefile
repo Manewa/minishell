@@ -44,49 +44,49 @@ NAME			=	minishell
 CFLAGS			=	-Wall -Werror -Wextra -g3
 
 ${NAME}			:	${OBJDIR} ${OBJS} ${LIBA}
-					cc ${OBJS} ${LIBA} ${CFLAGS} -o ${NAME} -lreadline
+					@cc ${OBJS} ${LIBA} ${CFLAGS} -o ${NAME} -lreadline
 
 $(OBJDIR)		:
 				@mkdir -p $@
 
 %.o: srcs/%.c
-	cc ${CFLAGS} -c $< -o $@
+	@cc ${CFLAGS} -c $< -o $@
 
 ${OBJDIR}/main.o	: srcs/main.c
-				cc ${CFLAGS} -c $< -o $@
+				@cc ${CFLAGS} -c $< -o $@
 
 ${OBJDIR}/init_prompt.o	: srcs/init_prompt.c
-				cc ${CFLAGS} -c $< -o $@
+				@cc ${CFLAGS} -c $< -o $@
 
 ${OBJDIR}/%.o	: ${SIGNALS}/%.c
-				cc ${CFLAGS} -c $< -o $@
+				@cc ${CFLAGS} -c $< -o $@
 
 ${OBJDIR}/%.o	: ${ENV}/%.c
-				cc ${CFLAGS} -c $< -o $@
+				@cc ${CFLAGS} -c $< -o $@
 
 ${OBJDIR}/%.o	: ${CHECK_BLTIN}/%.c
-				cc ${CFLAGS} -c $< -o $@
+				@cc ${CFLAGS} -c $< -o $@
 
 ${OBJDIR}/%.o	: ${EXEC_TYPE}/%.c
-				cc ${CFLAGS} -c $< -o $@
+				@cc ${CFLAGS} -c $< -o $@
 
 ${OBJDIR}/%.o	: ${TOKENS}/%.c
-				cc ${CFLAGS} -c $< -o $@
+				@cc ${CFLAGS} -c $< -o $@
 				
 ${OBJDIR}/%.o	: ${EXEC}/%.c
-				cc ${CFLAGS} -c $< -o $@
+				@cc ${CFLAGS} -c $< -o $@
 
 ${OBJDIR}/%.o	: ${UTILS}/%.c
-				cc ${CFLAGS} -c $< -o $@
+				@cc ${CFLAGS} -c $< -o $@
 
 ${LIBA}			:
-				make -C includes/Libft
+				@make -C includes/Libft
 
 clean			:
-				rm -rf ${OBJDIR} includes/Libft/objs
+				@rm -rf ${OBJDIR} includes/Libft/objs
 
 fclean			:	clean
-				rm -rf ${NAME} includes/Libft/libft.a
+				@rm -rf ${NAME} includes/Libft/libft.a
 
 re				: fclean all
 
