@@ -6,11 +6,14 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:00:14 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/18 12:52:20 by namalier         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:10:49 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+/* return a string with the new only word for cmd_array
+ */
 
 char *fill_word(t_token *token, int *i)
 {
@@ -63,6 +66,10 @@ void fill_cmd_array(t_exec *exec, t_token *token)
 	}
 	exec->cmd_array[k] = NULL;
 }
+
+/*
+ * Count the number of word in each token
+ */
 
 int exec_count_word(t_token *token)
 {

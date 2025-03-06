@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 17:43:47 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/27 18:07:57 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/06 18:13:16 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 typedef struct s_infos
 {
 	int				exit_val;
-	char			*line;
+	char			*line; // A free avant token_to_exec
 	struct s_env	*env;
-//	char			**path;
+	int				pouexit;
 }					t_infos;
 
 typedef struct s_env
@@ -32,7 +32,7 @@ typedef struct s_env
 	char			*key;
 }						t_env;
 
-typedef struct s_token
+typedef struct s_token // A free une fois exec envoye
 {
 	struct s_token	*head;
 	struct s_token	*prev;
@@ -78,7 +78,6 @@ typedef struct s_exec
 	t_files			*files;
 	int				builtin;
 	int				is_heredoc;
-	int				is_limiter;
 	struct s_lim	*limiter;
 	char			**path;
 	char			**env;

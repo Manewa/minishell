@@ -6,18 +6,20 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:28:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/27 18:07:35 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/06 18:22:47 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../../includes/minishell.h"
 
+/*
+ * for each type, redirect to the right exec_type function
+ */
+
 int exec_type(t_exec *exec, t_token **current, t_token *head)
 {
 	if (*current == head && (*current)->type == PIPE)
 		return (0); /*Error : "zsh: parse error near `|'" si le premier charactere est un pipe*/
-/*	else if ((*current)->type == PIPE)
-		*current = (*current)-> next;*/
 	while (*current && (*current)->type != PIPE)
 	{
 			if ((*current)->type == INREDIR)
@@ -41,6 +43,10 @@ int exec_type(t_exec *exec, t_token **current, t_token *head)
 	return (1);
 }
 
+/*
+ * Initialize the exec node
+ */
+
 t_exec *exec_init(t_exec *head, t_token *current)
 {
 	t_exec	*exec;
@@ -51,15 +57,10 @@ t_exec *exec_init(t_exec *head, t_token *current)
 	if (head != 0)
 		exec->head = head;
 	else
-		exec->head = NULL;
+		exec->head = exec;
 	exec->next = NULL;
 	exec->files = ft_filenew();
-	exec->env = env_double_tab(exec->infos->env);
 	ft_cpypath(current->infos, exec);
-/*	if (current->infos->path)
-		exec->path = ft_strdup(current->infos->path);
-	else
-		exec->path = malloc()*/
 	return (exec);
 }
 
@@ -68,15 +69,16 @@ t_exec	*tokens_for_exec(t_token *head_token)
 	t_token	*current_token;
 	t_exec	*head_exec;
 	t_exec	*current_exec;
-//	size_t	i;
 
 	current_token = head_token;
 	head_exec = exec_init(0, current_token);
+	head_exec->env = env_double_tab(head_exec->infos->env);
 	if (exec_type(head_exec, &current_token, head_token) == 0)
 		return (0);
 	while (current_token != NULL/* && current_token->next != NULL*/)
 	{
 		current_exec = exec_init(head_exec, current_token);
+		current_exec->env = current_exec->head->env;
 		if (!current_exec)
 			return (NULL);
 		if (current_token && current_token->type == PIPE)
@@ -96,34 +98,14 @@ t_exec	*tokens_for_exec(t_token *head_token)
 	}
 	return (head_exec);
 }
-	
 
+t_exec	*main_parsing(t_infos *infos)
+{
+	t_token	*token;
+	t_exec	*exec;
 
-
-
-/*
-
-		i = 0;
-		if (current != lst_token)
-			current = current->next;
-		while (current->line_wip[i] && is_separator(current->line_wip[i] != 0))
-			i++;
-		if (!current->line_wip[i])
-			return (NULL);
-		if (current->type != PIPE)
-		{
-			current->token_line = split_off_quote(&i(current->line_wip[i]), ' ');
-			quotes_detecter(current);
-		}
-		if (current->type == WORD)
-			parse_word(current, i);
-		else if (current->type == APPEND_MODE)
-			parse_append(current, i);
-		else if (current->type == HEREDOC)
-			parse_heredoc(current, i);
-		else if (current->type == OUTREDIR)
-			parse_outredir(current, i);
-		else if (current->type == INREDIR)
-			parse_inredir(current, i);
-	}
-}*/
+	token = tokenization(infos);
+	exec = tokens_for_exec(token);
+//	ft_free_token(token);
+	return (exec);
+}

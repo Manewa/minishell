@@ -6,11 +6,15 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:18:10 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/18 12:44:48 by namalier         ###   ########.fr       */
+/*   Updated: 2025/03/04 18:35:19 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../../includes/minishell.h"
+
+/*
+ * Malloc the new path + cmd and put it in cmd_array[0]
+ */
 
 char	*ft_pathcmd(char *argv, char *path)
 {
@@ -41,6 +45,10 @@ char	*ft_pathcmd(char *argv, char *path)
 	return (cpath);
 }
 
+/*
+ * try to find for each path a command that is stored in exec->cmd_array[0]
+ */
+
 void	find_pathcmd(char **path, t_exec *exec)
 {
 	size_t	i;
@@ -65,8 +73,11 @@ void	find_pathcmd(char **path, t_exec *exec)
 		}
 	}
 }
+
 /**
- * exec word ne fonctionne pas avec un truc du style ls -l << Pouet -a. A changer*/
+ * main for exec_word
+ */
+
 void exec_word(t_token *current, t_exec *exec)
 {
 	if (exec->cmd_array)
@@ -75,6 +86,8 @@ void exec_word(t_token *current, t_exec *exec)
 	fill_cmd_array(exec, current);
 	if (!exec->cmd_array)
 		return ;
-	find_pathcmd(exec->path, exec);
+	exec->builtin = builtin_cmp(exec->cmd_array[0]);
+	if (exec->builtin == 0)
+		find_pathcmd(exec->path, exec);
 }
 

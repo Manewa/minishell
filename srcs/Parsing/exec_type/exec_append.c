@@ -6,11 +6,15 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:17:31 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/14 13:58:17 by namalier         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:02:28 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+/*
+ * PERMISSION DENIED if no rights for outfile and going straight to the next pipe
+ */
 
 void	error_write(t_token *current, t_exec *exec)
 {
@@ -23,6 +27,10 @@ void	error_write(t_token *current, t_exec *exec)
 	}
 	return ;
 }
+
+/*
+ * Check rights for outfile and store it's name in exec->files->outfile->name
+ */
 
 void exec_append(t_token *current, t_exec *exec)
 {

@@ -6,11 +6,14 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:47:11 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/11 15:06:46 by namalier         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:13:37 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+/* Copy the token in line_wip
+ */
 
 void ft_cpytoken(t_token *token, char *line,  int start, int readed)
 {
@@ -26,6 +29,11 @@ void ft_cpytoken(t_token *token, char *line,  int start, int readed)
 		token->line_wip[i++] = line[start++];
 	token->line_wip[i] = '\0';
 }
+
+/* Return if there is quotes in the heredoc limiter or not
+ * Fill the token heredoc with the line in line_wip
+ * pass every << and space at the beggining of the line
+ */
 
 int	line_heredoc(char *line, int *start, int *readed, t_token *token)
 {
@@ -58,7 +66,7 @@ int	line_heredoc(char *line, int *start, int *readed, t_token *token)
 
 /* token_line a pour but de remplir la line_wip dans token, et donc de connaitre
  * le debut du token et ou il s'arrete
- * Permet aussi de verifier que les quotes sont bien fermees, sinon change le type de la node*/
+ * Permet aussi de verifier que les quotes sont bien fermees, sinon change le type de la node a QUOTE_NOT_CLOSED*/
 
 void	token_line_wip(t_token *token, char *line, int *readed, int *start)
 {

@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:01:37 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/27 17:52:09 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/04 16:58:42 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 /* Init_prompt is initiating the prompt ("minishell > ") with :
 	- infos->line has the line gived by user
-	- infos->s_in and s_out are respectively stdin (0) and stdout (1)
-	- infos->env has the envp is existed */
+	- infos->env has the envp if existed */
 
 int	init_prompt(t_infos *infos, char **envp)
 {
@@ -24,8 +23,6 @@ int	init_prompt(t_infos *infos, char **envp)
 		return (0);
 	if (envp)
 		infos->env = ft_cpyenv(envp);
-	else
-
 	if (!infos->env)
 		return (0);
 	return (1);

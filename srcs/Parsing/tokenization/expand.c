@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:36 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/28 11:39:47 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/04 17:17:49 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,7 @@ char *check_name(char *value, char *to_expand)
 
 	i = 0;
 	while (value[i + 1] && to_expand[i] && value[i + 1] == to_expand[i])
-	{
 		i++;
-	}
 	if (!value[i + 1] && !to_expand[i])
 	{
 		i = 0;
@@ -150,7 +148,6 @@ char *substitute_expand(char *line, t_infos *infos, int exp)
  * line -> line where we search for a '$'
  * infos -> Env (lst) inside
  * 
- * -> If '$' is between quotes, is not verified
  * -> check for '$?' with exit_val in infos
  *
  *	While until the end of line and get back to 0 each time we find an expand

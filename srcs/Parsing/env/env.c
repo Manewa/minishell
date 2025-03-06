@@ -6,11 +6,15 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:10:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/27 17:57:57 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/04 11:47:32 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+/*
+ * copy the path in exec, removing "PATH="
+ */
 
 void ft_cpypath(t_infos *infos, t_exec *exec)
 {
@@ -28,6 +32,10 @@ void ft_cpypath(t_infos *infos, t_exec *exec)
 		return ;
 }
 
+/*
+ * dissociating key and value from envp to store it in env lst
+ */
+
 void env_key_n_value(t_env *env, char **envp, size_t i)
 {
 	size_t	j;
@@ -38,6 +46,8 @@ void env_key_n_value(t_env *env, char **envp, size_t i)
 	while (envp[i] && envp[i][j] && envp[i][j] != '=')
 		j++;
 	env->key = malloc(j * sizeof(char));
+	if (!env->key)
+		return ;
 	while(k < j)
 	{
 		env->key[k] = envp[i][k];
@@ -83,6 +93,10 @@ int len_env_line(t_env *tmp)
 	return (i + j + 2);
 }
 
+/*
+ * adding "key" + "=" + "value" in to_exec->env
+ */
+
 void cat_key_n_value(t_env *tmp, char **tab, size_t i)
 {
 	size_t	j;
@@ -92,6 +106,8 @@ void cat_key_n_value(t_env *tmp, char **tab, size_t i)
 	k = 0;
 
 	tab[i] = malloc(len_env_line(tmp) * sizeof(char));
+	if (!tab[i])
+		return ;
 	while (tmp->key[j])
 	{
 		tab[i][j] = tmp->key[j];
@@ -102,6 +118,10 @@ void cat_key_n_value(t_env *tmp, char **tab, size_t i)
 		tab[i][j++] = tmp->value[k++];
 	tab[i][j] = '\0';
 }
+
+/*
+ * create a double char array to to_exec->env, passing the env list to it
+ */
 
 char	**env_double_tab(t_env *env)
 {
@@ -118,6 +138,8 @@ char	**env_double_tab(t_env *env)
 	}
 	tmp = env;
 	tab = malloc((i + 1)*sizeof(char*));
+	if (!tab)
+		return (NULL);
 	i = 0;
 	while (tmp)
 	{
@@ -128,38 +150,3 @@ char	**env_double_tab(t_env *env)
 	tab[i] = NULL;
 	return (tab);
 }
-/*		i++;
-	infos->env = malloc((i + 1) * sizeof(char *));
-	if (!infos->env)
-		return (0);
-	i = 0;
-	while (envp[i])
-	{
-		infos->env[i] = ft_strdup(envp[i]);
-		if (!infos->env[i])
-			return (0);
-		i++;
-	}
-	infos->env[i] = NULL;
-	return (1);
-}*/
-
-/*int cpy_env_from_infos(t_infos *infos, t_exec *exec)
-{
-	size_t	i;
-
-	i = 0;
-	while (infos->env)
-		i++;
-	exec->envbis = malloc((i + 1)*sizeof(char*));
-	i = 0;
-	while (infos->env[i])
-	{
-		exec->envbis[i] = ft_strdup(infos->env[i]);
-		if (!exec->envbis[i])
-			return (0);
-		i++;
-	}
-	exec->envbis[i] = NULL;
-	return (1);
-}*/
