@@ -6,7 +6,7 @@
 /*   By: aibonade <aibonade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:22:19 by aibonade          #+#    #+#             */
-/*   Updated: 2025/03/06 16:53:06 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/06 20:11:12 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ static void ft_delone_exec(t_exec *exec)
 		ft_free_files(exec->files);
 		if (exec->is_heredoc)
 			ft_free_heredoc_lst(exec->limiter);
-		ft_free_dbltab(exec->path);
-		ft_free_dbltab(exec->env);
 		ft_free_dbltab(exec->cmd_array);
 		free(exec);
 		exec = NULL;
@@ -81,6 +79,8 @@ void ft_clean_end_exec(t_exec *exec)
 	{
 		tmp = exec;
 		tmp_nxt = tmp->next;
+		ft_free_dbltab(tmp->path);
+		ft_free_dbltab(tmp->env);
 		ft_delone_exec(tmp);
 		while (tmp_nxt)
 		{

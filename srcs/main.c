@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:01:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/06 18:44:13 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/06 19:02:14 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ int main(int argc, char **argv, char **envp)
 		return (1);
 	while(infos->pouexit)
 	{
-		//set_signal(infos);
+		set_signal(infos);
 		if (infos->line)
 			free(infos->line);
-		infos->line = readline("MiniPouet> ");
+		infos->line = readline("minipouet> ");
 		if (infos->line && infos->line[0] && infos->line[0] != ' ')
 			add_history(infos->line);
 		exec = main_parsing(infos);

@@ -48,7 +48,7 @@ t_env	*ft_envnew(t_env *prev)
 {
 	t_env	*new;
 
-	new = malloc(sizeof(*new));
+	new = malloc(sizeof(t_env));
 	if (!new)
 		return (NULL);
 	if (prev != NULL)

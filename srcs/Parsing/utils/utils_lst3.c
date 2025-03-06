@@ -43,12 +43,12 @@ int ft_infonew(t_infos **infos, char **envp)
 {
 	t_infos	*new;
 
-	new = malloc(sizeof(t_infos *));
+	new = malloc(sizeof(t_infos));
 	if (!new)
 		return (1);
 	new->exit_val = 0;
 	new->env = ft_cpyenv(envp);
-//	new->line = 0;
+	new->line = 0;
 	new->pouexit = POUET;
 	*infos = new;
 	return (0);

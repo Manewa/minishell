@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 17:43:47 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/06 18:13:16 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/06 19:46:46 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,7 @@ typedef struct s_token // A free une fois exec envoye
 	struct s_token	*prev;
 	struct s_token	*next;
 	int				type;
-	int				access;
-	char			*full_path;
 	char			*line_wip;
-	char			**token_line;
 	int				quotes;
 	t_infos			*infos;
 }					t_token;

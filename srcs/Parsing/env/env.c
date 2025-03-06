@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:10:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/04 11:47:32 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/06 19:08:19 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void env_key_n_value(t_env *env, char **envp, size_t i)
 	k = 0;
 	while (envp[i] && envp[i][j] && envp[i][j] != '=')
 		j++;
-	env->key = malloc(j * sizeof(char));
+	env->key = malloc(j + 1 * sizeof(char));
 	if (!env->key)
 		return ;
 	while(k < j)

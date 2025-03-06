@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:59:53 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/14 15:09:02 by namalier         ###   ########.fr       */
+/*   Updated: 2025/03/06 19:24:15 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,9 @@ t_token *init_token(t_infos *infos, t_token *head)
 	if (token == NULL)
 		return (token);
 	token->type = 0;
-	token->access = 0;
 	token->infos = infos;
+	token->type = 0;
+	token->quotes = 0;
 	return (token);
 }
 

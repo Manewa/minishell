@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 17:50:57 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/20 15:55:16 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/06 19:53:42 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ t_exec *ft_execnew(t_exec *head, t_infos *infos)
 		new->infos = infos;
 	new->limiter = NULL;
 	new->next = NULL;
+	new->is_heredoc = 0;
+	new->builtin = 0;
+	new->cmd_array = 0;
+	new->env = 0;
+	new->path = 0;
 	return (new);
 }
 
