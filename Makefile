@@ -45,6 +45,7 @@ CFLAGS			=	-Wall -Werror -Wextra -g3
 
 ${NAME}			:	${OBJDIR} ${OBJS} ${LIBA}
 					@cc ${OBJS} ${LIBA} ${CFLAGS} -o ${NAME} -lreadline
+					@echo "\e[38;5;82mCompilation minipouet OK\033[92m"
 
 $(OBJDIR)		:
 				@mkdir -p $@
@@ -81,12 +82,15 @@ ${OBJDIR}/%.o	: ${UTILS}/%.c
 
 ${LIBA}			:
 				@make -C includes/Libft
+				@echo "\e[38;5;82mCompilation libft OK\033[92m"
 
 clean			:
 				@rm -rf ${OBJDIR} includes/Libft/objs
+				@echo "\e[38;5;82mclean OK\033[92m"
 
 fclean			:	clean
 				@rm -rf ${NAME} includes/Libft/libft.a
+				@echo "\e[38;5;82mfclean OK\033[92m"
 
 re				: fclean all
 

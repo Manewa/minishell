@@ -41,28 +41,28 @@ NAME		= libft.a
 CFLAGS		= -Wall -Werror -Wextra
 
 ${NAME}		:	${OBJDIR} ${OBJS} ${OBJS_BONUS}
-			ar rc ${NAME} ${OBJS} ${OBJS_BONUS}
-			ranlib ${NAME}
+			@ar rc ${NAME} ${OBJS} ${OBJS_BONUS}
+			@ranlib ${NAME}
 
 $(OBJDIR)		:
 	 			@mkdir -p $@
 
 $(OBJDIR)/%.o	:	%.c
-				cc $(CFLAGS) -c $< -o $@
+				@cc $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/%.o	:	$(GNLDIR)/%.c
-				cc $(CFLAGS) -c $< -o $@
+				@cc $(CFLAGS) -c $< -o $@
 
 .c.o		:
-			cc ${CFLAGS} -c $< -o ${<:.c=.o}
+			@cc ${CFLAGS} -c $< -o ${<:.c=.o}
 			
 all			:	${NAME}
 
 clean		:
-			rm -rf ${OBJDIR}
+			@rm -rf ${OBJDIR}
 
 fclean		:		clean
-			rm -f ${NAME}
+			@rm -f ${NAME}
 
 re			: fclean all
 
