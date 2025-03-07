@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 17:50:57 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/06 19:53:42 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/07 09:37:59 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_exec *ft_execnew(t_exec *head, t_infos *infos)
 {
 	t_exec	*new;
 
-	new = malloc(sizeof(*new));
+	new = malloc(sizeof(t_exec));
 	if (!new)
 		return (NULL);
 	if (head != NULL)
@@ -54,6 +54,7 @@ t_exec *ft_execnew(t_exec *head, t_infos *infos)
 	new->cmd_array = 0;
 	new->env = 0;
 	new->path = 0;
+	new->cmd_path = 0;
 	return (new);
 }
 
@@ -61,7 +62,7 @@ t_token	*ft_tokennew(t_token *prev)
 {
 	t_token	*new;
 
-	new = malloc(sizeof(*new));
+	new = malloc(sizeof(t_token));
 	if (!new)
 		return (NULL);
 	if (prev != NULL)
@@ -76,20 +77,23 @@ t_files	*ft_filenew(void)
 	t_fdata	*infile;
 	t_fdata	*outfile;
 
-	new = malloc(sizeof(*new));
+	new = malloc(sizeof(t_files));
 	if (!new)
 		return (NULL);
-	infile = malloc(sizeof(*infile));
+	infile = malloc(sizeof(t_fdata));
 	if (!infile)
 		return (NULL);
 	infile->name = 0;
-	outfile = malloc(sizeof(*outfile));
+	outfile = malloc(sizeof(t_fdata));
 	if (!outfile)
 		return (NULL);
 	outfile->name = 0;
 	new->infile = infile;
 	new->outfile = outfile;
 	new->infile->heredoc = NO_INFO;
+	new->infile->fd = 0;
+	new->infile->rights = 0;
+	new->outfile->rights = 0;
 	new->infile->opening_failure = 0;
 	new->outfile->opening_failure = 0;
 	return (new);

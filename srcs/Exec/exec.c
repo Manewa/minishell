@@ -6,7 +6,7 @@
 /*   By: aibonade <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 12:30:52 by aibonade          #+#    #+#             */
-/*   Updated: 2025/03/06 16:50:05 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/07 09:35:50 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	ft_child(int fd_pipe[2], t_exec *one)//ici on exit si error
 	if (one->next != NULL)
 		ft_dup2(one->files->outfile->fd, STDOUT_FILENO, fd_pipe, one->head);
 	//ft_check_access(cmd, data);//A adapter => récupérer et afficher errno
-	execve(one->cmd_array[0], one->cmd_array, one->env);
+	execve(one->cmd_path, one->cmd_array, one->env);
 	ft_error_child(one->head, fd_pipe);//exit a gerer ft_error_exec("Execve error.", data, fd_pipe);//check avec Nathan
 }
 

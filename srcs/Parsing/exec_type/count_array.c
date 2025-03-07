@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:00:14 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/04 12:10:49 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/07 10:00:58 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int exec_count_word(t_token *token)
 	int		count;
 
 	tmp = token;
-	count = 0;
+	count = 1;
 	while (tmp && tmp->type != PIPE)
 	{
 		if (tmp->type == WORD)

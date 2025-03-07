@@ -28,7 +28,7 @@ t_lim	*ft_limnew()
 {
 	t_lim	*new;
 
-	new = malloc(sizeof(*new));
+	new = malloc(sizeof(t_lim));
 	if (!new)
 		return (NULL);
 	new->next = NULL;
@@ -53,6 +53,8 @@ t_env	*ft_envnew(t_env *prev)
 		return (NULL);
 	if (prev != NULL)
 		new->prev = prev;
+	new->value = 0;
+	new->key = 0;
 	new->next = NULL;
 	return (new);
 }
