@@ -19,7 +19,7 @@ static char	*ft_set_heredoc_name(unsigned long i_heredoc)
 	int		fd;
 
 	str_i = ft_ultoa(i_heredoc);
-	h_name = ft_strjoin("tmp/.heredoc", str_i);//a modifier selon l'endroit ou on mettra les tmps
+	h_name = ft_strjoin(".heredoc", str_i);//a modifier selon l'endroit ou on mettra les tmps
 	free(str_i);
 	if (access(h_name, F_OK) != -1)//attention maj de errno :/
 	{
@@ -54,7 +54,7 @@ void	ft_check_heredoc(int nb_lim, t_lim *heredoc, t_fdata *infile)//A faire avan
 		tmp->h_name = NULL;//checker si c'est utile ? 
 		tmp->h_name = ft_set_heredoc_name(i);//ERROR Si NULL parce que erreur comportement 
 		if (nb_lim == 1 && infile->heredoc == YES)
-			infile->name = tmp->h_name;///!\ au double free si infile->heredoc == YES (comme on free heredoc et infile)
+			infile->name = tmp->h_name;// ft_strdup(tmp->h_name);//tmp->h_name/!\ au double free si infile->heredoc == YES (comme on free heredoc et infile)
 		tmp = tmp->next;
 		nb_lim--;
 		i++;

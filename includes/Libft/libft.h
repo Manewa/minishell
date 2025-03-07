@@ -63,7 +63,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 //Functions from file : ft_strjoin.c
-char	*ft_strjoin(char *s1, char const *s2);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 //Functions from file : ft_strtrim.c
 

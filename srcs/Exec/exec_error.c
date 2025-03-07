@@ -40,6 +40,7 @@ int ft_error_exec(char *perror_str, int ret_val, t_exec *current, int fd_pipe[2]
 
 void ft_error_child(t_exec *data, int fd_pipe[2])//(char *msg, t_data *data, int fd_pipe[2])
 {
+printf("Pouet\n");
 	if (fd_pipe[0] > -1)
 	{
 		ft_close(fd_pipe[0], data, fd_pipe);

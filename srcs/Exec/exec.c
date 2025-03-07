@@ -28,24 +28,30 @@ static void	ft_child(int fd_pipe[2], t_exec *one)//ici on exit si error
 	  - Gestion des builtin (/!\ cd export (!!) & unset ne sont pas utilisables en milieu de pipe)
 	  - Ajout des éléments pour les signaux
 	  */
-	//OUVERTS : Infile (fdp-1[0], si one != one->head), fdp[0]*, fdp[1]* (*si one->next != NULL)
+//OUVERTS : Infile (fdp-1[0], si one != one->head), fdp[0]*, fdp[1]* (*si one->next != NULL)
 	ft_open_infile(fd_pipe, one, one->limiter, one->files->infile);//ouvrir l'infile si besoin et eventuellement fermer la lecture du pipe-1[0]
-																   //OUVERTS : Infile, fdp[0]*, fdp[1]* (*si one->next != NULL)
-	if (one != one->head)
+//OUVERTS : Infile, fdp[0]*, fdp[1]* (*si one->next != NULL)
+	if (one != one->head || one->files->infile->heredoc != NO_INFO)
 		ft_dup2(one->files->infile->fd, STDIN_FILENO, fd_pipe, one->head);
 	if (one->next != NULL)//Si pas le dernier on ferme la lecture du nouveau pipe
 	{
 		if (ft_close(fd_pipe[0], one, fd_pipe) == -1)//ICI faut fermer infile
 			ft_error_child(one->head, fd_pipe);//exit(ERROR_EXEC);//ERROR
 	}
-	//OUVERTS : Infile, fdp[1]* (*si one->next != NULL)
+//OUVERTS : Infile, fdp[1]* (*si one->next != NULL)
 	ft_open_outfile(fd_pipe, one, one->files->outfile);//ouvrir l'outfile si besoin et éventuellement fermer l'écriture du pipe[1]
 													   //OUVERTS : Infile, fdp[1]*, outfile (*si one->next != NULL)
 	if (one->next != NULL)
 		ft_dup2(one->files->outfile->fd, STDOUT_FILENO, fd_pipe, one->head);
 	//ft_check_access(cmd, data);//A adapter => récupérer et afficher errno
-	execve(one->cmd_path, one->cmd_array, one->env);
-	ft_error_child(one->head, fd_pipe);//exit a gerer ft_error_exec("Execve error.", data, fd_pipe);//check avec Nathan
+	if (one->cmd_array && one->cmd_array[0])//ici
+	{
+		execve(one->cmd_path, one->cmd_array, one->env);
+		ft_error_child(one->head, fd_pipe);//exit a gerer ft_error_exec("Execve error.", data, fd_pipe);//check avec Nathan
+	}
+	else
+		ft_clean_end_exec(one->head);
+	exit(0);
 }
 
 static int	ft_exec(t_exec *lst, pid_t *last)
@@ -55,6 +61,8 @@ static int	ft_exec(t_exec *lst, pid_t *last)
 	t_exec	*now;
 
 	now = lst->head;
+	fd_pipe[0] = -1;
+	fd_pipe[1] = -1;
 	while (now)//on entre sur la premiere et des quon est a null on s'arrete
 	{
 		if (now->is_heredoc)
