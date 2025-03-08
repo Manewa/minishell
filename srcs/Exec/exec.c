@@ -12,14 +12,17 @@
 
 #include "../../includes/minishell.h"
 
-static void	ft_dup2(int old, int new, int fd_pipe[], t_exec *lst)
+static void	ft_dup2(int *old, int new, int fd_pipe[], t_exec *lst)
 {
-	if (ft_close(new, lst, fd_pipe) == -1)
-		ft_error_child(lst->head, fd_pipe);//exit(ERROR_EXEC);//ERROR
-	if (dup2(old, new) == -1)
-		ft_error_child(lst->head, fd_pipe);//exit(ERROR_EXEC);//gestion d'erreur ft_error_exec("Dup2 error.", data, fd_pipe);
+	int	tmp;
+
+	tmp = new;
+	if (ft_close(&tmp, lst, fd_pipe) == -1)
+		ft_error_child(lst->head, fd_pipe, old);//exit(ERROR_EXEC);//ERROR
+	if (dup2(*old, new) == -1)
+		ft_error_child(lst->head, fd_pipe, old);//exit(ERROR_EXEC);//gestion d'erreur ft_error_exec("Dup2 error.", data, fd_pipe);
 	if (ft_close(old, lst, fd_pipe) == -1)
-		ft_error_child(lst->head, fd_pipe);//exit(ERROR_EXEC);//ERROR
+		ft_error_child(lst->head, fd_pipe, old);//exit(ERROR_EXEC);//ERROR
 }
 
 static void	ft_child(int fd_pipe[2], t_exec *one)//ici on exit si error
@@ -28,26 +31,23 @@ static void	ft_child(int fd_pipe[2], t_exec *one)//ici on exit si error
 	  - Gestion des builtin (/!\ cd export (!!) & unset ne sont pas utilisables en milieu de pipe)
 	  - Ajout des éléments pour les signaux
 	  */
-//OUVERTS : Infile (fdp-1[0], si one != one->head), fdp[0]*, fdp[1]* (*si one->next != NULL)
 	ft_open_infile(fd_pipe, one, one->limiter, one->files->infile);//ouvrir l'infile si besoin et eventuellement fermer la lecture du pipe-1[0]
-//OUVERTS : Infile, fdp[0]*, fdp[1]* (*si one->next != NULL)
 	if (one != one->head || one->files->infile->heredoc != NO_INFO)
-		ft_dup2(one->files->infile->fd, STDIN_FILENO, fd_pipe, one->head);
+		ft_dup2(&(one->files->infile->fd), STDIN_FILENO, fd_pipe, one->head);
 	if (one->next != NULL)//Si pas le dernier on ferme la lecture du nouveau pipe
 	{
-		if (ft_close(fd_pipe[0], one, fd_pipe) == -1)//ICI faut fermer infile
-			ft_error_child(one->head, fd_pipe);//exit(ERROR_EXEC);//ERROR
+		if (ft_close(&fd_pipe[0], one, fd_pipe) == -1)
+			ft_error_child(one->head, fd_pipe, NULL);//exit(ERROR_EXEC);//ERROR
 	}
-//OUVERTS : Infile, fdp[1]* (*si one->next != NULL)
 	ft_open_outfile(fd_pipe, one, one->files->outfile);//ouvrir l'outfile si besoin et éventuellement fermer l'écriture du pipe[1]
-													   //OUVERTS : Infile, fdp[1]*, outfile (*si one->next != NULL)
+//OUVERTS : Infile (si one != one->head || infile->heredoc = NO_INFO), outfile (*si one->next != NULL)
 	if (one->next != NULL)
-		ft_dup2(one->files->outfile->fd, STDOUT_FILENO, fd_pipe, one->head);
-	//ft_check_access(cmd, data);//A adapter => récupérer et afficher errno
+		ft_dup2(&(one->files->outfile->fd), STDOUT_FILENO, fd_pipe, one->head);
 	if (one->cmd_array && one->cmd_array[0])//ici
 	{
+		//ft_check_access(cmd, data);//A adapter => récupérer et afficher errno
 		execve(one->cmd_path, one->cmd_array, one->env);
-		ft_error_child(one->head, fd_pipe);//exit a gerer ft_error_exec("Execve error.", data, fd_pipe);//check avec Nathan
+		ft_error_child(one->head, fd_pipe, &(one->files->outfile->fd));//est-ce qu'on ferme bien tout (là on ferme les deux entrées et sorties std autre que erreur)
 	}
 	else
 		ft_clean_end_exec(one->head);
@@ -63,6 +63,7 @@ static int	ft_exec(t_exec *lst, pid_t *last)
 	now = lst->head;
 	fd_pipe[0] = -1;
 	fd_pipe[1] = -1;
+	now->files->infile->fd = -1;//Voir si Nathan ne peut pas l'initialiser a -1 de son cote quand il crée l'infile (idem pour l'outfile)
 	while (now)//on entre sur la premiere et des quon est a null on s'arrete
 	{
 		if (now->is_heredoc)
@@ -76,12 +77,12 @@ static int	ft_exec(t_exec *lst, pid_t *last)
 			ft_child(fd_pipe, now);//TO DO + gestion des builtin
 		if (now != now->head)//si on n'est pas sur la tete on ferme la lecture du pipe précédent
 		{
-			if (ft_close(now->files->infile->fd, now, fd_pipe) == -1)
+			if (ft_close(&(now->files->infile->fd), now, fd_pipe) == -1)
 				return(ft_error_exec("minipouet", ERROR_CLOSE, now, fd_pipe));//return (ERROR_CLOSE);
 		}
 		if (now->next != NULL)
 		{
-			if (ft_close(fd_pipe[1], now, fd_pipe) == -1)
+			if (ft_close(&fd_pipe[1], now, fd_pipe) == -1)
 				return(ft_error_exec("minipouet", ERROR_CLOSE, now, fd_pipe));//return (ERROR_CLOSE);//ERROR
 			now->next->files->infile->fd = fd_pipe[0];//la lecture
 		}

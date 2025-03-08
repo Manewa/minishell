@@ -109,20 +109,22 @@ int	ft_set_heredoc(int nb_lim, t_lim *heredoc, t_fdata *infile, int fd_pipe[2])/
 	tmp = heredoc;
 	while (nb_lim)
 	{
-		fd = open(tmp->h_name, O_WRONLY | O_TRUNC | O_CREAT, 0664);//creer le fichier pour que les suivants ne le tentent pas
+		fd = open(tmp->h_name, O_WRONLY | O_TRUNC);
 		if (fd == -1)
 		{
 			ft_putstr_fd("Open here_doc file is impossible.\n", 2);
 			return (-1);//ERROR
 		}
+//OUVERTS : Infile (fdp-1[0], si exc != exc->head), fdp[0]*, fdp[1]*, fd (*si one->next != NULL)
 		else
 			ft_fill_heredoc(tmp, fd, fd_pipe);
 		nb_lim--;
 		if (close(fd) == -1)//On a open pour write donc on close quoi qu'il arrive, on rouvrira en lecture apres 
 			return (-1);//ERROR
-		if (nb_lim || infile->heredoc != YES)
+//OUVERTS : Infile (fdp-1[0], si exc != exc->head), fdp[0]*, fdp[1]* (*si one->next != NULL)
+		if (nb_lim || infile->heredoc != YES)//A faire quand expand fini ou ignore
 		{
-			if (unlink(tmp->h_name) == -1)//Faudra unlink infile->name si infile->heredoc == YES quand j'aurai fini de l'utiliser
+			if (unlink(tmp->h_name) == -1)
 				return (-1);
 		}
 		tmp = tmp->next;
