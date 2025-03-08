@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:17:46 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/04 18:23:01 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/08 11:13:02 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ t_lim *limiter_init(t_token *token, t_exec *exec)
 {
 	t_lim *lim;
 
+	(void)exec;
 	lim = ft_limnew();
-	if (exec->limiter)
-		(ft_limlast(exec->limiter))->next = lim;
+/*	if (exec->limiter)
+		(ft_limlast(exec->limiter))->next = lim;*/
 	lim->next = NULL;
 	if (token->quotes == 0)
 		lim->quotes = NO;

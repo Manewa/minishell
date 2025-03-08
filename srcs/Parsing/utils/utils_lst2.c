@@ -32,6 +32,7 @@ t_lim	*ft_limnew()
 	if (!new)
 		return (NULL);
 	new->next = NULL;
+	new->h_name = 0;
 	return (new);
 }
 
