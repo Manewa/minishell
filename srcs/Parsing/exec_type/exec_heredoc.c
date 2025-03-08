@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:17:46 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/08 11:13:02 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/08 16:27:58 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,11 @@
 /* initialise limiter struct
  */
 
-t_lim *limiter_init(t_token *token, t_exec *exec)
+t_lim *limiter_init(t_token *token)
 {
-	t_lim *lim;
+	t_lim	*lim;
 
-	(void)exec;
 	lim = ft_limnew();
-/*	if (exec->limiter)
-		(ft_limlast(exec->limiter))->next = lim;*/
 	lim->next = NULL;
 	if (token->quotes == 0)
 		lim->quotes = NO;
@@ -45,7 +42,7 @@ void exec_heredoc(t_token *current, t_exec *exec)
 	t_lim	*lim;
 
 	exec->is_heredoc += 1;
-	lim = limiter_init(current, exec);
+	lim = limiter_init(current);
 	ft_limadd_back(&(exec->limiter), lim);
 	if (exec->files->infile->heredoc == NO_INFO)
 		exec->files->infile->heredoc = YES;
