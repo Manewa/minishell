@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 17:50:57 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/07 09:37:59 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/09 10:20:38 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ t_token	*ft_tokennew(t_token *prev)
 	if (prev != NULL)
 		new->prev = prev;
 	new->next = NULL;
+	new->line_wip = 0;
 	return (new);
 }
 
@@ -90,10 +91,10 @@ t_files	*ft_filenew(void)
 	outfile->name = 0;
 	new->infile = infile;
 	new->outfile = outfile;
+	new->infile->fd = -1;
+	new->outfile->fd = -1;
 	new->infile->heredoc = NO_INFO;
-	new->infile->fd = 0;
-	new->infile->rights = 0;
-	new->outfile->rights = 0;
+	new->outfile->heredoc = NO_INFO;
 	new->infile->opening_failure = 0;
 	new->outfile->opening_failure = 0;
 	return (new);

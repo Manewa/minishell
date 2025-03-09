@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:36 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/04 17:17:49 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/08 18:57:24 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,18 @@ char *check_name(char *value, char *to_expand)
 		i = 0;
 		name_value = malloc(ft_strlen(value)*sizeof(char));
 		if (!name_value)
+		{
+			free (value);
+			free (to_expand);
 			return (NULL);
+		}
 		while (value[i + 1])
 		{
 			name_value[i] = value[i + 1];
 			i++;
 		}
 		name_value[i] = '\0';
-		free(value);
-		return (name_value);
+		return (free(value), name_value);
 	}
 	return (value);
 }
@@ -69,6 +72,8 @@ char *expand_to_env(char *to_expand, t_env *env)
 	if (tmp)
 	{
 		value = ft_strdup(tmp->value);
+		if (!value)
+			return(NULL);
 		value = check_name(value, to_expand);
 		if (!value)
 			return(NULL);
@@ -98,7 +103,11 @@ char *expanded_new_line(char *old_line, int start, int end, char *expand)
 		new_line = malloc((ft_strlen(old_line) - (end - start)
 					+ ft_strlen(expand) + 1)*sizeof(char));
 	if (!new_line)
+	{
+		free (expand);
+		free (old_line);
 		return (NULL);
+	}
 	while (i < start && old_line[i] != '$')
 	{
 		new_line[i] = old_line[i];
@@ -109,9 +118,7 @@ char *expanded_new_line(char *old_line, int start, int end, char *expand)
 	while (old_line[end])
 		new_line[i++] = old_line[end++];
 	new_line[i] = '\0';
-	free(old_line);
-	free(expand);
-	return (new_line);
+	return (free(old_line), free(expand), new_line);
 }
 
 
@@ -136,10 +143,14 @@ char *substitute_expand(char *line, t_infos *infos, int exp)
 			end++;
 	if (end != start)
 		expand = malloc((end - start + 1)*sizeof(char));
+	if (!expand)
+		return (ft_free_infos(infos, "ERROR : Can not malloc the expand", 1));
 	while (start < end)
 		expand[j++] = line[start++];
 	expand[j] = '\0';
 	expand = expand_to_env(expand, infos->env);
+	if (!expand)
+		return (ft_free_infos(infos, "ERROR : Can not malloc the expand", 1));
 	expand = expanded_new_line(line, exp - 1, end, expand);
 	return (expand);
 }
@@ -171,15 +182,15 @@ char *expand_main(char *line, t_infos *infos)
 		{
 			line = substitute_expand(line, infos, ++i);
 			if (!line)
-				return (NULL);
+				return (ft_free_infos(infos, "ERROR : Bug during expand", 1));
 			i = 0;
 		}
 		if (line[i] == '$' && line[i + 1] == '?')
 		{
 			line = expanded_new_line(line, i, i + 2, ft_itoa(infos->exit_val));
+			if (!line)
+				return (ft_free_infos(infos, "ERROR : Bug during expand", 1));
 			i++;
-			if  (!line)
-				return (NULL);
 		}
 		if (line[i] && (line[0] != '$' || line[0] != 39))
 			i++;

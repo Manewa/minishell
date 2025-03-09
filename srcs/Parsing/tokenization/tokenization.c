@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:59:53 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/06 19:24:15 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/08 18:54:34 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ t_token *init_token(t_infos *infos, t_token *head)
 	t_token	*token;
 
 	token = ft_tokennew(head);
-	if (token == NULL)
-		return (token);
+	if (!token)
+		return (ft_free_infoken(infos, head, "ERROR : malloc token", 0));
 	token->type = 0;
 	token->infos = infos;
 	token->type = 0;
@@ -70,7 +70,9 @@ t_token	*create_token(t_infos *infos, int *readed, int *start)
 		return (NULL);
 	token->type = token_type(infos->line, *readed, *start,
 			is_separator(infos->line[*readed]));
-	if (token->type == PIPE)
+	if	(token->type == ERROR_PARSING)
+		return (ft_error_parsing(infos, token, infos->line[*readed]));
+	else if (token->type == PIPE)
 		return (token);
 	token_line_wip(token, infos->line, readed, start);
 	if (!token->line_wip)
@@ -89,6 +91,8 @@ t_token	*tokenization(t_infos *infos)
 	start = 0;
 	infos->line = expand_main(infos->line, infos);
 	token_head = create_token(infos, &readed, &start);
+	if (!token_head)
+		return(0);
 	while (infos->line[readed])
 	{
 		start = readed;
@@ -99,14 +103,18 @@ t_token	*tokenization(t_infos *infos)
 		ft_tokenadd_back(&token_head, token_new);
 		token_new->type = token_type(infos->line, readed, start,
 				is_separator(infos->line[readed]));
-		if (token_new->type != PIPE)
+		if	(token_new->type == ERROR_PARSING)
+			return (ft_error_parsing(infos, token_head, infos->line[readed]));
+		else if (token_new->type != PIPE)
 		{
 			token_line_wip(token_new, infos->line, &readed, &start);
+			if (!(token_new->line_wip))
+					return (ft_free_infoken(infos, token_head, "malloc\n", 0));
 			while (infos->line[readed] && infos->line[readed] == ' ')
 				readed++;
 		}
 		else if (token_new && token_new->prev && token_new->prev->type == PIPE)
-			token_new->type = DOUBLE_PIPE;
+			return (ft_free_infoken(infos, token_head, "psh : double pipe", 0));
 		else if (token_new->type == PIPE)
 			while (infos->line[++readed] && infos->line[readed] == ' ');
 		else if (infos->line[readed])

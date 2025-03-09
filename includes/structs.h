@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 17:43:47 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/07 09:26:57 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/09 10:13:43 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_token // A free une fois exec envoye
 
 typedef struct s_filesdata
 {
-	int		rights;//A virer ?
+//	int		rights;
 	int		heredoc;
 	int		opening_failure;
 	int		fd;

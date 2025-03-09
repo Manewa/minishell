@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:47:11 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/04 12:13:37 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/08 18:58:57 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,12 @@ void	token_line_wip(t_token *token, char *line, int *readed, int *start)
 		if (line[*readed])
 			(*readed)++;
 	}
-	if (count_quote % 2 != 0)
-		token->type = QUOTE_NOT_CLOSED;
+	if (token->type == QUOTE_NOT_CLOSED)
+	{
+		ft_putstr_fd("pouetsh : error quote not closed", 2);
+		ft_free_infoken(token->infos, token, 0, 0);
+		return ;
+	}
 	ft_cpytoken(token, line, *start, *readed);
 	*start = *readed;
 }

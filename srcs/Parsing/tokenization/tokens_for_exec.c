@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:28:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/08 10:30:05 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/08 19:04:32 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ t_exec *exec_init(t_exec *head, t_token *current)
 		exec->head = exec;
 	exec->next = NULL;
 	exec->files = ft_filenew();
-	ft_cpypath(current->infos, exec);
+	if (!(exec->head->path))
+		ft_cpypath(current->infos, exec);
+	else
+		exec->path = exec->head->path;
 	return (exec);
 }
 
@@ -105,7 +108,11 @@ t_exec	*main_parsing(t_infos *infos)
 	t_exec	*exec;
 
 	token = tokenization(infos);
+	if (!token)
+		return (NULL);
 	exec = tokens_for_exec(token);
+	if (!exec)
+		return (NULL);
 //	ft_free_token(token);
 	return (exec);
 }

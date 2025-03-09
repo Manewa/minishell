@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/06 18:35:20 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/08 19:02:35 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,11 @@ int			ft_count_word_quote(char *s, char c);
 
 /***********    utils/ft_error      ***********/
 
-void	ft_free_infos(t_infos *infos);
+void	ft_lstenvfree(t_env *env);
+void	*ft_free_infos(t_infos *infos, char *error, int exit_prg);
+void	*ft_free_token(t_token *token);
+void	*ft_free_infoken(t_infos *infos, t_token *token, char *error, int exit_prg);
+void	*ft_error_parsing(t_infos *infos, t_token *token, char c);
 
 /************   utils/quotes_remover   **********/
 
