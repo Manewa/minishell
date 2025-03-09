@@ -36,11 +36,11 @@ void ft_open_infile(int fd_pipe[2], t_exec *exc, t_lim *hd, t_fdata *infile)//Er
 		if (exc != exc->head)
 		{
 			if(ft_close(&(infile->fd), exc, fd_pipe) == -1)
-				ft_error_child(exc, fd_pipe, NULL);
+				ft_error_child(exc, fd_pipe, NULL, NULL);
 		}
 		infile->fd = open(infile->name, O_RDONLY);
 		if (infile->fd == -1)
-			ft_error_child(exc, fd_pipe, NULL);
+			ft_error_child(exc, fd_pipe, NULL, NULL);
 	}
 }
 
@@ -51,12 +51,12 @@ void ft_open_outfile(int fd_pipe[2], t_exec *exec, t_fdata *outfile)//Error avec
 		if (exec->next != NULL)
 		{
 			if(ft_close(&fd_pipe[1], exec, fd_pipe) == -1)
-				ft_error_child(exec, fd_pipe, NULL);
+				ft_error_child(exec, fd_pipe, NULL, NULL);
 		}
 		outfile->fd = open(outfile->name, O_WRONLY | O_APPEND);
 		if (outfile->fd == -1)
 		{
-			ft_error_child(exec, fd_pipe, NULL);;//ft_error_exec("Open output file is impossible.", data, fd_pipe);
+			ft_error_child(exec, fd_pipe, NULL, NULL);;//ft_error_exec("Open output file is impossible.", data, fd_pipe);
 		}
 	}
 	else if (exec->next != NULL)

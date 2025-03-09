@@ -18,24 +18,30 @@ static void	ft_dup2(int *old, int new, int fd_pipe[], t_exec *lst)
 
 	tmp = new;
 	if (ft_close(&tmp, lst, fd_pipe) == -1)
-		ft_error_child(lst->head, fd_pipe, old);
+		ft_error_child(lst->head, fd_pipe, old, NULL);
 	if (dup2(*old, new) == -1)
-		ft_error_child(lst->head, fd_pipe, old);
+		ft_error_child(lst->head, fd_pipe, old, NULL);
 	if (ft_close(old, lst, fd_pipe) == -1)
-		ft_error_child(lst->head, fd_pipe, old);
+		ft_error_child(lst->head, fd_pipe, old, NULL);
 }
 
+static void	ft_check_access(t_exec *exec, int fd_pipe[2])
+{
+	int	i;
 
-// static void	ft_check_access(t_exec *exec, int fd_pipe[2])
-// {
-// 	// if (!cmd || !cmd->path_cmd || !cmd->cmd)
-// 	// {
-// 	// 	ft_clean_end(data);
-// 	// 	ft_putstr_error("Command doesn't exist.");
-// 	// }
-// 	if (access(exec->cmd_path, F_OK | X_OK))
-// 		ft_error_child(exec->head, fd_pipe, &(exec->files->outfile->fd));
-// }
+	if (exec->cmd_path)
+	{
+		i = 0;
+		while (exec->cmd_path[i] && exec->cmd_path[i] != '/')
+			i++;
+		if (!exec->cmd_path[i] && access(exec->cmd_path, F_OK | X_OK))
+		{
+			ft_putstr_fd(exec->cmd_array[0], 2);
+			ft_putstr_fd(": command not found\n", 2);
+			ft_error_child(exec->head, fd_pipe, &(exec->files->outfile->fd), "");
+		}
+	}
+}
 
 static void	ft_child(int fd_pipe[2], t_exec *one)//ici on exit si error
 {
@@ -49,16 +55,16 @@ static void	ft_child(int fd_pipe[2], t_exec *one)//ici on exit si error
 	if (one->next != NULL)//Si pas le dernier on ferme la lecture du nouveau pipe
 	{
 		if (ft_close(&fd_pipe[0], one, fd_pipe) == -1)
-			ft_error_child(one->head, fd_pipe, NULL);//exit(ERROR_EXEC);//ERROR
+			ft_error_child(one->head, fd_pipe, NULL, NULL);//exit(ERROR_EXEC);//ERROR
 	}
 	ft_open_outfile(fd_pipe, one, one->files->outfile);//ouvrir l'outfile si besoin et éventuellement fermer l'écriture du pipe[1]
 	if (one->next != NULL)
 		ft_dup2(&(one->files->outfile->fd), STDOUT_FILENO, fd_pipe, one->head);
 	if (one->cmd_array && one->cmd_array[0])//ici
 	{
-		//ft_check_access(one, fd_pipe);//A adapter => récupérer et afficher errno
+		ft_check_access(one, fd_pipe);//A adapter => récupérer et afficher errno
 		execve(one->cmd_path, one->cmd_array, one->env);
-		ft_error_child(one->head, fd_pipe, &(one->files->outfile->fd));//est-ce qu'on ferme bien tout (là on ferme les deux entrées et sorties std autre que erreur)
+		ft_error_child(one->head, fd_pipe, &(one->files->outfile->fd), NULL);//est-ce qu'on ferme bien tout (là on ferme les deux entrées et sorties std autre que erreur)
 	}
 	else
 		ft_clean_end_exec(one->head);

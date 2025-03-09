@@ -37,7 +37,8 @@ static void ft_free_heredoc_lst(t_lim *lim)
 	while (current)
 	{
 		nxt = current->next;
-		free(current->h_name);
+		if (current->h_name)
+			free(current->h_name);
 		free(current);
 		current = nxt;
 	}
@@ -67,6 +68,8 @@ static void ft_delone_exec(t_exec *exec)
 		if (exec->is_heredoc)
 			ft_free_heredoc_lst(exec->limiter);
 		ft_free_dbltab(exec->cmd_array);
+		if (exec->cmd_path)
+			free(exec->cmd_path);
 		free(exec);
 		exec = NULL;
 	}

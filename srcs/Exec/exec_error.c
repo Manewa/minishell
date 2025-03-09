@@ -38,11 +38,12 @@ int ft_error_exec(char *perror_str, int ret_val, t_exec *current, int fd_pipe[2]
 	return (ret_val);
 }
 
-void ft_error_child(t_exec *exec, int fd_pipe[2], int *fd_to_close)
+void	ft_error_child(t_exec *exec, int fd_pipe[2], int *fd_to_close, char *str)
 {
 	t_exec	*exec_head;
 
-perror("child");//A garder ?
+	if (!str)
+		perror(exec->cmd_array[0]);//A garder ?
 	exec_head = exec->head;
 	if (exec->files->infile->fd > -1)
 		ft_close(&(exec->files->infile->fd), exec_head, fd_pipe);
