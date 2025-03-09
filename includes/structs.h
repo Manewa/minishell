@@ -45,7 +45,7 @@ typedef struct s_token // A free une fois exec envoye
 
 typedef struct s_filesdata
 {
-	int		rights;
+	int		rights;//A virer ?
 	int		heredoc;
 	int		opening_failure;
 	int		fd;

@@ -17,10 +17,11 @@
 # include "Libft/libft.h"
 # include "libs.h"
 
+#define	ERROR_HEREDOC		-14
+#define	ERROR_CLOSE			-13
+#define	ERROR_FORK			-12
+#define	ERROR_PIPE			-11
 #define	ERROR_EXEC			-10
-#define	ERROR_PIPE			-11//Check avec Nathan
-#define	ERROR_FORK			-12//Check avec Nathan
-#define	ERROR_CLOSE			-13//Check avec Nathan
 #define NO					0
 #define YES					1
 #define DOUBLE_QUOTE		2
@@ -181,8 +182,9 @@ char	*ft_ultoa(unsigned long n);
 
 //...................heredoc.c...................//
 
-void	ft_check_heredoc(int nb_lim, t_lim *heredoc, t_fdata *infile);
-int		ft_set_heredoc(int nb_lim, t_lim *heredoc, t_fdata *infile, int fd_pipe[2]);
+void	ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2]);
+// void	ft_check_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int pipe[2]);
+// int		ft_set_heredoc(int nb_lim, t_lim *heredoc, t_fdata *infile, int fd_pipe[2]);
 
 //..................exec_free.c..................//
 

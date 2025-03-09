@@ -27,7 +27,7 @@ int ft_error_exec(char *perror_str, int ret_val, t_exec *current, int fd_pipe[2]
 		if (ft_close(&(current->files->infile->fd), current, fd_pipe) == -1)
 			return(ret_val);//ERROR_CLOSE ?
 	}
-	if (ret_val == ERROR_FORK)
+	if (ret_val == ERROR_FORK || ret_val == ERROR_HEREDOC)
 	{
 		if (current->next)//pipe ouvert (sauf si dernier node)
 		{
@@ -42,7 +42,7 @@ void ft_error_child(t_exec *exec, int fd_pipe[2], int *fd_to_close)
 {
 	t_exec	*exec_head;
 
-perror("child");
+perror("child");//A garder ?
 	exec_head = exec->head;
 	if (exec->files->infile->fd > -1)
 		ft_close(&(exec->files->infile->fd), exec_head, fd_pipe);
@@ -69,12 +69,12 @@ void ft_error_close(int fd, t_exec *data, int fd_pipe[2])
 	if (fd_pipe[0] > -1)
 	{
 		ft_close(&fd_pipe[0], data, fd_pipe);
-		fd_pipe[0] = -1;//plus utile avec ft_close
+		//fd_pipe[0] = -1;//plus utile avec ft_close
 	}
 	if (fd_pipe[1] > -1)
 	{
 		ft_close(&fd_pipe[1], data, fd_pipe);
-		fd_pipe[1] = -1;//plus utile avec ft_close
+		//fd_pipe[1] = -1;//plus utile avec ft_close
 	}
 	ft_putstr_fd("Close error.\n", 2);//A virer
 }

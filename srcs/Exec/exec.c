@@ -18,12 +18,24 @@ static void	ft_dup2(int *old, int new, int fd_pipe[], t_exec *lst)
 
 	tmp = new;
 	if (ft_close(&tmp, lst, fd_pipe) == -1)
-		ft_error_child(lst->head, fd_pipe, old);//exit(ERROR_EXEC);//ERROR
+		ft_error_child(lst->head, fd_pipe, old);
 	if (dup2(*old, new) == -1)
-		ft_error_child(lst->head, fd_pipe, old);//exit(ERROR_EXEC);//gestion d'erreur ft_error_exec("Dup2 error.", data, fd_pipe);
+		ft_error_child(lst->head, fd_pipe, old);
 	if (ft_close(old, lst, fd_pipe) == -1)
-		ft_error_child(lst->head, fd_pipe, old);//exit(ERROR_EXEC);//ERROR
+		ft_error_child(lst->head, fd_pipe, old);
 }
+
+
+// static void	ft_check_access(t_exec *exec, int fd_pipe[2])
+// {
+// 	// if (!cmd || !cmd->path_cmd || !cmd->cmd)
+// 	// {
+// 	// 	ft_clean_end(data);
+// 	// 	ft_putstr_error("Command doesn't exist.");
+// 	// }
+// 	if (access(exec->cmd_path, F_OK | X_OK))
+// 		ft_error_child(exec->head, fd_pipe, &(exec->files->outfile->fd));
+// }
 
 static void	ft_child(int fd_pipe[2], t_exec *one)//ici on exit si error
 {
@@ -40,12 +52,11 @@ static void	ft_child(int fd_pipe[2], t_exec *one)//ici on exit si error
 			ft_error_child(one->head, fd_pipe, NULL);//exit(ERROR_EXEC);//ERROR
 	}
 	ft_open_outfile(fd_pipe, one, one->files->outfile);//ouvrir l'outfile si besoin et éventuellement fermer l'écriture du pipe[1]
-//OUVERTS : Infile (si one != one->head || infile->heredoc = NO_INFO), outfile (*si one->next != NULL)
 	if (one->next != NULL)
 		ft_dup2(&(one->files->outfile->fd), STDOUT_FILENO, fd_pipe, one->head);
 	if (one->cmd_array && one->cmd_array[0])//ici
 	{
-		//ft_check_access(cmd, data);//A adapter => récupérer et afficher errno
+		//ft_check_access(one, fd_pipe);//A adapter => récupérer et afficher errno
 		execve(one->cmd_path, one->cmd_array, one->env);
 		ft_error_child(one->head, fd_pipe, &(one->files->outfile->fd));//est-ce qu'on ferme bien tout (là on ferme les deux entrées et sorties std autre que erreur)
 	}
@@ -63,11 +74,10 @@ static int	ft_exec(t_exec *lst, pid_t *last)
 	now = lst->head;
 	fd_pipe[0] = -1;
 	fd_pipe[1] = -1;
-	now->files->infile->fd = -1;//Voir si Nathan ne peut pas l'initialiser a -1 de son cote quand il crée l'infile (idem pour l'outfile)
 	while (now)//on entre sur la premiere et des quon est a null on s'arrete
 	{
 		if (now->is_heredoc)
-			ft_check_heredoc(now->is_heredoc, now->limiter, now->files->infile);//done (ajouter infos ou env de base quand expand) : on peut mettre env en char ** : a priori unset et export ne fonctionnent pas dans un pipeline (checker si leur position change qqchose ou pas et checker que c'est bon aussi avec les autres builtins (et qu'il n'y a pas de modifications de l'env par des non builtin))+gestion erreurs
+			ft_set_heredoc(now, now->limiter, now->files->infile, fd_pipe);//fermer les pipe si erreur
 		if ((now->next != NULL) && (pipe(fd_pipe) == -1))
 			return(ft_error_exec("minipouet", ERROR_PIPE, now, fd_pipe));//return (ERROR_PIPE);
 		id = fork();

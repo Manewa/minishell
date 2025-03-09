@@ -25,11 +25,12 @@ int ft_close(int *fd, t_exec *data, int fd_pipe[2])
 
 void ft_open_infile(int fd_pipe[2], t_exec *exc, t_lim *hd, t_fdata *infile)//Error avec exit
 {
-	if (exc->is_heredoc > 0
-			&& ft_set_heredoc(exc->is_heredoc, hd, infile, fd_pipe) < 0)//MODIFIE
-	{
-		ft_error_child(exc, fd_pipe, NULL);
-	}
+	(void)hd;//a virer
+	// if (exc->is_heredoc > 0
+	// 		&& ft_set_heredoc(exc->is_heredoc, hd, infile, fd_pipe) < 0)//MODIFIE
+	// {
+	// 	ft_error_child(exc, fd_pipe, NULL);
+	// }
 	if (infile->heredoc == NO || infile->heredoc == YES)//donc != NO_INFO (NO = redir YES = heredoc)
 	{
 		if (exc != exc->head)
