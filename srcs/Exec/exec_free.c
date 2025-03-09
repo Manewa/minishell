@@ -6,7 +6,7 @@
 /*   By: aibonade <aibonade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:22:19 by aibonade          #+#    #+#             */
-/*   Updated: 2025/03/06 20:11:12 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/09 11:01:51 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,4 @@ void ft_clean_end_exec(t_exec *exec)
 		}
 		exec = NULL;
 	}
-
 }
