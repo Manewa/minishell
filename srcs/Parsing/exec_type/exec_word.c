@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:18:10 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/07 09:57:48 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/09 12:00:26 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,10 @@ void exec_word(t_token *current, t_exec *exec)
 	if (!exec->cmd_array)
 		return ;
 	exec->builtin = builtin_cmp(exec->cmd_array[0]);
-	if (exec->builtin == 0)
+	if (exec->builtin == 0 && (exec->cmd_array && exec->cmd_array[0]
+				&& !ft_strstr(exec->cmd_array[0], "/")))
 		find_pathcmd(exec->path, exec);
+	else if (exec->builtin == 0)
+		exec->cmd_path = ft_strdup(exec->cmd_array[0]);
 }
 
