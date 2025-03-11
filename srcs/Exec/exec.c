@@ -28,8 +28,12 @@ static void	ft_dup2(int *old, int new, int fd_pipe[], t_exec *lst)
 static void	ft_check_access(t_exec *exec, int fd_pipe[2])
 {
 	int	i;
+	struct stat	f_infos;
 
-	if (exec->cmd_path)
+//fonction stat
+	if (stat(exec->cmd_path, &f_infos) == -1)
+		ft_error_child(exec->head, fd_pipe, &(exec->files->outfile->fd), NULL);
+	if (exec->cmd_path && !S_ISDIR(f_infos.st_mode))
 	{
 		i = 0;
 		while (exec->cmd_path[i] && exec->cmd_path[i] != '/')
@@ -41,6 +45,13 @@ static void	ft_check_access(t_exec *exec, int fd_pipe[2])
 			ft_error_child(exec->head, fd_pipe, &(exec->files->outfile->fd), "");
 		}
 	}
+	else
+	{
+		ft_putstr_fd("minipouet: ", 2);
+		errno = EISDIR;
+		ft_error_child(exec->head, fd_pipe, &(exec->files->outfile->fd), NULL);
+	}
+
 }
 
 static void	ft_child(int fd_pipe[2], t_exec *one)//ici on exit si error
