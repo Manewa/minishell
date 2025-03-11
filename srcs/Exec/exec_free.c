@@ -14,9 +14,9 @@
 
 static void ft_del_file(t_fdata *file)
 {
-	if (file->name && file->heredoc != YES)//si infile = heredoc, penser a unlink heredoc
+	if (file->name && file->heredoc != YES)
 		free(file->name);
-	else if (file->heredoc == YES)
+	else if (file->name && file->heredoc == YES)
 		unlink(file->name);
 	free(file);
 }

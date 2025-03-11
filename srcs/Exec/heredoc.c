@@ -16,29 +16,22 @@ static char	*ft_set_heredoc_name(unsigned long i_heredoc)
 {
 	char	*h_name;
 	char	*str_i;
-	//int		fd;
 
 	str_i = ft_ultoa(i_heredoc);
 	h_name = ft_strjoin(".heredoc", str_i);//a modifier selon l'endroit ou on mettra les tmps
 	free(str_i);
-	if (access(h_name, F_OK) != -1)//attention maj de errno :/
+	if (access(h_name, F_OK) != -1)
 	{
 		free(h_name);
 		if (i_heredoc < 4294967295)//faire du unsigned long long ? : 18446744073709551615
 			h_name = ft_set_heredoc_name(i_heredoc + 1);
 		else
 		{
-			ft_putstr_fd("ERROR: create heredoc is impossible.\n", 2);//ERROR
+			errno = EAGAIN;//ft_putstr_fd("ERROR: create heredoc is impossible.\n", 2);//ERROR
 			return (NULL);
 		}
 	}
-	// else
-	// {
-	// 	fd = open(h_name, O_WRONLY | O_TRUNC | O_CREAT, 0664);//creer le fichier pour que les suivants ne le tentent pas
-	// 	if (fd == -1)
-	// 		ft_putstr_fd("ERROR: Open here_doc file is impossible.\n", 2);//ERROR
-	// 	close(fd);
-	// }
+	errno = 0;//utile ?
 	return (h_name);
 }
 
@@ -52,38 +45,25 @@ static void	ft_fill_heredoc(t_lim *heredoc, int fd, int fd_pipe[2])//dans les ch
 	(void)fd_pipe;//A Supprimer une fois implemente !!!!!!!!! (pouet)
 	lim = heredoc->limit;
 	line = readline("> ");
-	if (heredoc->quotes == YES)//dans le child du coup
+
+	while (line && ft_strncmp(line, lim, ft_strlen(lim) + 1))
 	{
-		while (line && ft_strncmp(line, lim, ft_strlen(lim) + 1))
+		if (heredoc->quotes == NO)
 		{
-			ft_putstr_fd(line, fd);
-			ft_putstr_fd("\n", fd);
-			free(line);
-			line = readline("> ");
-			if (!line)//A checker : ctrl D n'est a gerer que pour exit du shell normalement
-				ft_putstr_fd("Avertissement car EOF et pas limiter (ferme avec ctrl+D et pas mot-clef), mais la suite s'exécute bien.\n", 1);//a reformuler
+			;//line = ft_expand pour les var uniquement...
 		}
-		if (line)
-			free(line);
+		ft_putstr_fd(line, fd);
+		ft_putstr_fd("\n", fd);
+		free(line);
+		line = readline("> ");
+		if (!line)//A checker : ctrl D n'est a gerer que pour exit du shell normalement
+			ft_putstr_fd("Avertissement car EOF et pas limiter (ferme avec ctrl+D et pas mot-clef), mais la suite s'exécute bien.\n", 1);//a reformuler
 	}
-	else
-	{
-		while (line && ft_strncmp(line, lim, ft_strlen(lim) + 1))
-		{
-			// expand var uniquement
-			ft_putstr_fd(line, fd);//a suppr quand expand ok
-			ft_putstr_fd("\n", fd);//a suppr quand expand ok
-			free(line);
-			line = readline("> ");
-			if (!line)//A checker : ctrl D n'est a gerer que pour exit du shell normalement => vérifier comment les signaux réagissent ici
-				ft_putstr_fd("Avertissement car EOF et pas limiter (ferme avec ctrl+D et pas mot-clef), mais la suite s'exécute bien.\n", 1);//a reformuler
-		}
-		if (line)
-			free(line);
-	}
+	if (line)
+		free(line);
 }
 
-void	ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2])//A faire avant de lancer les processus (pour checker les noms)
+void	ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2])
 {
 	t_lim			*tmp;
 	unsigned long	i;
@@ -95,11 +75,11 @@ void	ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2])//A 
 	nb_lim = exec->is_heredoc;
 	while (nb_lim)
 	{
-		tmp->h_name = NULL;//checker si c'est utile ? 
+		tmp->h_name = NULL;//utile ? 
 		tmp->h_name = ft_set_heredoc_name(i);
 		if (!tmp->h_name)
 		{
-			ft_error_exec("minipouet", ERROR_HEREDOC, exec, fdpipe);
+			ft_error_exec("minipouet: heredoc", ERROR_HEREDOC, exec, fdpipe);//checker avec Nathan
 			return ;
 		}
 		if (nb_lim == 1 && infile->heredoc == YES)
@@ -117,7 +97,7 @@ void	ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2])//A 
 			ft_error_exec("minipouet", ERROR_HEREDOC, exec, fdpipe);
 			return ;
 		}
-		if (nb_lim > 1 || infile->heredoc != YES)//A virer si on doit gerer les $()
+		if (nb_lim > 1 || infile->heredoc != YES)
 		{
 			if (unlink(tmp->h_name) == -1)
 			{
@@ -130,34 +110,3 @@ void	ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2])//A 
 		i++;
 	}
 }
-
-// int	ft_set_heredoc(int nb_lim, t_lim *heredoc, t_fdata *infile, int fd_pipe[2])//a faire dans les child
-// {
-// 	t_lim	*tmp;
-// 	int		fd;
-// //OUVERTS : Infile (fdp-1[0], si exc != exc->head), fdp[0]*, fdp[1]* (*si one->next != NULL)
-// 	tmp = heredoc;
-// 	while (nb_lim)
-// 	{
-// 		fd = open(tmp->h_name, O_WRONLY | O_TRUNC);
-// 		if (fd == -1)
-// 		{
-// 			ft_putstr_fd("Open here_doc file is impossible.\n", 2);
-// 			return (-1);//ERROR
-// 		}
-// //OUVERTS : Infile (fdp-1[0], si exc != exc->head), fdp[0]*, fdp[1]*, fd (*si one->next != NULL)
-// 		else
-// 			ft_fill_heredoc(tmp, fd, fd_pipe);
-// 		nb_lim--;
-// 		if (close(fd) == -1)//On a open pour write donc on close quoi qu'il arrive, on rouvrira en lecture apres 
-// 			return (-1);//ERROR
-// //OUVERTS : Infile (fdp-1[0], si exc != exc->head), fdp[0]*, fdp[1]* (*si one->next != NULL)
-// 		if (nb_lim || infile->heredoc != YES)//A faire quand expand fini ou ignore
-// 		{
-// 			if (unlink(tmp->h_name) == -1)
-// 				return (-1);
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// 	return (0);
-// }

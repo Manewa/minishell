@@ -38,11 +38,13 @@ int ft_error_exec(char *perror_str, int ret_val, t_exec *current, int fd_pipe[2]
 	return (ret_val);
 }
 
-void	ft_error_child(t_exec *exec, int fd_pipe[2], int *fd_to_close, char *str)
+void	ft_error_child(t_exec *exec, int fd_pipe[2], int *fd_to_close, int ret_val)//int ret_value
 {
 	t_exec	*exec_head;
 
-	if (!str)
+	if (ret_val == ERROR_NF)//remplacer str par un code de retour ? si oui, on n'affiche pas sur ERR_NF (-> retourner 127)
+		ret_val = 127;
+	else
 		perror(exec->cmd_array[0]);//A garder ?
 	exec_head = exec->head;
 	if (exec->files->infile->fd > -1)
@@ -58,7 +60,7 @@ void	ft_error_child(t_exec *exec, int fd_pipe[2], int *fd_to_close, char *str)
 		ft_close(&fd_pipe[1], exec_head, fd_pipe);
 	}
 	ft_clean_end_exec(exec_head);
-	exit(ERROR_EXEC);
+	exit(ret_val);
 }
 
 void ft_error_close(int fd, t_exec *data, int fd_pipe[2])
