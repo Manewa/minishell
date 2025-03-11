@@ -22,13 +22,13 @@ void	*ft_free_infos(t_infos *infos, char *error, int exit_prg)
 		free(infos->line);
 	if (infos->env && exit_prg == 1)
 		ft_lstenvfree(infos->env);
-	if (exit_prg == 1)
+	if (infos && exit_prg == 1)
 		free(infos);
 	if (error)
 		ft_putstr_fd(error, 2);
-	if (exit_prg == 1 && infos->pouexit == POUET)
+	if (exit_prg == 1)
 		exit (0);
-	else if (exit_prg == 1 && infos->pouexit != POUET)
+	else if (exit_prg == 1)
 		exit (1);
 	return (NULL);
 }
@@ -60,7 +60,10 @@ void *ft_free_infoken(t_infos *infos, t_token *token, char *error, int exit_prg)
 void *ft_error_parsing(t_infos *infos, t_token *token, char c)
 {
 	ft_putstr_fd("pouetsh : syntax error near unexpected token '", 2);
-	write (2, &c, 1);
+	if (c)
+		write (2, &c, 1);
+	else
+		write (1, "newline", 7);
 	write (2, "'\n", 2);
 	ft_free_infoken(infos, token, 0, 0);
 	return (NULL);

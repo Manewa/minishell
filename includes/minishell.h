@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/08 19:02:35 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/11 17:02:08 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 #define	ERROR_PARSING		10
 #define QUOTE_NOT_CLOSED	11
 #define	NO_PATH				12
-#define	PIPE				13
+#define	PIPE				-1
 #define	ECHO				14
 #define	CD					15
 #define PWD					16
@@ -43,7 +43,7 @@
 #define UNSET				18
 #define	ENV					19
 #define EXIT				20
-#define DOUBLE_PIPE			21
+#define DOUBLE_PIPE			-2
 #define	NO_INFO				22
 #define	FILE_DOES_NOT_EXIST	23
 #define	PERMISSION_DENIED	24
@@ -52,6 +52,7 @@
 
 /************		main 			**********/
 
+void	get_readline(t_infos *infos);
 int		main(int argc, char **argv, char **envp);
 
 /************		init_prompt		**********/
@@ -97,14 +98,14 @@ t_exec	*main_parsing(t_infos *infos);
 
 /***********      exec_type                 ***********/
 
-void    exec_append(t_token *current, t_exec *exec);
+void    exec_append(t_token **current, t_exec *exec);
 void    exec_heredoc(t_token *current, t_exec *exec);
-void    exec_inredir(t_token *current, t_exec *exec);
-void    exec_outredir(t_token *current, t_exec *exec);
+void    exec_inredir(t_token **current, t_exec *exec);
+void    exec_outredir(t_token **current, t_exec *exec);
 char	*ft_pathcmd(char *argv, char *path);
 void	find_pathcmd(char **path, t_exec *exec);
 void    exec_word(t_token *current, t_exec *exec);
-void	error_write(t_token *current, t_exec *exec);
+void	error_write(t_token **current, t_exec *exec);
 
 /***********	exec_type/count_array	***********/
 
@@ -124,6 +125,12 @@ void sig_handler_c(int signum);
 int	define_signal(int signum, void (*sig_fun)(int), t_infos *infos);
 void	set_signal(t_infos *infos);
 
+/***********    check_error_parsing         ***********/
+
+int	redirection_error(char *line, size_t *i);
+int	pipe_error(char *line, size_t i);
+int check_error_parsing(t_infos *infos);
+int	check_error(t_infos *infos);
 
 /************	utils/utils_lst	    	    ***********/
 

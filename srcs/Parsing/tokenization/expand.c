@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:36 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/08 18:57:24 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/11 13:00:38 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ char *expand_main(char *line, t_infos *infos)
 	int		i;
 
 	i = 0;
-	while (line[i])
+	while (line && line[i])
 	{
 		if (line[i] == 39)
 			out_of_squote(line, &i);

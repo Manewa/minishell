@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:47:11 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/08 18:58:57 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/11 13:45:58 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,26 +78,26 @@ void	token_line_wip(t_token *token, char *line, int *readed, int *start)
 		token->quotes = line_heredoc(line, start, readed, token);
 		return ;
 	}
-	while (line[*readed] && line[*readed] == ' ')
+	while (line && line[*readed] && line[*readed] == ' ')
 		(*readed)++;
-	while (line[*readed] && is_separator(line[*readed]) != 0)
+	while (line && line[*readed] && is_separator(line[*readed]) != 0)
 		(*readed)++;
-	while (line[*readed] && line[*readed] == ' ')
+	while (line && line[*readed] && line[*readed] == ' ')
 		(*readed)++;
 	*start = *readed;
-	while (line[*readed] && is_separator(line[*readed]) == 0
+	while (line && line[*readed] && is_separator(line[*readed]) == 0
 			&& count_quote % 2 == 0)
 	{
-		if (line[*readed] == '"')
+		if (line && line[*readed] == '"')
 			count_quote += out_of_dquote(line, readed);
-		if (line[*readed] == 39)
+		if (line && line[*readed] == 39)
 			count_quote += out_of_squote(line, readed);
-		if (line[*readed] && line[*readed] == ' ' && token->type != WORD)
+		if (line && line[*readed] && line[*readed] == ' ' && token->type != WORD)
 			break;
-		if (line[*readed])
+		if (line && line[*readed])
 			(*readed)++;
 	}
-	if (token->type == QUOTE_NOT_CLOSED)
+	if (token && token->type == QUOTE_NOT_CLOSED)
 	{
 		ft_putstr_fd("pouetsh : error quote not closed", 2);
 		ft_free_infoken(token->infos, token, 0, 0);

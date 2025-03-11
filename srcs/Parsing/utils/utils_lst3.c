@@ -53,5 +53,3 @@ int ft_infonew(t_infos **infos, char **envp)
 	*infos = new;
 	return (0);
 }
-
-

@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:28:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/08 19:04:32 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/11 17:00:04 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,21 @@ int exec_type(t_exec *exec, t_token **current, t_token *head)
 	while (*current && (*current)->type != PIPE)
 	{
 			if ((*current)->type == INREDIR)
-				exec_inredir(*current, exec);
+				exec_inredir(current, exec);
 			else if ((*current)->type == OUTREDIR)
-				exec_outredir(*current, exec);
+				exec_outredir(current, exec);
 			else if ((*current)->type == APPEND_MODE)
-				exec_append(*current, exec);
+				exec_append(current, exec);
 			else if ((*current)->type == WORD)
 				exec_word(*current, exec);
 			else if ((*current)->type == HEREDOC)
 				exec_heredoc(*current, exec);
 			if ((*current) && (*current)->next != NULL)
 				*current = (*current)->next;
-			else
+			else if ((*current) && (*current)->next == NULL)
 			{
-				free (*current);
 				*current = NULL;
+				break ;
 			}
 	}
 	return (1);

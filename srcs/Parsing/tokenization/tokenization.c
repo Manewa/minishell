@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:59:53 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/08 18:54:34 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/11 13:36:32 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,9 @@ t_token	*create_token(t_infos *infos, int *readed, int *start)
 	token = init_token(infos, 0);
 	if (!token)
 		return (NULL);
-	token->type = token_type(infos->line, *readed, *start,
-			is_separator(infos->line[*readed]));
+	if (infos && infos->line)
+		token->type = token_type(infos->line, *readed, *start,
+				is_separator(infos->line[*readed]));
 	if	(token->type == ERROR_PARSING)
 		return (ft_error_parsing(infos, token, infos->line[*readed]));
 	else if (token->type == PIPE)
@@ -90,6 +91,8 @@ t_token	*tokenization(t_infos *infos)
 	readed = 0;
 	start = 0;
 	infos->line = expand_main(infos->line, infos);
+	if (check_error(infos))
+		return (NULL);
 	token_head = create_token(infos, &readed, &start);
 	if (!token_head)
 		return(0);

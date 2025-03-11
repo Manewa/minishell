@@ -6,13 +6,20 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:01:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/06 19:02:14 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/11 14:13:59 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 int	sig_global;
+
+void get_readline(t_infos *infos)
+{
+	infos->line = readline ("minipouet> ");
+	if (!infos->line)
+		ft_free_infos(infos, 0, 1);
+}
 
 int main(int argc, char **argv, char **envp)
 {
@@ -27,10 +34,11 @@ int main(int argc, char **argv, char **envp)
 		set_signal(infos);
 		if (infos->line)
 			free(infos->line);
-		infos->line = readline("minipouet> ");
+		get_readline(infos);
 		if (infos->line && infos->line[0] && infos->line[0] != ' ')
 			add_history(infos->line);
-		exec = main_parsing(infos);
+		if (infos->line && infos->line[0])
+			exec = main_parsing(infos);
 		if (!exec)
 			continue ;
 		ft_main_exec(exec);

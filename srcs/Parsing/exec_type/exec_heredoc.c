@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:17:46 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/08 16:27:58 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/11 16:43:41 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,5 @@ void exec_heredoc(t_token *current, t_exec *exec)
 	exec->is_heredoc += 1;
 	lim = limiter_init(current);
 	ft_limadd_back(&(exec->limiter), lim);
-	if (exec->files->infile->heredoc == NO_INFO)
-		exec->files->infile->heredoc = YES;
+	exec->files->infile->heredoc = YES;
 }
