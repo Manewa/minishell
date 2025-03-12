@@ -14,7 +14,7 @@
 
 int	sig_global;
 
-void get_readline(t_infos *infos)
+void	get_readline(t_infos *infos)
 {
 	infos->line = readline ("minipouet> ");
 	if (!infos->line)
@@ -31,6 +31,7 @@ int main(int argc, char **argv, char **envp)
 		return (1);
 	while(infos->pouexit)
 	{
+		exec = NULL;
 		set_signal(infos);
 		if (infos->line)
 			free(infos->line);
@@ -39,9 +40,8 @@ int main(int argc, char **argv, char **envp)
 			add_history(infos->line);
 		if (infos->line && infos->line[0])
 			exec = main_parsing(infos);
-		if (!exec)
-			continue ;
-		ft_main_exec(exec);
+		if (exec)
+			ft_main_exec(exec);
 	}
 	free(infos->line);
 	rl_clear_history();

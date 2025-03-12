@@ -71,7 +71,7 @@ static void ft_delone_exec(t_exec *exec)
 		if (exec->cmd_path)
 			free(exec->cmd_path);
 		free(exec);
-		exec = NULL;
+		//exec = NULL;
 	}
 }
 

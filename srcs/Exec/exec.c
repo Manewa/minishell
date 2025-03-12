@@ -80,6 +80,11 @@ static void	ft_child(int fd_pipe[2], t_exec *one)//ici on exit si error
 		ft_dup2(&(one->files->outfile->fd), STDOUT_FILENO, fd_pipe, one->head);
 	if (one->cmd_array && one->cmd_array[0])
 	{
+		if (exec->builtin)
+		{
+			//checker les acces des in et outfiles (faire des tests selon le builtin)
+			;//ft_builtin();
+		}
 		ft_check_access(one, fd_pipe);
 		execve(one->cmd_path, one->cmd_array, one->env);
 		ft_error_child(one, fd_pipe, &(one->files->outfile->fd), 1);//code de sortie à 1 ? 128 ?
