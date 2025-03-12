@@ -6,11 +6,13 @@
 /*   By: aibonade <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 12:30:52 by aibonade          #+#    #+#             */
-/*   Updated: 2025/03/07 09:35:50 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/12 12:14:22 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+extern int	sig_global;
 
 static void	ft_dup2(int *old, int new, int fd_pipe[], t_exec *lst)
 {
@@ -146,6 +148,7 @@ int	ft_main_exec(t_exec *lst)//debut de l'exec avec récupération de la liste d
 			lst->infos->exit_val = WEXITSTATUS(last_status);
 		else if(WIFSIGNALED(last_status))
 		{
+			//sig_global = WTERMSIG(last_status);
 			lst->infos->exit_val = 128 + WTERMSIG(last_status);//checker avec Nathan
 		}
 	}

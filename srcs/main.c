@@ -6,19 +6,22 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:01:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/11 14:13:59 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/12 11:55:40 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	sig_global;
+int	sig_global = 0;
 
 void	get_readline(t_infos *infos)
 {
-	infos->line = readline ("minipouet> ");
-	if (!infos->line)
-		ft_free_infos(infos, 0, 1);
+	if (infos->exit_val != 130)
+	{
+		infos->line = readline ("minipouet> ");
+		if (!infos->line)
+			ft_free_infos(infos, 0, 1);
+	}
 }
 
 int main(int argc, char **argv, char **envp)
@@ -27,6 +30,8 @@ int main(int argc, char **argv, char **envp)
 	t_exec	*exec;
 
 	(void)argv;
+	if (!isatty(0))
+		return (1);
 	if (argc != 1 || ft_infonew(&infos, envp))
 		return (1);
 	while(infos->pouexit)
