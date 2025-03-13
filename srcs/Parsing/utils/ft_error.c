@@ -26,8 +26,10 @@ void	*ft_free_infos(t_infos *infos, char *error, int exit_prg)
 		free(infos);
 	if (error)
 		ft_putstr_fd(error, 2);
-	if (exit_prg != 0)
+	if (exit_prg > 0)
 		exit (exit_prg);
+	else if (exit_prg == -1)
+		exit (0);
 	return (NULL);
 }
 

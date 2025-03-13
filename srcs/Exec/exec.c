@@ -6,7 +6,7 @@
 /*   By: aibonade <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 12:30:52 by aibonade          #+#    #+#             */
-/*   Updated: 2025/03/12 12:14:22 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/13 10:30:27 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,15 @@ static int	ft_exec(t_exec *lst, pid_t *last)
 			ft_set_heredoc(now, now->limiter, now->files->infile, fd_pipe);
 		if ((now->next != NULL) && (pipe(fd_pipe) == -1))
 			return(ft_error_exec("minipouet", ERROR_PIPE, now, fd_pipe));
+		signal(SIGINT, SIG_IGN);
 		id = fork();
 		if (id == -1)
 			return(ft_error_exec("minipouet", ERROR_FORK, now, fd_pipe));
 		if (id == 0)
+		{
+			set_signal(now->infos);
 			ft_child(fd_pipe, now);//TO DO + gestion des builtin
+		}
 		if (now != now->head)
 		{
 			if (ft_close(&(now->files->infile->fd), now, fd_pipe) == -1)
@@ -145,7 +149,8 @@ int	ft_main_exec(t_exec *lst)//debut de l'exec avec récupération de la liste d
 			lst->infos->exit_val = WEXITSTATUS(last_status);
 		else if(WIFSIGNALED(last_status))
 		{
-			//sig_global = WTERMSIG(last_status);
+			if (WTERMSIG(last_status) == SIGINT)
+				write (1, "\n", 1);
 			lst->infos->exit_val = 128 + WTERMSIG(last_status);//checker avec Nathan
 		}
 	}

@@ -186,6 +186,12 @@ void    quotes_detecter(t_token *token);
 int		out_of_dquote(char *line, int *readed);
 int		out_of_squote(char *line, int *readed);
 
+/************   builtins/env                ***********/
+
+size_t	ft_safe_strlen(const char *c);
+void print_keynvalue(t_fdata *outfile, t_env *env);
+int	ft_env(t_infos *infos, t_fdata *outfile);
+
 /*************THE POUETERS EXECUTIONERS*****************/
 
 //................heredoc_utils.c................//

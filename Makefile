@@ -14,6 +14,7 @@ ENV				= srcs/Parsing/env
 TOKENS			= srcs/Parsing/tokenization
 UTILS			= srcs/Parsing/utils
 EXEC_TYPE		= srcs/Parsing/exec_type
+BUILTINS		= srcs/builtins
 CHECK_BLTIN		= srcs/Parsing/check_builtins
 EXEC			= srcs/Exec
 SIGNALS			= srcs/Signals
@@ -37,6 +38,7 @@ SRCS 			=	srcs/main.c srcs/init_prompt.c ${ENV}/env.c \
 					${UTILS}/utils_parsing.c ${UTILS}/ft_error.c \
 					${UTILS}/split_off_quote.c \
 					${CHECK_BLTIN}/check_builtins.c \
+					${BUILTINS}/env.c \
 
 OBJS 			=	$(patsubst %.c,${OBJDIR}/%.o,$(notdir ${SRCS}))
 
