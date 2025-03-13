@@ -213,10 +213,18 @@ void	ft_open_outfile(int fd_pipe[2], t_exec *exec, t_fdata *outfile);
 
 int		ft_main_exec(t_exec *lst);
 
-//....................exec_error.c ...........//
+//.................exec_error.c.................//
 
 int		ft_error_exec(char *perror_str, int ret_val, t_exec *current, int fd_pipe[2]);
 void	ft_error_child(t_exec *exec, int fd_pipe[2], int *fd_to_close, int ret_val);
 void	ft_error_close(int fd, t_exec *data, int fd_pipe[2]);
+
+//..................builtin.c..................//
+
+void	ft_builtin(t_exec *exec, int fd_pipe[2]);
+
+//.....................cd.c....................//
+
+void	ft_cd(t_exec *exec, int fd_pipe[2]);
 
 #endif
