@@ -6,7 +6,7 @@
 /*   By: natgomali <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:57:36 by natgomali         #+#    #+#             */
-/*   Updated: 2025/03/13 14:44:15 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/13 18:37:28 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,13 @@ size_t	ft_safe_strlen(const char *c)
 	return (i);
 }
 
-void print_keynvalue(t_fdata *outfile, t_env *env)
+void print_keynvalue(int fd, t_env *env)
 {
-	write(outfile->fd, env->key, ft_safe_strlen(env->key));
-	write(outfile->fd, "=", 1);
-	write(outfile->fd, env->value, ft_safe_strlen(env->key));
-	write(outfile->fd, "\n", 1);
+	signal(SIGPIPE, SIG_IGN);////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Pouet/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	write(fd, env->key, ft_safe_strlen(env->key));
+	write(fd, "=", 1);
+	write(fd, env->value, ft_safe_strlen(env->value));
+	write(fd, "\n", 1);
 }
 
 int	ft_env(t_infos *infos, t_exec *exec, t_fdata *outfile)
@@ -45,7 +46,7 @@ int	ft_env(t_infos *infos, t_exec *exec, t_fdata *outfile)
 	while (tmp)
 	{
 		if (tmp->key)
-			print_keynvalue(outfile, tmp);
+			print_keynvalue(outfile->fd, tmp);
 		tmp = tmp->next;
 	}
 	return (0);

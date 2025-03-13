@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/11 17:02:08 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/13 17:56:56 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,8 +178,7 @@ void	*ft_error_parsing(t_infos *infos, t_token *token, char c);
 /************   utils/quotes_remover   **********/
 
 int     quotes_count(char *str);
-char    *quotes_remover(char *str);
-void    quotes_detecter(t_token *token);
+void    quotes_detecter(t_exec *current);
 
 /************	utils/quotes	            ***********/
 
@@ -189,8 +188,8 @@ int		out_of_squote(char *line, int *readed);
 /************   builtins/env                ***********/
 
 size_t	ft_safe_strlen(const char *c);
-void print_keynvalue(t_fdata *outfile, t_env *env);
-int	ft_env(t_infos *infos, t_exec *exec, t_fdata *outfile);
+void	print_keynvalue(int fd, t_env *env);
+int		ft_env(t_infos *infos, t_exec *exec, t_fdata *outfile);
 
 /*************THE POUETERS EXECUTIONERS*****************/
 

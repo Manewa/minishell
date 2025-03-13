@@ -106,6 +106,7 @@ t_exec	*main_parsing(t_infos *infos)
 {
 	t_token	*token;
 	t_exec	*exec;
+	t_exec	*tmp;
 
 	token = tokenization(infos);
 	if (!token)
@@ -113,6 +114,12 @@ t_exec	*main_parsing(t_infos *infos)
 	exec = tokens_for_exec(token);
 	if (!exec)
 		return (NULL);
+	tmp = exec;
+	while (tmp)
+	{
+		quotes_detecter(tmp);
+		tmp = tmp->next;
+	}
 //	ft_free_token(token);
 	return (exec);
 }

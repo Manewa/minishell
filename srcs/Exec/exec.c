@@ -6,7 +6,7 @@
 /*   By: aibonade <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 12:30:52 by aibonade          #+#    #+#             */
-/*   Updated: 2025/03/13 16:48:52 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/13 19:09:10 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern int	sig_global;
 
-static void	ft_dup2(int *old, int new, int fd_pipe[], t_exec *lst)
+static void	ft_dup2(int *old, int new, int fd_pipe[2], t_exec *lst)
 {
 	int	tmp;
 
@@ -79,7 +79,10 @@ static void	ft_child(int fd_pipe[2], t_exec *one)//ici on exit si error
 	}
 	ft_open_outfile(fd_pipe, one, one->files->outfile);//ouvrir l'outfile si besoin et éventuellement fermer l'écriture du pipe[1]
 	if (one->next != NULL)
+	{
 		ft_dup2(&(one->files->outfile->fd), STDOUT_FILENO, fd_pipe, one->head);
+		fd_pipe[1] = -1;
+	}
 	if (one->cmd_array && one->cmd_array[0])
 	{
 		if (one->builtin)
@@ -100,10 +103,10 @@ static int	ft_exec(t_exec *lst, pid_t *last)
 	t_exec	*now;
 
 	now = lst->head;
-	fd_pipe[0] = -1;
-	fd_pipe[1] = -1;
 	while (now)
 	{
+		fd_pipe[0] = -1;
+		fd_pipe[1] = -1;
 		if (now->is_heredoc)
 			ft_set_heredoc(now, now->limiter, now->files->infile, fd_pipe);
 		if ((now->next != NULL) && (pipe(fd_pipe) == -1))
