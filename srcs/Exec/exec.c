@@ -6,7 +6,7 @@
 /*   By: aibonade <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 12:30:52 by aibonade          #+#    #+#             */
-/*   Updated: 2025/03/13 16:29:10 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/13 16:48:52 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int	ft_main_exec(t_exec *lst)//debut de l'exec avec récupération de la liste d
 	int		sig;
 
 	errno = 0;//ajoute
-	sigint = 0;
+	sig = 0;
 	exec_ret = ft_exec(lst, &last);
 	if (exec_ret > ERROR_EXEC)
 	{
@@ -161,7 +161,7 @@ int	ft_main_exec(t_exec *lst)//debut de l'exec avec récupération de la liste d
 			tmp = wait(&status);
 		}
 	}
-	if (sigint == SIGINT)
+	if (sig == SIGINT)
 		write (1, "\n", 1);
 	ft_clean_end_exec(lst);
 	if(exec_ret <= ERROR_EXEC)
