@@ -15,8 +15,13 @@
 void	ft_cd(t_exec *exec, int fd_pipe[2])
 {
 	(void)fd_pipe;
+	int	i;
+
 	if (exec == exec->head && exec->next == NULL)
 	{
+		i = 0;
+
+		
 		//checker nb arg, si trop $? = 1 ; si aucun on va à ~  et $? = 0
 		//si cd "" => rien ne se passe et $? = 0
 		//si cd "nom" et nom n'est pas un dossier ou n'existe pas alors $? = 1 et errno affiché
