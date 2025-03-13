@@ -6,7 +6,7 @@
 /*   By: aibonade <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 12:30:52 by aibonade          #+#    #+#             */
-/*   Updated: 2025/03/13 10:30:27 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/13 16:29:10 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	ft_check_access(t_exec *exec, int fd_pipe[2])
 		errno = EISDIR;
 		ft_error_child(exec, fd_pipe, &(exec->files->outfile->fd), 126);//code de sortie à 126
 	}
-
+}
 
 static void	ft_child(int fd_pipe[2], t_exec *one)//ici on exit si error
 {
@@ -138,24 +138,31 @@ int	ft_main_exec(t_exec *lst)//debut de l'exec avec récupération de la liste d
 {
 	int		exec_ret;
 	pid_t	last;
-	int		last_status;
+	pid_t	tmp;
+	int		status;
+	int		sig;
 
 	errno = 0;//ajoute
+	sigint = 0;
 	exec_ret = ft_exec(lst, &last);
 	if (exec_ret > ERROR_EXEC)
 	{
-		waitpid(last, &last_status, 0);
-		if(WIFEXITED(last_status))
-			lst->infos->exit_val = WEXITSTATUS(last_status);
-		else if(WIFSIGNALED(last_status))
+		tmp = wait(&status);
+		while (tmp > 0)
 		{
-			if (WTERMSIG(last_status) == SIGINT)
-				write (1, "\n", 1);
-			lst->infos->exit_val = 128 + WTERMSIG(last_status);//checker avec Nathan
+			if(WIFEXITED(status) && last == tmp)
+				lst->infos->exit_val = WEXITSTATUS(status);
+			else if(WIFSIGNALED(status))
+			{
+				sig = WTERMSIG(status);
+				if (last == tmp)
+					lst->infos->exit_val = 128 + sig;
+			}
+			tmp = wait(&status);
 		}
 	}
-	while (wait(NULL) > 0)
-		;
+	if (sigint == SIGINT)
+		write (1, "\n", 1);
 	ft_clean_end_exec(lst);
 	if(exec_ret <= ERROR_EXEC)
 	{

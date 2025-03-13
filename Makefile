@@ -38,7 +38,8 @@ SRCS 			=	srcs/main.c srcs/init_prompt.c ${ENV}/env.c \
 					${UTILS}/utils_parsing.c ${UTILS}/ft_error.c \
 					${UTILS}/split_off_quote.c \
 					${CHECK_BLTIN}/check_builtins.c \
-					${BUILTINS}/env.c \
+					${BUILTINS}/builtin_env.c ${BUILTINS}/cd.c \
+					${BUILTINS}/builtin_utils.c \
 
 OBJS 			=	$(patsubst %.c,${OBJDIR}/%.o,$(notdir ${SRCS}))
 
@@ -76,7 +77,10 @@ ${OBJDIR}/%.o	: ${EXEC_TYPE}/%.c
 
 ${OBJDIR}/%.o	: ${TOKENS}/%.c
 				@cc ${CFLAGS} -c $< -o $@
-				
+
+${OBJDIR}/%.o	: ${BUILTINS}/%.c
+				@cc ${CFLAGS} -c $< -o $@
+
 ${OBJDIR}/%.o	: ${EXEC}/%.c
 				@cc ${CFLAGS} -c $< -o $@
 

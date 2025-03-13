@@ -190,7 +190,7 @@ int		out_of_squote(char *line, int *readed);
 
 size_t	ft_safe_strlen(const char *c);
 void print_keynvalue(t_fdata *outfile, t_env *env);
-int	ft_env(t_infos *infos, t_fdata *outfile);
+int	ft_env(t_infos *infos, t_exec *exec, t_fdata *outfile);
 
 /*************THE POUETERS EXECUTIONERS*****************/
 

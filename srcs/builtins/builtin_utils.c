@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.c                                          :+:      :+:    :+:   */
+/*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aibonade <aibonade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:05:20 by aibonade          #+#    #+#             */
-/*   Updated: 2025/03/13 11:05:26 by aibonade         ###   ########.fr       */
+/*   Updated: 2025/03/13 14:40:56 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,7 @@ void	ft_builtin(t_exec *exec, int fd_pipe[2])
 		;//Nathan
 	}
 	else if (exec->builtin == ENV)
-	{
-		;//Nathan
-	}
+		exec->infos->exit_val = ft_env(exec->infos, exec, exec->files->outfile);
 	else if (exec->builtin == EXIT)
 	{
 		;//Aileen

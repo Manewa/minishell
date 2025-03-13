@@ -6,7 +6,7 @@
 /*   By: aibonade <aibonade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:32:24 by aibonade          #+#    #+#             */
-/*   Updated: 2025/03/13 10:32:31 by aibonade         ###   ########.fr       */
+/*   Updated: 2025/03/13 12:57:43 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_cd(t_exec *exec, int fd_pipe[2])
 {
+	(void)fd_pipe;
 	if (exec == exec->head && exec->next == NULL)
 	{
 		//checker nb arg, si trop $? = 1 ; si aucun on va à ~  et $? = 0
@@ -22,5 +23,5 @@ void	ft_cd(t_exec *exec, int fd_pipe[2])
 		//si cd "dossier" et dossier non accessible (permission) alors $? = 1 et errno affiché
 		;
 	}
-	ft_clean_end_builtin(exec, fd_pipe[2])
+//	ft_clean_end_builtin(exec, fd_pipe[2]);
 }
