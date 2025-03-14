@@ -17,6 +17,7 @@
 # include "Libft/libft.h"
 # include "libs.h"
 
+#define	ERROR_TO0_MANY		-20
 #define	ERROR_NF			-15
 #define	ERROR_HEREDOC		-14
 #define	ERROR_CLOSE			-13
@@ -226,10 +227,11 @@ void	ft_error_close(int fd, t_exec *data, int fd_pipe[2]);
 
 //..................builtin.c..................//
 
-void	ft_builtin(t_exec *exec, int fd_pipe[2]);
+int		ft_clean_end_builtin(t_exec *exec, int fd_pipe[2], int ret, int child);
+int		ft_builtin(t_exec *exec, int fd_pipe[2], int child);
 
 //.....................cd.c....................//
 
-void	ft_cd(t_exec *exec, int fd_pipe[2]);
+int	ft_cd(t_exec *exec, int fd_pipe[2], int child, int std_fd);
 
 #endif

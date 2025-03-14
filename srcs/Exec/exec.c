@@ -86,7 +86,7 @@ static void	ft_child(int fd_pipe[2], t_exec *one)//ici on exit si error
 	if (one->cmd_array && one->cmd_array[0])
 	{
 		if (one->builtin)
-			ft_builtin(one, fd_pipe);//ft_builtin();//checker les acces des in et outfiles (faire des tests selon le builtin)
+			ft_builtin(one, fd_pipe, 1);//ft_builtin();//checker les acces des in et outfiles (faire des tests selon le builtin)
 		ft_check_access(one, fd_pipe);
 		execve(one->cmd_path, one->cmd_array, one->env);
 		ft_error_child(one, fd_pipe, &(one->files->outfile->fd), 1);//code de sortie à 1 ? 128 ?
@@ -144,10 +144,16 @@ int	ft_main_exec(t_exec *lst)//debut de l'exec avec récupération de la liste d
 	pid_t	tmp;
 	int		status;
 	int		sig;
+	int		fd_pipe[2];//a suppr
 
-	errno = 0;//ajoute
+fd_pipe[0] = fd_pipe[1] = -1;
+	errno = 0;
 	sig = 0;
-	exec_ret = ft_exec(lst, &last);
+	if ((lst->builtin == CD || lst->builtin == EXPORT 
+		|| lst->builtin == EXIT || lst->builtin == UNSET) && !lst->next)
+		lst->infos->exit_val = ft_builtin(lst, fd_pipe, 0);
+	else
+		exec_ret = ft_exec(lst, &last);
 	if (exec_ret > ERROR_EXEC)
 	{
 		tmp = wait(&status);

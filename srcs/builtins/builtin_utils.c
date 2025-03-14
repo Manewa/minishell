@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-static void	ft_clean_end_builtin(t_exec *exec, int fd_pipe[2])//met exec pas exec->head
+int	ft_clean_end_builtin(t_exec *exec, int fd_pipe[2], int ret, int child)//met exec pas exec->head
 {
 	t_exec	*exec_head;
 
@@ -29,17 +29,22 @@ static void	ft_clean_end_builtin(t_exec *exec, int fd_pipe[2])//met exec pas exe
 	{
 		ft_close(&fd_pipe[1], exec_head, fd_pipe);
 	}
-	ft_free_infos(exec->infos, 0, 0);
-	ft_clean_end_exec(exec_head);
-	exit(0);
+	if (child)
+	{
+		ft_free_infos(exec->infos, 0, 0);
+		ft_clean_end_exec(exec_head);
+		exit(ret);
+	}
+	return (ret);
 }
 
-void	ft_builtin(t_exec *exec, int fd_pipe[2])
+int	ft_builtin(t_exec *exec, int fd_pipe[2], int child)
 {
 	int	std_fd;//1 = in 2 = out 3 = in + out
+	int	ret_val;
 
 	std_fd = 0;
-	if (exec->files->infile->fd == -1)
+	if (exec->files->infile->fd == -1)//Du coup on les ferme en cas d'erreur...
 	{
 		std_fd = 1;
 		exec->files->infile->fd = STDIN_FILENO;
@@ -55,7 +60,7 @@ void	ft_builtin(t_exec *exec, int fd_pipe[2])
 	}
 	else if (exec->builtin == CD)
 	{
-		;//ft_cd(exec, fd_pipe);//Aileen
+		ret_val = ft_cd(exec, fd_pipe, child, std_fd);//Aileen
 	}
 	else if (exec->builtin == PWD)
 	{
@@ -79,5 +84,5 @@ void	ft_builtin(t_exec *exec, int fd_pipe[2])
 		exec->files->infile->fd = -1;
 	if (std_fd == 2 || std_fd == 3)
 		exec->files->outfile->fd = -1;
-	ft_clean_end_builtin(exec, fd_pipe);
+	return (ft_clean_end_builtin(exec, fd_pipe, ret_val, child));
 }
