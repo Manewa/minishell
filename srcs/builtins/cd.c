@@ -6,7 +6,7 @@
 /*   By: aibonade <aibonade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:32:24 by aibonade          #+#    #+#             */
-/*   Updated: 2025/03/14 13:26:34 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/15 20:35:29 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,15 @@ static int ft_set_pwd(t_exec *exec)
 		tmp = tmp->next;
 	if (tmp)
 	{
-// printf("Pouet\n");
 		if (tmp->value)
 			free(tmp->value);
 		if (node_pwd)
 		{
-// printf("tagada\n");
-			tmp->value = node_pwd->value;
-// printf("Lylou\n");
+			if (node_pwd->value)
+				tmp->value = node_pwd->value;
+			else
+				tmp->value = NULL;
 			node_pwd->value = ft_getcwd();
-// printf("pwd->value = %s\n", node_pwd->value);
 			if (!node_pwd->value)
 				return (1);
 		}

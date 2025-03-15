@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 16:54:06 by namalier          #+#    #+#             */
-/*   Updated: 2023/11/13 20:22:54 by namalier         ###   ########.fr       */
+/*   Updated: 2025/03/15 20:32:54 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *c)
 	size_t	i;
 
 	i = 0;
-	while (c[i])
+	while (c && c[i])
 		i++;
 	return (i);
 }
