@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:10:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/06 19:08:19 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/15 15:37:32 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,8 @@ void cat_key_n_value(t_env *tmp, char **tab, size_t i)
 		tab[i][j] = tmp->key[j];
 		j++;
 	}
-	tab[i][j++] = '=';
+	if (tmp->value)
+		tab[i][j++] = '=';
 	while (tmp->value[k])
 		tab[i][j++] = tmp->value[k++];
 	tab[i][j] = '\0';
