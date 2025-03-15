@@ -90,16 +90,16 @@ void	token_line_wip(t_token *token, char *line, int *readed, int *start)
 	{
 		if (line && line[*readed] == '"')
 			count_quote += out_of_dquote(line, readed);
-		if (line && line[*readed] == 39)
+		else if (line && line[*readed] == 39)
 			count_quote += out_of_squote(line, readed);
-		if (line && line[*readed] && line[*readed] == ' ' && token->type != WORD)
+		else if (line && line[*readed] && line[*readed] == ' ' && token->type != WORD)
 			break;
 		if (line && line[*readed])
 			(*readed)++;
 	}
-	if (token && token->type == QUOTE_NOT_CLOSED)
+	if (count_quote % 2 != 0)
 	{
-		ft_putstr_fd("pouetsh : error quote not closed", 2);
+		ft_putstr_fd("pouetsh : error quote not closed\n", 2);
 		ft_free_infoken(token->infos, token, 0, 0);
 		return ;
 	}

@@ -16,44 +16,60 @@ int quotes_count(char *str)
 	return (quotes);
 }
 
-char *quotes_remover(char *str)
+char *quotes_remover(char *str, int *first, int second)
 {
-	size_t	i;
-	size_t	j;
+	int		i;
+	int		j;
 	char	*new_line;
 
-	new_line = malloc((ft_strlen(str) - quotes_count(str) + 1) * sizeof(char));
-	if (!str)
+	new_line = malloc((ft_strlen(str) - 1) * sizeof(char));
+	if (!new_line)
 		return (NULL);
 	i = 0;
 	j = 0;
-	while (str[i])
+	while (i < *first)
+		new_line[j++] = str[i++];
+	(*first)++;
+	while (*first < second)
+		new_line[j++] = str[(*first)++];
+	while (str[++second])
 	{
-		if (str[i] == '"' || str[i] == 39)
-			i++;
-		else
-			new_line[j++] = str[i++];
+		new_line[j++] = str[second];
 	}
 	new_line[j] = '\0';
+	*first -= 1;
 	free(str);
 	return (new_line);
 }
 
 void	quotes_detecter(t_exec *current)
 {
-	size_t	i;
-	size_t	j;
+	int	i;
+	int	first;
+	int	second;
 
 	i = 0;
 	while (current->cmd_array[i])
 	{
-		j = 0;
-		while (current->cmd_array[i][j])
+		first = 0;
+		while (current->cmd_array[i][first])
 		{
-			if (current->cmd_array[i][j] == '"'
-					|| current->cmd_array[i][j] == 39)
-				current->cmd_array[i] = quotes_remover(current->cmd_array[i]);
-			j++;
+			if (current->cmd_array[i][first] == '"')
+			{
+				second = first;
+				out_of_dquote(current->cmd_array[i], &second);
+				current->cmd_array[i] = quotes_remover(current->cmd_array[i],
+						&first, second);
+			}
+			else if (current->cmd_array[i][first] == 39)
+			{
+				second = first;
+				out_of_squote(current->cmd_array[i], &second);
+				current->cmd_array[i] = quotes_remover(current->cmd_array[i],
+						&first, second);
+			}
+			else
+				first++;
 		}
 		i++;
 	}
