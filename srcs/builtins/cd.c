@@ -68,6 +68,13 @@ static int ft_set_pwd(t_exec *exec)
 		else
 			tmp->value = NULL;
 	}
+	else if (node_pwd)
+	{
+		node_pwd->value = ft_getcwd();
+// printf("pwd->value2 = %s\n", node_pwd->value);
+		if (!node_pwd->value)
+			return (1);
+	}
 // printf("old->value = %s\n", tmp->value);
 	return (0);
 }
