@@ -59,12 +59,10 @@ int	ft_builtin(t_exec *exec, int fd_pipe[2], int child)
 		;
 	}
 	else if (exec->builtin == CD)
-	{
 		ret_val = ft_cd(exec, fd_pipe, child, std_fd);//Aileen
-	}
 	else if (exec->builtin == PWD)
 	{
-		;//Aileen
+		ret_val = ft_pwd(exec);//Aileen
 	}
 	else if (exec->builtin == EXPORT)
 	{
@@ -75,7 +73,7 @@ int	ft_builtin(t_exec *exec, int fd_pipe[2], int child)
 		;//Nathan
 	}
 	else if (exec->builtin == ENV)
-		exec->infos->exit_val = ft_env(exec->infos, exec, exec->files->outfile);
+		ret_val = ft_env(exec->infos, exec, exec->files->outfile);
 	else if (exec->builtin == EXIT)
 	{
 		;//Aileen
@@ -85,4 +83,14 @@ int	ft_builtin(t_exec *exec, int fd_pipe[2], int child)
 	if (std_fd == 2 || std_fd == 3)
 		exec->files->outfile->fd = -1;
 	return (ft_clean_end_builtin(exec, fd_pipe, ret_val, child));
+}
+
+int	ft_main_builtin_parent(t_exec *exec)
+{
+	int		fd_pipe[2];
+
+	fd_pipe[0] = -1;
+	fd_pipe[1] = -1;
+	//gerer les redir
+	return (ft_builtin(exec, fd_pipe, 0));
 }

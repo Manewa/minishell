@@ -229,9 +229,15 @@ void	ft_error_close(int fd, t_exec *data, int fd_pipe[2]);
 
 int		ft_clean_end_builtin(t_exec *exec, int fd_pipe[2], int ret, int child);
 int		ft_builtin(t_exec *exec, int fd_pipe[2], int child);
+int		ft_main_builtin_parent(t_exec *exec);
 
 //.....................cd.c....................//
 
 int	ft_cd(t_exec *exec, int fd_pipe[2], int child, int std_fd);
+
+//....................pwd.c....................//
+
+char	*ft_getcwd(void);
+int		ft_pwd(t_exec *exec);
 
 #endif

@@ -142,16 +142,13 @@ int	ft_main_exec(t_exec *lst)//debut de l'exec avec récupération de la liste d
 	int		exec_ret;
 	pid_t	last;
 	pid_t	tmp;
-	int		status;
+	int		status;//On peut le mettre à 0 en param pour la norme
 	int		sig;
-	int		fd_pipe[2];//a suppr
 
-fd_pipe[0] = fd_pipe[1] = -1;
 	errno = 0;
 	sig = 0;
-	if ((lst->builtin == CD || lst->builtin == EXPORT 
-		|| lst->builtin == EXIT || lst->builtin == UNSET) && !lst->next)
-		lst->infos->exit_val = ft_builtin(lst, fd_pipe, 0);
+	if ((lst->builtin == CD || lst->builtin == EXPORT || lst->builtin == EXIT || lst->builtin == UNSET) && !lst->next)
+		lst->infos->exit_val = ft_main_builtin_parent(lst);//faire un sas
 	else
 		exec_ret = ft_exec(lst, &last);
 	if (exec_ret > ERROR_EXEC)
@@ -172,11 +169,12 @@ fd_pipe[0] = fd_pipe[1] = -1;
 	}
 	if (sig == SIGINT)
 		write (1, "\n", 1);
-	ft_clean_end_exec(lst);
 	if(exec_ret <= ERROR_EXEC)
 	{
 		lst->infos->exit_val = 1;//maj de infos->exit > 0//REVOIR : return value entre 0 & 255 (si en dehors => 255)
+		ft_clean_end_exec(lst);
 		return (ERROR_EXEC);
 	}
+	ft_clean_end_exec(lst);
 	return (0);
 }

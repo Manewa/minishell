@@ -38,6 +38,40 @@ static int ft_nb_args_cd(t_exec *exec, int fd_pipe[2], int child, int std_fd)
 	return (i);
 }
 
+static int ft_set_pwd(t_exec *exec)
+{
+	t_env	*tmp;
+	t_env	*node_pwd;
+
+	tmp = exec->infos->env;
+	while (tmp && ft_strncmp(tmp->key, "PWD", 4))
+		tmp = tmp->next;
+	node_pwd = tmp;
+	tmp = exec->infos->env;
+	while (tmp && ft_strncmp(tmp->key, "OLDPWD", 7))
+		tmp = tmp->next;
+	if (tmp)
+	{
+// printf("Pouet\n");
+		if (tmp->value)
+			free(tmp->value);
+		if (node_pwd)
+		{
+// printf("tagada\n");
+			tmp->value = node_pwd->value;
+// printf("Lylou\n");
+			node_pwd->value = ft_getcwd();
+// printf("pwd->value = %s\n", node_pwd->value);
+			if (!node_pwd->value)
+				return (1);
+		}
+		else
+			tmp->value = NULL;
+	}
+// printf("old->value = %s\n", tmp->value);
+	return (0);
+}
+
 int	ft_cd(t_exec *exec, int fd_pipe[2], int child, int std_fd)
 {
 	int	nb_arg;
@@ -55,6 +89,11 @@ int	ft_cd(t_exec *exec, int fd_pipe[2], int child, int std_fd)
 		perror(exec->cmd_array[0]);
 		return (ft_clean_end_builtin(exec, fd_pipe, 1, child));
 	}
-	//maj pwd : infos->env ?
-	return (0);//(ft_clean_end_builtin(exec, fd_pipe, 0, child));
+	if (ft_set_pwd(exec))
+	{
+		ft_putstr_fd("minipouet: ", 2);
+		perror(exec->cmd_array[0]);
+		return (1);
+	}
+	return (0);
 }
