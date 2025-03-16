@@ -38,12 +38,24 @@ int ft_error_exec(char *perror_str, int ret_val, t_exec *current, int fd_pipe[2]
 	return (ret_val);
 }
 
+int	ft_put_error_files(t_exec *exec, int ret_val)
+{
+	ft_putstr_fd("minipouet: ", 2);
+	if (ret_val == ERROR_INFILE)
+		perror(exec->files->infile->name);
+	else
+		perror(exec->files->outfile->name);
+	return (1);
+}
+
 void	ft_error_child(t_exec *exec, int fd_pipe[2], int *fd_to_close, int ret_val)//int ret_value
 {
 	t_exec	*exec_head;
 
 	if (ret_val == ERROR_NF)//remplacer str par un code de retour ? si oui, on n'affiche pas sur ERR_NF (-> retourner 127)
 		ret_val = 127;
+	else if (ret_val == ERROR_INFILE || ret_val == ERROR_OUTFILE)
+		ret_val = ft_put_error_files(exec, ret_val);
 	else
 		perror(exec->cmd_array[0]);//A garder ?
 	exec_head = exec->head;

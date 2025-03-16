@@ -92,5 +92,14 @@ int	ft_main_builtin_parent(t_exec *exec)
 	fd_pipe[0] = -1;
 	fd_pipe[1] = -1;
 	//gerer les redir
+	if (exec->is_heredoc)
+	{
+		if (ft_set_heredoc(exec, exec->limiter, exec->files->infile, fd_pipe))
+			return (ft_clean_end_builtin(exec, fd_pipe, 1,  0));
+	}
+	if (ft_open_infile(fd_pipe, exec, exec->files->infile, 0))//ouvrir l'infile si besoin et eventuellement fermer la lecture du pipe-1[0]
+		return (ft_clean_end_builtin(exec, fd_pipe, 1,  0));
+	if (ft_open_outfile(fd_pipe, exec, exec->files->outfile, 0))
+		return (ft_clean_end_builtin(exec, fd_pipe, 1,  0));
 	return (ft_builtin(exec, fd_pipe, 0));
 }

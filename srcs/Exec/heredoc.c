@@ -18,7 +18,7 @@ static char	*ft_set_heredoc_name(unsigned long i_heredoc)
 	char	*str_i;
 
 	str_i = ft_ultoa(i_heredoc);
-	h_name = ft_strjoin(".heredoc", str_i);//a modifier selon l'endroit ou on mettra les tmps
+	h_name = ft_strjoin("/tmp/.heredoc", str_i);//a modifier selon l'endroit ou on mettra les tmps
 	free(str_i);
 	if (access(h_name, F_OK) != -1)
 	{
@@ -63,7 +63,7 @@ static void	ft_fill_heredoc(t_lim *heredoc, int fd, int fd_pipe[2])//dans les ch
 		free(line);
 }
 
-void	ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2])
+int	ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2])
 {
 	t_lim			*tmp;
 	unsigned long	i;
@@ -80,7 +80,7 @@ void	ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2])
 		if (!tmp->h_name)
 		{
 			ft_error_exec("minipouet: heredoc", ERROR_HEREDOC, exec, fdpipe);//checker avec Nathan
-			return ;
+			return (1);
 		}
 		if (nb_lim == 1 && infile->heredoc == YES)
 			infile->name = tmp->h_name;
@@ -88,25 +88,26 @@ void	ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2])
 		if (fd == -1)
 		{
 			ft_error_exec("minipouet", ERROR_HEREDOC, exec, fdpipe);
-			return ;
+			return (1);
 		}
 		else
 			ft_fill_heredoc(tmp, fd, fdpipe);
 		if (ft_close(&fd, exec, fdpipe) == -1)
 		{
 			ft_error_exec("minipouet", ERROR_HEREDOC, exec, fdpipe);
-			return ;
+			return (1);
 		}
 		if (nb_lim > 1 || infile->heredoc != YES)
 		{
 			if (unlink(tmp->h_name) == -1)
 			{
 				ft_error_exec("minipouet", ERROR_HEREDOC, exec, fdpipe);
-				return ;
+				return (1);
 			}
 		}
 		tmp = tmp->next;
 		nb_lim--;
 		i++;
 	}
+	return (0);
 }

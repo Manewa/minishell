@@ -23,42 +23,60 @@ int ft_close(int *fd, t_exec *data, int fd_pipe[2])
 	return (0);
 }
 
-void ft_open_infile(int fd_pipe[2], t_exec *exc, t_lim *hd, t_fdata *infile)//Error avec exit
+int	ft_open_infile(int fd_pipe[2], t_exec *exc, t_fdata *infile, int child)//Error avec exit
 {
-	(void)hd;//a virer
-	// if (exc->is_heredoc > 0
-	// 		&& ft_set_heredoc(exc->is_heredoc, hd, infile, fd_pipe) < 0)//MODIFIE
-	// {
-	// 	ft_error_child(exc, fd_pipe, NULL);
-	// }
 	if (infile->heredoc == NO || infile->heredoc == YES)//donc != NO_INFO (NO = redir YES = heredoc)
 	{
 		if (exc != exc->head)
 		{
 			if(ft_close(&(infile->fd), exc, fd_pipe) == -1)
-				ft_error_child(exc, fd_pipe, NULL, 1);//code de sortie à 1 
+			{
+				if (child)
+					ft_error_child(exc, fd_pipe, NULL, ERROR_INFILE);//code de sortie à 1 
+				ft_putstr_fd("minipouet: ", 2);
+				perror(infile->name);
+				return (1);
+			}
 		}
 		infile->fd = open(infile->name, O_RDONLY);
 		if (infile->fd == -1)
-			ft_error_child(exc, fd_pipe, NULL, 1);//code de sortie à 1 
+		{
+			if (child)
+				ft_error_child(exc, fd_pipe, NULL, ERROR_INFILE);//code de sortie à 1
+			ft_putstr_fd("minipouet: ", 2);
+			perror(infile->name);
+			return (1);
+		}
 	}
+	return (0);
 }
 
-void ft_open_outfile(int fd_pipe[2], t_exec *exec, t_fdata *outfile)//Error avec exit
+int	ft_open_outfile(int fd_pipe[2], t_exec *exec, t_fdata *out, int child)//Error avec exit
 {
-	if (outfile->name != NULL)//= Redirection
+	if (out->name != NULL)//= Redirection
 	{
 		if (exec->next != NULL)
 		{
 			if(ft_close(&fd_pipe[1], exec, fd_pipe) == -1)
-				ft_error_child(exec, fd_pipe, NULL, 1);//code de sortie à 1 
+			{
+				if (child)
+					ft_error_child(exec, fd_pipe, NULL, ERROR_OUTFILE);//code de sortie à 1 
+				ft_putstr_fd("minipouet: ", 2);
+				perror(out->name);
+				return (1);
+			}
 		}
-		outfile->fd = open(outfile->name, O_WRONLY | O_APPEND);
-		if (outfile->fd == -1)
+		out->fd = open(out->name, O_WRONLY | O_APPEND);
+		if (out->fd == -1)
 		{
-			ft_error_child(exec, fd_pipe, NULL, 1);//code de sortie à 1 ;//ft_error_exec("Open output file is impossible.", data, fd_pipe);
+			if (child)
+				ft_error_child(exec, fd_pipe, NULL, ERROR_OUTFILE);//code de sortie à 1 ;//ft_error_exec("Open output file is impossible.", data, fd_pipe);
+			ft_putstr_fd("minipouet: ", 2);
+			perror(out->name);
+			return (1);
 		}
 	}
 	else if (exec->next != NULL)
-		outfile->fd = fd_pipe[1];
+		out->fd = fd_pipe[1];
+	return (0);
 }

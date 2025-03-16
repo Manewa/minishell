@@ -66,10 +66,9 @@ static void	ft_check_access(t_exec *exec, int fd_pipe[2])
 static void	ft_child(int fd_pipe[2], t_exec *one)//ici on exit si error
 {
 	/*TO DO
-	  - Gestion des builtin (/!\ cd export (!!) & unset ne sont pas utilisables en milieu de pipe)
 	  - Ajout des éléments pour les signaux
-	  */
-	ft_open_infile(fd_pipe, one, one->limiter, one->files->infile);//ouvrir l'infile si besoin et eventuellement fermer la lecture du pipe-1[0]
+	*/
+	ft_open_infile(fd_pipe, one, one->files->infile, 1);//ouvrir l'infile si besoin et eventuellement fermer la lecture du pipe-1[0]
 	if (one != one->head || one->files->infile->heredoc != NO_INFO)
 		ft_dup2(&(one->files->infile->fd), STDIN_FILENO, fd_pipe, one->head);
 	if (one->next != NULL)//Si pas le dernier on ferme la lecture du nouveau pipe
@@ -77,7 +76,7 @@ static void	ft_child(int fd_pipe[2], t_exec *one)//ici on exit si error
 		if (ft_close(&fd_pipe[0], one, fd_pipe) == -1)
 			ft_error_child(one, fd_pipe, NULL, 1);//code de sortie à 1
 	}
-	ft_open_outfile(fd_pipe, one, one->files->outfile);//ouvrir l'outfile si besoin et éventuellement fermer l'écriture du pipe[1]
+	ft_open_outfile(fd_pipe, one, one->files->outfile, 1);//ouvrir l'outfile si besoin et éventuellement fermer l'écriture du pipe[1]
 	if (one->next != NULL)
 	{
 		ft_dup2(&(one->files->outfile->fd), STDOUT_FILENO, fd_pipe, one->head);
