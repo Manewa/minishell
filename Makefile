@@ -40,6 +40,7 @@ SRCS 			=	srcs/main.c srcs/init_prompt.c ${ENV}/env.c \
 					${CHECK_BLTIN}/check_builtins.c \
 					${BUILTINS}/builtin_env.c ${BUILTINS}/cd.c \
 					${BUILTINS}/builtin_utils.c ${BUILTINS}/pwd.c \
+					${BUILTINS}/exit.c \
 
 OBJS 			=	$(patsubst %.c,${OBJDIR}/%.o,$(notdir ${SRCS}))
 

@@ -242,4 +242,8 @@ int		ft_cd(t_exec *exec, int fd_pipe[2], int child, int std_fd);
 char	*ft_getcwd(void);
 int		ft_pwd(t_exec *exec);
 
+//....................exit.c....................//
+
+int	ft_exit(t_exec *exec, int fd_pipe[2]);
+
 #endif

@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int	ft_clean_end_builtin(t_exec *exec, int fd_pipe[2], int ret, int child)//met exec pas exec->head
+int	ft_clean_end_builtin(t_exec *exec, int fd_pipe[2], int ret, int exit_proc)//met exec pas exec->head
 {
 	t_exec	*exec_head;
 
@@ -22,14 +22,10 @@ int	ft_clean_end_builtin(t_exec *exec, int fd_pipe[2], int ret, int child)//met 
 	if (exec->files->outfile->fd > -1)
 		ft_close(&(exec->files->outfile->fd), exec_head, fd_pipe);
 	if (fd_pipe[0] > -1)
-	{
 		ft_close(&fd_pipe[0], exec_head, fd_pipe);
-	}
 	if (fd_pipe[1] > -1)
-	{
 		ft_close(&fd_pipe[1], exec_head, fd_pipe);
-	}
-	if (child)
+	if (exit_proc)
 	{
 		ft_free_infos(exec->infos, 0, 0);
 		ft_clean_end_exec(exec_head);
@@ -38,13 +34,12 @@ int	ft_clean_end_builtin(t_exec *exec, int fd_pipe[2], int ret, int child)//met 
 	return (ret);
 }
 
-int	ft_builtin(t_exec *exec, int fd_pipe[2], int child)
+static int	ft_set_stdfd(t_exec *exec)
 {
 	int	std_fd;//1 = in 2 = out 3 = in + out
-	int	ret_val;
-
+	
 	std_fd = 0;
-	if (exec->files->infile->fd == -1)//Du coup on les ferme en cas d'erreur...
+	if (exec->files->infile->fd == -1)
 	{
 		std_fd = 1;
 		exec->files->infile->fd = STDIN_FILENO;
@@ -54,16 +49,23 @@ int	ft_builtin(t_exec *exec, int fd_pipe[2], int child)
 		std_fd += 2;
 		exec->files->outfile->fd = STDOUT_FILENO;
 	}
+	return (std_fd);
+}
+
+int	ft_builtin(t_exec *exec, int fd_pipe[2], int child)
+{
+	int	ret_val;
+	int	std_fd;
+
+	std_fd = ft_set_stdfd(exec);
 	if (exec->builtin == ECHO)
 	{
 		;
 	}
 	else if (exec->builtin == CD)
-		ret_val = ft_cd(exec, fd_pipe, child, std_fd);//Aileen
+		ret_val = ft_cd(exec, fd_pipe, child, std_fd);
 	else if (exec->builtin == PWD)
-	{
-		ret_val = ft_pwd(exec);//Aileen
-	}
+		ret_val = ft_pwd(exec);
 	else if (exec->builtin == EXPORT)
 	{
 		;//Nathan
@@ -75,10 +77,8 @@ int	ft_builtin(t_exec *exec, int fd_pipe[2], int child)
 	else if (exec->builtin == ENV)
 		ret_val = ft_env(exec->infos, exec, exec->files->outfile);
 	else if (exec->builtin == EXIT)
-	{
-		;//Aileen
-	}
-	if (std_fd == 1 || std_fd == 3)//jouer avec les param de clean end builtin si on doit virer ces 4 lignes
+		ret_val = ft_exit(exec, fd_pipe);
+	if (std_fd == 1 || std_fd == 3)
 		exec->files->infile->fd = -1;
 	if (std_fd == 2 || std_fd == 3)
 		exec->files->outfile->fd = -1;
