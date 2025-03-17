@@ -6,7 +6,7 @@
 #    By: namalier <namalier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 16:29:28 by namalier          #+#    #+#              #
-#    Updated: 2025/03/06 16:27:42 by natgomali        ###   ########.fr        #
+#    Updated: 2025/03/16 17:46:10 by natgomali        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCS 			=	srcs/main.c srcs/init_prompt.c ${ENV}/env.c \
 					${BUILTINS}/builtin_env.c ${BUILTINS}/cd.c \
 					${BUILTINS}/builtin_utils.c ${BUILTINS}/pwd.c \
 					${BUILTINS}/exit.c ${BUILTINS}/echo.c \
+					${BUILTINS}/export.c \
 
 OBJS 			=	$(patsubst %.c,${OBJDIR}/%.o,$(notdir ${SRCS}))
 

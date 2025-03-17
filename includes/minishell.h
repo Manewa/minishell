@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/13 17:56:56 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/16 18:02:03 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int		init_prompt(t_infos *infos, char **envp);
 
 /************		env/env				**********/
 
+t_env	*insert_sorted(t_env *head, t_env *new);
+void	sort_env_list(t_env **head);
 void 	ft_cpypath(t_infos *infos, t_exec *exec);
 void 	env_key_n_value(t_env *env, char **envp, size_t i);
 t_env	*ft_cpyenv(char **envp);
@@ -193,6 +195,13 @@ int		out_of_squote(char *line, int *readed);
 size_t	ft_safe_strlen(const char *c);
 void	print_keynvalue(int fd, t_env *env);
 int		ft_env(t_infos *infos, t_exec *exec, t_fdata *outfile);
+
+/************   builtins/env                ***********/
+
+void	add_to_env(t_env **head, char *str);
+int	check_var(char *var);
+void	write_env(t_env *head, int fd_out);
+int	ft_export(t_exec *exec, int fd_out);
 
 /*************THE POUETERS EXECUTIONERS*****************/
 

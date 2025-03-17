@@ -6,7 +6,7 @@
 /*   By: aibonade <aibonade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:05:20 by aibonade          #+#    #+#             */
-/*   Updated: 2025/03/13 14:40:56 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/16 17:45:00 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	ft_builtin(t_exec *exec, int fd_pipe[2], int child)
 		ret_val = ft_pwd(exec);
 	else if (exec->builtin == EXPORT)
 	{
-		;//Nathan
+		ret_val = ft_export(exec, exec->files->outfile->fd);
 	}
 	else if (exec->builtin == UNSET)
 	{

@@ -49,7 +49,7 @@ void	quotes_detecter(t_exec *current)
 	int	second;
 
 	i = 0;
-	while (current->cmd_array[i])
+	while (current && current->cmd_array && current->cmd_array[i])
 	{
 		first = 0;
 		while (current->cmd_array[i][first])

@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:18:10 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/09 12:29:41 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/16 14:48:55 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	find_pathcmd(char **path, t_exec *exec)
 	char	*pathcmd;
 
 	i = 0;
-	while (path[i])
+	while (path && path[i])
 	{
 		pathcmd = ft_pathcmd(exec->cmd_array[0], exec->path[i]);
 		if (!pathcmd)

@@ -6,7 +6,7 @@
 #    By: namalier <namalier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/21 19:37:32 by namalier          #+#    #+#              #
-#    Updated: 2025/02/21 16:00:43 by natgomali        ###   ########.fr        #
+#    Updated: 2025/03/16 12:48:38 by natgomali        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRCS		=	ft_atoi.c ft_isascii.c ft_memchr.c ft_strchr.c ft_strlen.c \
 				ft_strrchr.c ft_strjoin.c ft_substr.c ft_strtrim.c ft_split.c \
 				ft_itoa.c ft_strmapi.c ft_striteri.c ft_putchar_fd.c \
 				ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
-				ft_free_doubletab.c ft_strstr.c \
+				ft_free_doubletab.c ft_strstr.c ft_strcmp.c \
 				$(GNLDIR)/get_next_line.c $(GNLDIR)/get_next_line_utils.c \
 
 				

@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 15:11:19 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/21 16:00:31 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/16 12:48:25 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,6 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 void	ft_lstfree(t_list **a);
 void	*ft_free_doubletab(char **str);
 char    *ft_strstr(char *str, char *to_find);
+int		ft_strcmp(char *s1, char *s2);
 
 #endif
