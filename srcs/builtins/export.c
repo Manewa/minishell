@@ -6,7 +6,7 @@
 /*   By: natgomali <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:41:09 by natgomali         #+#    #+#             */
-/*   Updated: 2025/03/16 18:05:55 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/17 15:32:37 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,13 @@ void	add_to_env(t_env **head, char *str)
 		new->key[j] = str[j];
 		j++;
 	}
+	new->key[j] = '\0';
 	if (!check_key(new, *head))
 		return ;
-	new->key[j++] = '\0';
-	new->value = ft_strdup(&(str[j]));
+	if (str[j++])
+		new->value = ft_strdup(&(str[j]));
+	else
+		new->value = NULL;
 	*head = insert_sorted(*head, new);
 }
 
@@ -60,7 +63,9 @@ int	check_var(char *var)
 {
 	size_t	i;
 
-	i = 0;
+	i = 1;
+	if (!ft_isalpha(var[0]) && var[0] != '_')
+		return (0);
 	while (var[i] && var[i] != '=')
 	{
 		if ((i == 0 && !ft_isalnum(var[i]))
@@ -80,9 +85,9 @@ void	write_env(t_env *head, int fd_out)
 	{
 		ft_putstr_fd("declare -x ", fd_out);
 		write(fd_out, current->key, ft_safe_strlen(current->key));
-		write(fd_out, "=", 1);
-		if (current->value)
+		if (current->value != NULL)
 		{
+			write(fd_out, "=", 1);
 			write (fd_out, "\"", 1);
 			write (fd_out, current->value, ft_safe_strlen(current->value));
 			write (fd_out, "\"", 1);
@@ -98,7 +103,6 @@ int	ft_export(t_exec *exec, int fd_out)
 	int		errno;
 
 	i = 1;
-	errno = 0;
 	if (!exec->cmd_array[1])
 		write_env(exec->infos->env, fd_out);
 	else
@@ -107,18 +111,17 @@ int	ft_export(t_exec *exec, int fd_out)
 		{
 			if (check_var(exec->cmd_array[i]))
 				add_to_env(&(exec->infos->env), exec->cmd_array[i]);
-			else if (errno == 0)
-				errno = i;
+			else 
+			{
+				write (fd_out, "pouetsh: export: `", 18);
+				write (fd_out, exec->cmd_array[i],
+						ft_safe_strlen(exec->cmd_array[i]));
+				write (fd_out,  "': not a valid identifier\n", 26);
+			}
 			i++;
 		}
 	}
 	if (errno != 0)
-	{
-		write (2, "pouetsh: export: `", 17);
-		write (2, exec->cmd_array[errno],
-				ft_safe_strlen(exec->cmd_array[errno]));
-		write (2,  "': not a valid identifier", 25);
 		return (1);
-	}
 	return (0);
 }

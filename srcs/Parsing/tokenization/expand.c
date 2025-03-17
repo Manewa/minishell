@@ -139,7 +139,7 @@ char *substitute_expand(char *line, t_infos *infos, int exp)
 	start = exp;
 	end = exp;
 	j = 0;
-	while (line[end] && (ft_isalnum(line[end]) == 1 || line[end] == '_'))
+	while (line[end] && (ft_isalpha(line[end]) == 1 || line[end] == '_'))
 			end++;
 	if (end != start)
 		expand = malloc((end - start + 1)*sizeof(char));
