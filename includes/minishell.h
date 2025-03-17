@@ -244,6 +244,10 @@ int		ft_pwd(t_exec *exec);
 
 //....................exit.c....................//
 
-int	ft_exit(t_exec *exec, int fd_pipe[2]);
+int		ft_exit(t_exec *exec, int fd_pipe[2]);
+
+//....................echo.c....................//
+
+int		ft_echo(t_exec *exec, int std_fd);
 
 #endif

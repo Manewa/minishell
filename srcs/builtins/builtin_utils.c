@@ -59,9 +59,7 @@ int	ft_builtin(t_exec *exec, int fd_pipe[2], int child)
 
 	std_fd = ft_set_stdfd(exec);
 	if (exec->builtin == ECHO)
-	{
-		;//Aileen
-	}
+		ret_val = ft_echo(exec, std_fd);//Aileen
 	else if (exec->builtin == CD)
 		ret_val = ft_cd(exec, fd_pipe, child, std_fd);
 	else if (exec->builtin == PWD)
