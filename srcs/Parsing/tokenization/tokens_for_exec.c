@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:28:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/11 17:00:04 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/17 18:44:47 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@
  * for each type, redirect to the right exec_type function
  */
 
-int exec_type(t_exec *exec, t_token **current, t_token *head)
+int exec_type(t_exec *exec, t_token **current)
 {
-	if (*current == head && (*current)->type == PIPE)
-		return (0); /*Error : "zsh: parse error near `|'" si le premier charactere est un pipe*/
 	while (*current && (*current)->type != PIPE)
 	{
 			if ((*current)->type == INREDIR)
@@ -75,10 +73,13 @@ t_exec	*tokens_for_exec(t_token *head_token)
 
 	current_token = head_token;
 	head_exec = exec_init(0, current_token);
+	if (!head_exec)
+		ft_exit_exec(head_token, head_exec, 1);
 	head_exec->env = env_double_tab(head_exec->infos->env);
-	if (exec_type(head_exec, &current_token, head_token) == 0)
-		return (0);
-	while (current_token != NULL/* && current_token->next != NULL*/)
+	if (!head_exec->env)
+		ft_exit_exec(head_token, head_exec, 1);
+	exec_type(head_exec, &current_token);
+	while (current_token != NULL)
 	{
 		if (current_token && current_token->type == PIPE)
 		{
@@ -86,13 +87,13 @@ t_exec	*tokens_for_exec(t_token *head_token)
 			continue ;
 		}
 		current_exec = exec_init(head_exec, current_token);
-		current_exec->env = current_exec->head->env;
 		if (!current_exec)
-			return (NULL);
-		if (exec_type(current_exec, &current_token, head_token) == 0)
-			return (0);
+			ft_exit_exec(head_token, head_exec, 1);
+		current_exec->env = current_exec->head->env;
+		exec_type(current_exec, &current_token);
 		ft_execadd_back(&head_exec, current_exec);
-		if (current_token && current_token->next != NULL && current_token->type != 5)
+		if (current_token && current_token->next != NULL
+				&& current_token->type != 5)
 			current_token = current_token->next;
 		else if (current_token && current_token->type == 5)
 			continue ;
@@ -120,6 +121,6 @@ t_exec	*main_parsing(t_infos *infos)
 		quotes_detecter(tmp);
 		tmp = tmp->next;
 	}
-//	ft_free_token(token);
+	ft_free_token(token);
 	return (exec);
 }

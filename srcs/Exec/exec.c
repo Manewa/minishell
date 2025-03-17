@@ -146,6 +146,8 @@ int	ft_main_exec(t_exec *lst)//debut de l'exec avec récupération de la liste d
 
 	errno = 0;
 	sig = 0;
+	exec_ret = 0;
+	sig = 0;
 	if ((lst->builtin == CD || lst->builtin == EXPORT || lst->builtin == EXIT || lst->builtin == UNSET) && !lst->next)
 		lst->infos->exit_val = ft_main_builtin_parent(lst);//faire un sas
 	else

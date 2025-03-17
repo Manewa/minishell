@@ -96,7 +96,7 @@ char	*expand_main(char *line, t_infos *infos);
 
 /***********     tokenization/tokens_for_exec **********/
 
-int     exec_type(t_exec *exec, t_token **current, t_token *head);
+int     exec_type(t_exec *exec, t_token **current);
 t_exec  *exec_init(t_exec *head, t_token *current);
 t_exec	*tokens_for_exec(t_token *head_token);
 t_exec	*main_parsing(t_infos *infos);
@@ -179,6 +179,9 @@ void	*ft_free_infos(t_infos *infos, char *error, int exit_prg);
 void	*ft_free_token(t_token *token);
 void	*ft_free_infoken(t_infos *infos, t_token *token, char *error, int exit_prg);
 void	*ft_error_parsing(t_infos *infos, t_token *token, char c);
+void    *ft_exit_exec(t_token *head_token, t_exec *exec, int exit_prg);
+void    ft_free_files(t_files *files);
+void    ft_free_limiter(t_lim *lim);
 
 /************   utils/quotes_remover   **********/
 

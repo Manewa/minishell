@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:10:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/16 14:54:52 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/17 17:50:12 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ void ft_cpypath(t_infos *infos, t_exec *exec)
 	if (!tmp)
 		return ;
 	exec->path = ft_split(tmp->value, ':');
-	if (!(exec->path))
-		return ;
 }
 
 /*
