@@ -19,13 +19,6 @@ static int ft_nb_args_exit(t_exec *exec)
 	i = 0;
 	while (exec->cmd_array[i])
 		i++;
-	if (i > 2)
-	{
-		ft_putstr_fd("minipouet: ", 2);
-		ft_putstr_fd(exec->cmd_array[0], 2);
-		ft_putstr_fd(": too many arguments\n", 2);
-		return (i);
-	}
 	return (i);
 }
 
@@ -57,18 +50,23 @@ static int	ft_check_arg_exit(t_exec *exec)
 	return (0);
 }
 
-int	ft_exit(t_exec *exec, int fd_pipe[2])
+int	ft_exit(t_exec *exec, int fd_pipe[2])//42 ???
 {
 	int	ret;
 	int	nb_arg;
 
 	ft_putstr_fd("exit\n", exec->files->outfile->fd);
 	nb_arg = ft_nb_args_exit(exec);
-	if(nb_arg > 2)
-		return (1);
 	ret = 0;
-	if (nb_arg == 2 && ft_check_arg_exit(exec))
+	if (nb_arg > 1 && ft_check_arg_exit(exec))
 		ret = 2;
+	else if (nb_arg > 2)
+	{
+		ft_putstr_fd("minipouet: ", 2);
+		ft_putstr_fd(exec->cmd_array[0], 2);
+		ft_putstr_fd(": too many arguments\n", 2);
+		return (1);
+	}
 	if (!ret && nb_arg == 2 && exec->cmd_array[1] && exec->cmd_array[1][0])
 		ret = ft_atoi(exec->cmd_array[1]);
 	else if (!ret)
