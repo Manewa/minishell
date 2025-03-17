@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:01:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/13 10:23:07 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/17 11:36:13 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ int	sig_global = 0;
 
 void	get_readline(t_infos *infos)
 {
+	infos->line = readline("minipouet> ");
+	if (!infos->line)
+		ft_free_infos(infos, 0, -1);
 	if (sig_global == SIGINT)
 	{
 		infos->exit_val = 130;
 		sig_global = 0;
 	}
-	infos->line = readline("minipouet> ");
-	if (!infos->line)
-		ft_free_infos(infos, 0, -1);
 }
 
 int main(int argc, char **argv, char **envp)

@@ -18,6 +18,10 @@ void ft_lstenvfree(t_env *env)
 
 void	*ft_free_infos(t_infos *infos, char *error, int exit_prg)
 {
+	int	ex;
+
+	if (exit_prg == -1)
+		ex = infos->exit_val;
 	if (exit_prg == 1 && infos->line)
 		free(infos->line);
 	if (infos->env && exit_prg == 1)
@@ -29,7 +33,10 @@ void	*ft_free_infos(t_infos *infos, char *error, int exit_prg)
 	if (exit_prg > 0)
 		exit (exit_prg);
 	else if (exit_prg == -1)
-		exit (0);
+	{
+		write(2, "exit\n", 5);
+		exit(ex);
+	}
 	return (NULL);
 }
 
