@@ -40,13 +40,16 @@ static int	ft_fill_heredoc(t_infos *infos, t_lim *heredoc, int fd, int fd_pipe[2
 {
 	char	*line;
 	char	*lim;
+	int		nb_line;
 
 //fd_pipe pour les signaux & gestion d'erreur
 	(void)fd_pipe;//A Supprimer une fois implemente !!!!!!!!! (pouet)
+	nb_line = 0;
 	lim = heredoc->limit;
 	line = readline("> ");
 	while (line && ft_strncmp(line, lim, ft_strlen(lim) + 1))
 	{
+		nb_line++;
 		if (heredoc->quotes == NO)
 		{
 			line = expand_main_heredoc(line, infos);//line = ft_expand pour les var uniquement...
@@ -58,7 +61,7 @@ static int	ft_fill_heredoc(t_infos *infos, t_lim *heredoc, int fd, int fd_pipe[2
 		free(line);
 		line = readline("> ");
 		if (!line)//A checker : ctrl D n'est a gerer que pour exit du shell normalement
-			ft_putstr_fd("Avertissement car EOF et pas limiter (ferme avec ctrl+D et pas mot-clef), mais la suite s'exécute bien.\n", 1);//a reformuler
+			printf("minipouet: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", nb_line, heredoc->h_name);
 	}
 	if (line)
 		free(line);

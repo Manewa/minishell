@@ -39,6 +39,7 @@ static void ft_free_heredoc_lst(t_lim *lim)
 		nxt = current->next;
 		if (current->h_name)
 			free(current->h_name);
+		free(current->limit);
 		free(current);
 		current = nxt;
 	}
