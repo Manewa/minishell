@@ -75,7 +75,12 @@ static char *expand_to_env_hd(char *to_expand, t_env *env)
 			return(NULL);
 		return (value);
 	}
-	return (NULL);
+	free (to_expand);
+	to_expand = malloc (1 * sizeof(char));
+	if (!to_expand)
+		return (NULL);
+	to_expand[0] = '\0';
+	return (to_expand);
 }
 
 /* Expanded_new_line will replace the old key by the value in infos->env found by expand_to_env.
@@ -137,8 +142,7 @@ static char *substitute_expand_heredoc(char *line, t_infos *infos, int exp)
 	j = 0;
 	while (line[end] && (ft_isalpha(line[end]) == 1 || line[end] == '_'))
 			end++;
-	if (end != start)
-		expand = malloc((end - start + 1)*sizeof(char));
+	expand = malloc((end - start + 1)*sizeof(char));
 	if (!expand)
 		return (free(line), NULL);
 	while (start < end)

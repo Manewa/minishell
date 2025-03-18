@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/17 14:05:55 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/18 12:33:00 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,11 +181,13 @@ void	*ft_free_infoken(t_infos *infos, t_token *token, char *error, int exit_prg)
 void	*ft_error_parsing(t_infos *infos, t_token *token, char c);
 void    *ft_exit_exec(t_token *head_token, t_exec *exec, int exit_prg);
 void    ft_free_limiter(t_lim *lim);
+void	ft_free_files_parsing(t_files *files);
 
 /************   utils/quotes_remover   **********/
 
 int     quotes_count(char *str);
 void    quotes_detecter(t_exec *current);
+void	quotes_detecter_heredoc(t_lim *head);
 
 /************	utils/quotes	            ***********/
 

@@ -6,7 +6,7 @@
 /*   By: natgomali <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:25:01 by natgomali         #+#    #+#             */
-/*   Updated: 2025/03/17 18:58:39 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/18 12:33:09 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void *ft_exit_exec(t_token *token, t_exec *head_exec, int exit_prg)
 	{
 		exec = head_exec;
 		if (exec->files)
-			ft_free_files(exec->files);
+			ft_free_files_parsing(exec->files);
 		if (exec->limiter)
 			ft_free_limiter(exec->limiter);
 		if (exec->path)
@@ -116,7 +116,7 @@ void *ft_exit_exec(t_token *token, t_exec *head_exec, int exit_prg)
 	return (NULL);
 }
 
-static void ft_free_files(t_files *files)
+void ft_free_files_parsing(t_files *files)
 {
 	if (files->infile)
 	{

@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:36 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/11 13:00:38 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/18 12:59:07 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,12 @@ char *expand_to_env(char *to_expand, t_env *env)
 			return(NULL);
 		return (value);
 	}
-	return (NULL);
+	free (to_expand);
+	to_expand = malloc (1 * sizeof(char));
+	if (!to_expand)
+		return (NULL);
+	to_expand[0] = '\0';
+	return (to_expand);
 }
 
 /* Expanded_new_line will replace the old key by the value in infos->env found by expand_to_env.
@@ -141,8 +146,7 @@ char *substitute_expand(char *line, t_infos *infos, int exp)
 	j = 0;
 	while (line[end] && (ft_isalpha(line[end]) == 1 || line[end] == '_'))
 			end++;
-	if (end != start)
-		expand = malloc((end - start + 1)*sizeof(char));
+	expand = malloc((end - start + 1)*sizeof(char));
 	if (!expand)
 		return (ft_free_infos(infos, "ERROR : Can not malloc the expand", 1));
 	while (start < end)
@@ -195,5 +199,7 @@ char *expand_main(char *line, t_infos *infos)
 		if (line[i] && (line[0] != '$' || line[0] != 39))
 			i++;
 	}
-	return (line);
+	if (line[0])
+		return (line);
+	return (NULL);
 }

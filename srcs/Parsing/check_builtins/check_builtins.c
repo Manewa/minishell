@@ -6,7 +6,7 @@
 /*   By: natgomali <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:01:45 by natgomali         #+#    #+#             */
-/*   Updated: 2025/03/04 18:36:44 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/18 13:05:15 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_strcmp(char *line, char *builtin)
 	size_t	i;
 
 	i = 0;
-	while (line[i] == builtin[i] && line[i] && builtin[i])
+	while (line[i] && builtin[i] && line[i] == builtin[i])
 		i++;
 	return (line[i] - builtin[i]);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quotes_remover.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: natgomali <marvin@42.fr>                   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/18 13:49:18 by natgomali         #+#    #+#             */
+/*   Updated: 2025/03/18 13:50:37 by natgomali        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include "../../../includes/minishell.h"
 
 int quotes_count(char *str)
@@ -16,7 +28,7 @@ int quotes_count(char *str)
 	return (quotes);
 }
 
-char *quotes_remover(char *str, int *first, int second)
+static char *quotes_remover(char *str, int *first, int second)
 {
 	int		i;
 	int		j;
@@ -72,5 +84,38 @@ void	quotes_detecter(t_exec *current)
 				first++;
 		}
 		i++;
+	}
+}
+
+void	quotes_detecter_heredoc(t_lim *head)
+{
+	int		first;
+	int		second;
+	t_lim 	*current;
+
+	current = head;
+	while (current && current->limit)
+	{
+		first = 0;
+		while (current->limit[first])
+		{
+			if (current->limit[first] == '"')
+			{
+				second = first;
+				out_of_dquote(current->limit, &second);
+				current->limit = quotes_remover(current->limit,
+						&first, second);
+			}
+			else if (current->limit[first] == 39)
+			{
+				second = first;
+				out_of_squote(current->limit, &second);
+				current->limit = quotes_remover(current->limit,
+						&first, second);
+			}
+			else
+				first++;
+		}
+		current = current->next;
 	}
 }

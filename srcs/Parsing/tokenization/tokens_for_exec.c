@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:28:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/17 18:44:47 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/18 13:48:45 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ t_exec	*main_parsing(t_infos *infos)
 	while (tmp)
 	{
 		quotes_detecter(tmp);
+		if (tmp->limiter)
+			quotes_detecter_heredoc(tmp->limiter);
 		tmp = tmp->next;
 	}
 	ft_free_token(token);

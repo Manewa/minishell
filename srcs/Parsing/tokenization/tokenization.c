@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:59:53 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/11 13:36:32 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/18 13:02:40 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ t_token	*tokenization(t_infos *infos)
 	readed = 0;
 	start = 0;
 	infos->line = expand_main(infos->line, infos);
+	if (!infos->line || !infos->line[0])
+		return (NULL);
 	if (check_error(infos))
 		return (NULL);
 	token_head = create_token(infos, &readed, &start);
