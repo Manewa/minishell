@@ -116,7 +116,7 @@ void *ft_exit_exec(t_token *token, t_exec *head_exec, int exit_prg)
 	return (NULL);
 }
 
-void ft_free_files(t_files *files)
+static void ft_free_files(t_files *files)
 {
 	if (files->infile)
 	{

@@ -180,7 +180,6 @@ void	*ft_free_token(t_token *token);
 void	*ft_free_infoken(t_infos *infos, t_token *token, char *error, int exit_prg);
 void	*ft_error_parsing(t_infos *infos, t_token *token, char c);
 void    *ft_exit_exec(t_token *head_token, t_exec *exec, int exit_prg);
-void    ft_free_files(t_files *files);
 void    ft_free_limiter(t_lim *lim);
 
 /************   utils/quotes_remover   **********/
@@ -223,6 +222,10 @@ char	*ft_ultoa(unsigned long n);
 int		ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2]);
 // void	ft_check_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int pipe[2]);
 // int		ft_set_heredoc(int nb_lim, t_lim *heredoc, t_fdata *infile, int fd_pipe[2]);
+
+//...............heredoc_expand.c................//
+
+char *expand_main_heredoc(char *line, t_infos *infos);
 
 //..................exec_free.c..................//
 

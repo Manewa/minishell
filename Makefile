@@ -31,7 +31,7 @@ SRCS 			=	srcs/main.c srcs/init_prompt.c ${ENV}/env.c \
 					${SIGNALS}/set_signals.c \
 					${EXEC}/exec_error.c ${EXEC}/exec.c ${EXEC}/exec_files.c \
 					${EXEC}/exec_free.c ${EXEC}/heredoc_utils.c \
-					${EXEC}/heredoc.c \
+					${EXEC}/heredoc.c ${EXEC}/heredoc_expand.c \
 					${UTILS}/quotes.c ${UTILS}/quotes_remover.c \
 					${UTILS}/utils_lst.c ${UTILS}/utils_lst2.c \
 					${UTILS}/utils_lst3.c \

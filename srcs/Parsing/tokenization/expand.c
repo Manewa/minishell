@@ -98,16 +98,16 @@ char *expanded_new_line(char *old_line, int start, int end, char *expand)
 	j = 0;
 	if (!expand)
 		new_line = malloc((ft_strlen(old_line) - (end - start) + 1)
-				* sizeof(char));
+					* sizeof(char));
 	else
 		new_line = malloc((ft_strlen(old_line) - (end - start)
 					+ ft_strlen(expand) + 1)*sizeof(char));
 	if (!new_line)
-	{
-		free (expand);
-		free (old_line);
-		return (NULL);
-	}
+    {
+        if (expand)
+            free(expand);
+        return (free(old_line), NULL);
+    }
 	while (i < start && old_line[i] != '$')
 	{
 		new_line[i] = old_line[i];
