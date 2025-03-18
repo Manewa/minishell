@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:28:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/18 13:48:45 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/18 14:16:46 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ t_exec	*main_parsing(t_infos *infos)
 	t_exec	*exec;
 	t_exec	*tmp;
 
+	if (!check_quotes(infos->line))
+		return (ft_free_infos(infos, 0, 0));
 	token = tokenization(infos);
 	if (!token)
 		return (NULL);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_quotes.c                                     :+:      :+:    :+:   */
+/*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:30:55 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/24 13:36:54 by namalier         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:20:09 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,34 @@ int	out_of_squote(char *line, int *readed)
 	return(count_quote);
 }
 
+int	check_quotes(char *str)
+{
+	int	i;
+	int	count_quotes;
+
+	i = 0;
+	while (str[i])
+	{
+		count_quotes = 0;
+		while (str[i] && str[i] != '|')
+		{
+			if (str[i] == '"')
+				count_quotes += out_of_dquote(str, &i);
+			else if (str[i] == 39)
+				count_quotes += out_of_squote(str, &i);
+			if (str[i])
+				i++;
+		}
+		while (str[i] && str[i] == '|')
+			i++;
+	}
+	if (count_quotes % 2 != 0)
+	{
+		ft_putstr_fd("pouetsh : error quote not closed\n", 2);
+		return (0);
+	}
+	return (1);
+}
 /*int	new_doublequote(t_infos	*infos, size_t *i, size_t *count_flags,
 						size_t count_quote)
 {

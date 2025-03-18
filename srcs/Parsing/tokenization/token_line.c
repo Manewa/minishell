@@ -97,12 +97,6 @@ void	token_line_wip(t_token *token, char *line, int *readed, int *start)
 		if (line && line[*readed])
 			(*readed)++;
 	}
-	if (count_quote % 2 != 0)
-	{
-		ft_putstr_fd("pouetsh : error quote not closed\n", 2);
-		ft_free_infoken(token->infos, token, 0, 0);
-		return ;
-	}
 	ft_cpytoken(token, line, *start, *readed);
 	*start = *readed;
 }
