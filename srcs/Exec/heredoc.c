@@ -36,7 +36,7 @@ static char	*ft_set_heredoc_name(unsigned long i_heredoc)
 }
 
 
-static void	ft_fill_heredoc(t_lim *heredoc, int fd, int fd_pipe[2])//dans les child, voir set_heredoc
+static int	ft_fill_heredoc(t_infos *infos, t_lim *heredoc, int fd, int fd_pipe[2])//dans les child, voir set_heredoc
 {
 	char	*line;
 	char	*lim;
@@ -45,12 +45,13 @@ static void	ft_fill_heredoc(t_lim *heredoc, int fd, int fd_pipe[2])//dans les ch
 	(void)fd_pipe;//A Supprimer une fois implemente !!!!!!!!! (pouet)
 	lim = heredoc->limit;
 	line = readline("> ");
-
 	while (line && ft_strncmp(line, lim, ft_strlen(lim) + 1))
 	{
 		if (heredoc->quotes == NO)
 		{
-			;//line = ft_expand pour les var uniquement...
+			line = expand_main_heredoc(line, infos);//line = ft_expand pour les var uniquement...
+			if (!line)
+				return (1);
 		}
 		ft_putstr_fd(line, fd);
 		ft_putstr_fd("\n", fd);
@@ -61,6 +62,7 @@ static void	ft_fill_heredoc(t_lim *heredoc, int fd, int fd_pipe[2])//dans les ch
 	}
 	if (line)
 		free(line);
+	return (0);
 }
 
 int	ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2])
@@ -78,32 +80,27 @@ int	ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2])
 		tmp->h_name = NULL;//utile ? 
 		tmp->h_name = ft_set_heredoc_name(i);
 		if (!tmp->h_name)
-		{
-			ft_error_exec("minipouet: heredoc", ERROR_HEREDOC, exec, fdpipe);//checker avec Nathan
-			return (1);
-		}
+			return (ft_error_exec("minipouet: heredoc", ERROR_HEREDOC, exec, fdpipe));
 		if (nb_lim == 1 && infile->heredoc == YES)
 			infile->name = tmp->h_name;
 		fd = open(tmp->h_name, O_WRONLY | O_TRUNC | O_CREAT, 0664);
 		if (fd == -1)
+			return (ft_error_exec("minipouet", ERROR_HEREDOC, exec, fdpipe));//minipouet ou pouetsh ?
+		if (ft_fill_heredoc(exec->infos, tmp, fd, fdpipe))
 		{
-			ft_error_exec("minipouet", ERROR_HEREDOC, exec, fdpipe);
-			return (1);
+			ft_close(&fd, exec, fdpipe);
+			unlink(tmp->h_name);
+			return (ft_error_exec("minipouet", ERROR_HEREDOC, exec, fdpipe));
 		}
-		else
-			ft_fill_heredoc(tmp, fd, fdpipe);
 		if (ft_close(&fd, exec, fdpipe) == -1)
 		{
-			ft_error_exec("minipouet", ERROR_HEREDOC, exec, fdpipe);
-			return (1);
+			unlink(tmp->h_name);
+			return (ft_error_exec("minipouet", ERROR_HEREDOC, exec, fdpipe));
 		}
 		if (nb_lim > 1 || infile->heredoc != YES)
 		{
 			if (unlink(tmp->h_name) == -1)
-			{
-				ft_error_exec("minipouet", ERROR_HEREDOC, exec, fdpipe);
-				return (1);
-			}
+				return (ft_error_exec("minipouet", ERROR_HEREDOC, exec, fdpipe));
 		}
 		tmp = tmp->next;
 		nb_lim--;

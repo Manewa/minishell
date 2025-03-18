@@ -107,7 +107,8 @@ static int	ft_exec(t_exec *lst, pid_t *last)
 		fd_pipe[0] = -1;
 		fd_pipe[1] = -1;
 		if (now->is_heredoc)
-			ft_set_heredoc(now, now->limiter, now->files->infile, fd_pipe);
+			if (ft_set_heredoc(now, now->limiter, now->files->infile, fd_pipe))
+				return (ERROR_HEREDOC);
 		if ((now->next != NULL) && (pipe(fd_pipe) == -1))
 			return(ft_error_exec("minipouet", ERROR_PIPE, now, fd_pipe));
 		signal(SIGINT, SIG_IGN);
@@ -149,11 +150,11 @@ int	ft_main_exec(t_exec *lst)//debut de l'exec avec récupération de la liste d
 	exec_ret = 0;
 	sig = 0;
 	if ((lst->builtin == CD || lst->builtin == EXPORT || lst->builtin == EXIT || lst->builtin == UNSET) && !lst->next)
-		lst->infos->exit_val = ft_main_builtin_parent(lst);//faire un sas
+		lst->infos->exit_val = ft_main_builtin_parent(lst);
 	else
 		exec_ret = ft_exec(lst, &last);
-	if (exec_ret > ERROR_EXEC)
-	{
+	// if (exec_ret > ERROR_EXEC)
+	// {
 		tmp = wait(&status);
 		while (tmp > 0)
 		{
@@ -167,7 +168,7 @@ int	ft_main_exec(t_exec *lst)//debut de l'exec avec récupération de la liste d
 			}
 			tmp = wait(&status);
 		}
-	}
+	// }
 	if (sig == SIGINT)
 		write (1, "\n", 1);
 	if(exec_ret <= ERROR_EXEC)

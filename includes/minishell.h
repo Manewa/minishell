@@ -220,8 +220,6 @@ char	*ft_ultoa(unsigned long n);
 //...................heredoc.c...................//
 
 int		ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2]);
-// void	ft_check_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int pipe[2]);
-// int		ft_set_heredoc(int nb_lim, t_lim *heredoc, t_fdata *infile, int fd_pipe[2]);
 
 //...............heredoc_expand.c................//
 
@@ -269,6 +267,6 @@ int		ft_exit(t_exec *exec, int fd_pipe[2]);
 
 //....................echo.c....................//
 
-int		ft_echo(t_exec *exec, int std_fd);
+int		ft_echo(t_exec *exec);
 
 #endif
