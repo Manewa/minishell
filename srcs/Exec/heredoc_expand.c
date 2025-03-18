@@ -70,7 +70,7 @@ static char *expand_to_env_hd(char *to_expand, t_env *env)
 		value = ft_strdup(tmp->value);
 		if (!value)
 			return(NULL);
-		value = check_name(value, to_expand);
+		value = check_name_hd(value, to_expand);
 		if (!value)
 			return(NULL);
 		return (value);
@@ -144,10 +144,10 @@ static char *substitute_expand_heredoc(char *line, t_infos *infos, int exp)
 	while (start < end)
 		expand[j++] = line[start++];
 	expand[j] = '\0';
-	expand = expand_to_env(expand, infos->env);
+	expand = expand_to_env_hd(expand, infos->env);
 	if (!expand)
 		return (free(line), NULL);
-	expand = expanded_new_line(line, exp - 1, end, expand);
+	expand = expanded_new_line_hd(line, exp - 1, end, expand);
 	return (expand);
 }
 
@@ -172,14 +172,14 @@ char *expand_main_heredoc(char *line, t_infos *infos)
 	{
 		if (line[i] == '$' && line[i + 1] != '?')
 		{
-			line = substitute_expand(line, infos, ++i);
+			line = substitute_expand_heredoc(line, infos, ++i);
 			if (!line)
 				return (NULL);
 			i = 0;
 		}
 		if (line[i] == '$' && line[i + 1] == '?')
 		{
-			line = expanded_new_line(line, i, i + 2, ft_itoa(infos->exit_val));
+			line = expanded_new_line_hd(line, i, i + 2, ft_itoa(infos->exit_val));
 			if (!line)
 				return (NULL);
 			i++;
