@@ -6,7 +6,7 @@
 /*   By: aibonade <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 19:57:54 by aibonade          #+#    #+#             */
-/*   Updated: 2025/03/19 12:27:40 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/19 14:11:19 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,23 @@ static int	ft_fill_heredoc(t_infos *infos, t_lim *heredoc, int fd, int fd_pipe[2
 	char	*line;
 	char	*lim;
 	int		nb_line;
+	int		dup_tmp;
 
 //fd_pipe pour les signaux & gestion d'erreur
 	(void)fd_pipe;//A Supprimer une fois implemente !!!!!!!!! (pouet)
-	nb_line = 0;
+	nb_line = 1;
 	lim = heredoc->limit;
-	define_signal(SIGINT, &sig_handler_hd_c, infos); 
+	dup_tmp = dup(STDIN_FILENO);
+	define_signal(SIGINT, &sig_handler_hd_c, infos);
 	line = readline("> ");
-	if (sig_global == SIGINT_HD)
+	if (!line && sig_global != SIGINT_HD)//A checker : ctrl D n'est a gerer que pour exit du shell normalement
+		printf("minipouet: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", nb_line, heredoc->h_name);
+	else if (sig_global == SIGINT_HD)
+	{
+		dup2(dup_tmp, STDIN_FILENO);
+		close(dup_tmp);
 		return (130);
+	}
 	while (line && ft_strncmp(line, lim, ft_strlen(lim) + 1))
 	{
 		nb_line++;
@@ -68,7 +76,11 @@ static int	ft_fill_heredoc(t_infos *infos, t_lim *heredoc, int fd, int fd_pipe[2
 		if (!line && sig_global != SIGINT_HD)//A checker : ctrl D n'est a gerer que pour exit du shell normalement
 			printf("minipouet: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", nb_line, heredoc->h_name);
 		else if (sig_global == SIGINT_HD)
+		{
+			dup2(dup_tmp, STDIN_FILENO);
+			close(dup_tmp);
 			return (130);
+		}
 	}
 	if (line)
 		free(line);

@@ -12,6 +12,8 @@
 
 #include "../../includes/minishell.h"
 
+externe
+
 int ft_error_exec(char *perror_str, int ret_val, t_exec *current, int fd_pipe[2])//, int exit)
 {
 	if (ret_val != 130)
