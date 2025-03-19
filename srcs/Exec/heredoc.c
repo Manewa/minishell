@@ -6,11 +6,13 @@
 /*   By: aibonade <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 19:57:54 by aibonade          #+#    #+#             */
-/*   Updated: 2025/03/06 16:54:47 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/19 12:27:40 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+extern int	sig_global;
 
 static char	*ft_set_heredoc_name(unsigned long i_heredoc)
 {
@@ -46,7 +48,10 @@ static int	ft_fill_heredoc(t_infos *infos, t_lim *heredoc, int fd, int fd_pipe[2
 	(void)fd_pipe;//A Supprimer une fois implemente !!!!!!!!! (pouet)
 	nb_line = 0;
 	lim = heredoc->limit;
+	define_signal(SIGINT, &sig_handler_hd_c, infos); 
 	line = readline("> ");
+	if (sig_global == SIGINT_HD)
+		return (130);
 	while (line && ft_strncmp(line, lim, ft_strlen(lim) + 1))
 	{
 		nb_line++;
@@ -54,14 +59,16 @@ static int	ft_fill_heredoc(t_infos *infos, t_lim *heredoc, int fd, int fd_pipe[2
 		{
 			line = expand_main_heredoc(line, infos);//line = ft_expand pour les var uniquement...
 			if (!line)
-				return (1);
+				return (ERROR_HEREDOC);
 		}
 		ft_putstr_fd(line, fd);
 		ft_putstr_fd("\n", fd);
 		free(line);
 		line = readline("> ");
-		if (!line)//A checker : ctrl D n'est a gerer que pour exit du shell normalement
+		if (!line && sig_global != SIGINT_HD)//A checker : ctrl D n'est a gerer que pour exit du shell normalement
 			printf("minipouet: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", nb_line, heredoc->h_name);
+		else if (sig_global == SIGINT_HD)
+			return (130);
 	}
 	if (line)
 		free(line);

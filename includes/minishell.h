@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/18 12:33:00 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/19 11:41:59 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@
 #define	FILE_DOES_NOT_EXIST	23
 #define	PERMISSION_DENIED	24
 #define	POUET				42
+#define	SIGINT_HD			43
 
 
 /************		main 			**********/
@@ -114,28 +115,29 @@ void	error_write(t_token **current, t_exec *exec);
 
 /***********	exec_type/count_array	***********/
 
-int exec_count_word(t_token *token);
-void fill_cmd_array(t_exec *exec, t_token *token);
-char *fill_word(t_token *token, int *i);
+int		exec_count_word(t_token *token);
+void	fill_cmd_array(t_exec *exec, t_token *token);
+char	*fill_word(t_token *token, int *i);
 
 /**********		check_builtins			**********/
 
-int	ft_strcmp(char *line, char *builtin);
-int builtin_cmp(char *line);
-void check_builtin(t_exec *head_exec);
+int		ft_strcmp(char *line, char *builtin);
+int		builtin_cmp(char *line);
+void	check_builtin(t_exec *head_exec);
 
 /***********    set_signals.c               ***********/
 
-void sig_handler_c(int signum);
-int	define_signal(int signum, void (*sig_fun)(int), t_infos *infos);
+void	sig_handler_hd_c(int signum);
+void	sig_handler_c(int signum);
+int		define_signal(int signum, void (*sig_fun)(int), t_infos *infos);
 void	set_signal(t_infos *infos);
 
 /***********    check_error_parsing         ***********/
 
-int	redirection_error(char *line, size_t *i);
-int	pipe_error(char *line, size_t i);
-int check_error_parsing(t_infos *infos);
-int	check_error(t_infos *infos);
+int		redirection_error(char *line, size_t *i);
+int		pipe_error(char *line, size_t i);
+int		check_error_parsing(t_infos *infos);
+int		check_error(t_infos *infos);
 
 /************	utils/utils_lst	    	    ***********/
 
@@ -169,8 +171,8 @@ char	*strdup_end(char *line, int *readed, int start);
 
 /***********	utils/split_off_quote	******/
 
-char		**split_off_quote(char *s, char c);
-int			ft_count_word_quote(char *s, char c);
+char	**split_off_quote(char *s, char c);
+int		ft_count_word_quote(char *s, char c);
 
 /***********    utils/ft_error      ***********/
 

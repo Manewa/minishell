@@ -6,7 +6,7 @@
 /*   By: natgomali <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 17:02:06 by natgomali         #+#    #+#             */
-/*   Updated: 2025/03/17 11:23:09 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/19 12:26:30 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,23 @@
 
 extern int sig_global;
 
+void sig_handler_hd_c(int signum)
+{
+	(void)signum;
+	sig_global = SIGINT_HD;
+	write (1, "Pouet\n", 6);
+	rl_on_new_line();
+	rl_redisplay();
+	write(STDOUT_FILENO, "\n", 1);		
+}
+
 void sig_handler_c(int signum)
 {
 	if (signum == SIGINT)
 	{
 		sig_global = signum;
-		write (1, "\n", 1);
+		write (STDOUT_FILENO, "\n", 1);
+		printf("POUET\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
