@@ -228,7 +228,7 @@ int		ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2]);
 
 //...............heredoc_expand.c................//
 
-char *expand_main_heredoc(char *line, t_infos *infos);
+char    *expand_main_heredoc(char *line, t_infos *infos);
 
 //..................exec_free.c..................//
 
@@ -243,7 +243,7 @@ int		ft_open_outfile(int fd_pipe[2], t_exec *exec, t_fdata *out, int child);
 
 //....................exec.c....................//
 
-int		ft_main_exec(t_exec *lst);
+void	ft_main_exec(t_exec *lst);
 
 //.................exec_error.c.................//
 

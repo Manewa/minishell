@@ -138,7 +138,7 @@ static int	ft_exec(t_exec *lst, pid_t *last)
 	return (0);
 }
 
-int	ft_main_exec(t_exec *lst)//debut de l'exec avec récupération de la liste de token + retourner valeur de retour
+void	ft_main_exec(t_exec *lst)//debut de l'exec avec récupération de la liste de token + retourner valeur de retour
 {
 	int		exec_ret;
 	pid_t	last;
@@ -171,14 +171,9 @@ int	ft_main_exec(t_exec *lst)//debut de l'exec avec récupération de la liste d
 	// }
 	if (sig == SIGINT)
 		write (1, "\n", 1);
-	if(exec_ret <= ERROR_EXEC)
-	{
+	if (sig_global == SIGINT_HD)
+		lst->infos->exit_val = 130;
+	else if(exec_ret <= ERROR_EXEC)
 		lst->infos->exit_val = 1;//maj de infos->exit > 0//REVOIR : return value entre 0 & 255 (si en dehors => 255)
-		ft_clean_end_exec(lst);
-		return (ERROR_EXEC);
-	}
-	else if (exec_ret == 130)
-		lst->infos->exit_val = exec_ret;
 	ft_clean_end_exec(lst);
-	return (0);
 }
