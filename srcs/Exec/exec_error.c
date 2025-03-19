@@ -6,13 +6,11 @@
 /*   By: aibonade <aibonade@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:45:49 by aibonade          #+#    #+#             */
-/*   Updated: 2025/03/06 16:49:20 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/19 14:21:33 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-externe
 
 int ft_error_exec(char *perror_str, int ret_val, t_exec *current, int fd_pipe[2])//, int exit)
 {
