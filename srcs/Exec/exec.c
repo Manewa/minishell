@@ -39,6 +39,7 @@ static void	ft_check_access(t_exec *exec, int fd_pipe[2])
 	{
 		if (stat(exec->cmd_path, &f_infos) == -1 || S_ISDIR(f_infos.st_mode))//!exec->cmd_path[i] &&
 		{
+			ft_putstr_fd("minipouet: ", 2);
 			ft_putstr_fd(exec->cmd_array[0], 2);
 			ft_putstr_fd(": command not found\n", 2);
 			ft_error_child(exec, fd_pipe, &(exec->files->outfile->fd), ERROR_NF);//ERR_NF code de sortie à 127
