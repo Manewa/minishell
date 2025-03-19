@@ -14,7 +14,8 @@
 
 int ft_error_exec(char *perror_str, int ret_val, t_exec *current, int fd_pipe[2])//, int exit)
 {
-	perror(perror_str);//pas forcement utile perror_str => ici ce sera forcement minipouet
+	if (ret_val != 130)
+		perror(perror_str);//pas forcement utile perror_str => ici ce sera forcement minipouet
 	//potentiellement des fork deja reussi => wait dans le main_exec
 	//exec a free => dans le main_exec
 	if (current != current->head)//pipe -1 ouvert =>infile de exec

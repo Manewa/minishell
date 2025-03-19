@@ -74,6 +74,7 @@ int	ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2])
 	unsigned long	i;
 	int				nb_lim;
 	int				fd;
+	int				ret_fill;
 
 	tmp = hd;
 	i = 0;
@@ -89,11 +90,12 @@ int	ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2])
 		fd = open(tmp->h_name, O_WRONLY | O_TRUNC | O_CREAT, 0664);
 		if (fd == -1)
 			return (ft_error_exec("minipouet", ERROR_HEREDOC, exec, fdpipe));//minipouet ou pouetsh ?
-		if (ft_fill_heredoc(exec->infos, tmp, fd, fdpipe))
+		ret_fill = ft_fill_heredoc(exec->infos, tmp, fd, fdpipe);
+		if (ret_fill)
 		{
 			ft_close(&fd, exec, fdpipe);
 			unlink(tmp->h_name);
-			return (ft_error_exec("minipouet", ERROR_HEREDOC, exec, fdpipe));
+			return (ft_error_exec("minipouet", ret_fill, exec, fdpipe));
 		}
 		if (ft_close(&fd, exec, fdpipe) == -1)
 		{
