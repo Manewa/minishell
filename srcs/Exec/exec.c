@@ -147,7 +147,6 @@ int	ft_main_exec(t_exec *lst)//debut de l'exec avec récupération de la liste d
 	int		sig;
 
 	errno = 0;
-	sig = 0;
 	exec_ret = 0;
 	sig = 0;
 	if ((lst->builtin == CD || lst->builtin == EXPORT || lst->builtin == EXIT || lst->builtin == UNSET) && !lst->next)
@@ -178,6 +177,8 @@ int	ft_main_exec(t_exec *lst)//debut de l'exec avec récupération de la liste d
 		ft_clean_end_exec(lst);
 		return (ERROR_EXEC);
 	}
+	else if (exec_ret == 130)
+		lst->infos->exit_val = exec_ret;
 	ft_clean_end_exec(lst);
 	return (0);
 }
