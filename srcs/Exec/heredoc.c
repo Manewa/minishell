@@ -78,13 +78,13 @@ static int	ft_fill_heredoc(t_infos *infos, t_lim *heredoc, int fd, int fd_pipe[2
 		else if (sig_global == SIGINT_HD)
 		{
 			dup2(dup_tmp, STDIN_FILENO);
-			close(dup_tmp);
+			close(dup_tmp);//ft_close ?
 			return (130);
 		}
 	}
 	if (line)
 		free(line);
-	return (0);
+	return (close(dup_tmp),0);//ft_close du coup ?
 }
 
 int	ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2])

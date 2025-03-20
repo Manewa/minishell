@@ -24,3 +24,10 @@
    fun:ft_infonew
    ...
 }
+{
+   <A suppr : line ft_expanded new>
+   Memcheck:Leak
+   ...
+   fun:expanded_new_line
+   ...
+}
