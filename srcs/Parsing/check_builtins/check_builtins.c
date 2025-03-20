@@ -6,7 +6,7 @@
 /*   By: natgomali <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:01:45 by natgomali         #+#    #+#             */
-/*   Updated: 2025/03/18 13:05:15 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/20 12:32:18 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_strcmp(char *line, char *builtin)
 	size_t	i;
 
 	i = 0;
-	while (line[i] && builtin[i] && line[i] == builtin[i])
+	while (line && line[i] && builtin[i] && line[i] == builtin[i])
 		i++;
 	return (line[i] - builtin[i]);
 }
@@ -28,19 +28,19 @@ int	ft_strcmp(char *line, char *builtin)
 
 int builtin_cmp(char *line)
 {
-	if (ft_strcmp(line, "echo") == 0)
+	if (line && ft_strcmp(line, "echo") == 0)
 		return (ECHO);
-	else if (ft_strcmp(line, "cd") == 0)
+	else if (line && ft_strcmp(line, "cd") == 0)
 		return (CD);
-	else if (ft_strcmp(line, "pwd") == 0)
+	else if (line && ft_strcmp(line, "pwd") == 0)
 		return (PWD);
-	else if (ft_strcmp(line, "export") == 0)
+	else if (line && ft_strcmp(line, "export") == 0)
 		return (EXPORT);
-	else if (ft_strcmp(line, "unset") == 0)
+	else if (line && ft_strcmp(line, "unset") == 0)
 		return (UNSET);
-	else if (ft_strcmp(line, "env") == 0)
+	else if (line && ft_strcmp(line, "env") == 0)
 		return (ENV);
-	else if (ft_strcmp(line, "exit") == 0)
+	else if (line && ft_strcmp(line, "exit") == 0)
 		return (EXIT);
 	else
 		return (0);

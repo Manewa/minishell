@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:59:53 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/18 13:02:40 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/20 13:10:44 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ t_token	*create_token(t_infos *infos, int *readed, int *start)
 	else if (token->type == PIPE)
 		return (token);
 	token_line_wip(token, infos->line, readed, start);
-	if (!token->line_wip)
-		return (NULL);
+	if (!token->line_wip || !token->line_wip[0])
+		return (ft_free_token(token));
 	return(token);
 }
 
@@ -113,15 +113,17 @@ t_token	*tokenization(t_infos *infos)
 		else if (token_new->type != PIPE)
 		{
 			token_line_wip(token_new, infos->line, &readed, &start);
-			if (!(token_new->line_wip))
+			if (!(token_new->line_wip) || !(token_new->line_wip[0]))
 					return (ft_free_infoken(infos, token_head, "malloc\n", 0));
-			while (infos->line[readed] && infos->line[readed] == ' ')
+			while (infos->line[readed] && (infos->line[readed] == ' '
+				|| infos->line[readed] == '\t'))
 				readed++;
 		}
 		else if (token_new && token_new->prev && token_new->prev->type == PIPE)
 			return (ft_free_infoken(infos, token_head, "psh : double pipe", 0));
 		else if (token_new->type == PIPE)
-			while (infos->line[++readed] && infos->line[readed] == ' ');
+			while (infos->line[++readed] && (infos->line[readed] == ' '
+		|| infos->line[readed] == '\t'));
 		else if (infos->line[readed])
 			readed++;
 	}

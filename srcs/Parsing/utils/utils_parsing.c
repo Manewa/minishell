@@ -16,9 +16,10 @@ void	out_of_heredoc(char *line, int *i)
 {
 	(*i)++;
 	(*i)++;
-	while (line[*i] && line[*i] == ' ')
+	while (line[*i] && (line[*i] == ' ' || line[*i] == '\t'))
 	(*i)++;
-	while (line[*i] && line[*i] != ' ' && is_separator(line[*i]) == 0)
+	while (line[*i] && (line[*i] != ' ' || line[*i] == '\t')
+		 && is_separator(line[*i]) == 0)
 	{
 		if (line[*i] == 39)
 			out_of_squote(line, i);
@@ -34,7 +35,7 @@ int	is_special_char(t_infos *infos, size_t *i)
 {
 	if (infos->line[*i] == 34 || infos->line[*i] == 39 || infos->line[*i] == '<'
 			|| infos->line[*i] == '>' || infos->line[*i] == '|'
-			|| infos->line[*i] == ' ')
+			|| infos->line[*i] == ' ' || infos->line[*i] == '\t')
 		return (1);
 	return (0);
 }

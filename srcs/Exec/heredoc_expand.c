@@ -181,14 +181,14 @@ char *expand_main_heredoc(char *line, t_infos *infos)
 				return (NULL);
 			i = 0;
 		}
-		if (line[i] == '$' && line[i + 1] == '?')
+		else if (line[i] == '$' && line[i + 1] == '?')
 		{
 			line = expanded_new_line_hd(line, i, i + 2, ft_itoa(infos->exit_val));
 			if (!line)
 				return (NULL);
 			i++;
 		}
-		if (line[i] && (line[0] != '$'))
+		else if (line[i] && (line[0] != '$'))
 			i++;
 	}
 	return (line);

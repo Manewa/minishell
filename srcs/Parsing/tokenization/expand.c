@@ -189,14 +189,14 @@ char *expand_main(char *line, t_infos *infos)
 				return (ft_free_infos(infos, "ERROR : Bug during expand", 1));
 			i = 0;
 		}
-		if (line[i] == '$' && line[i + 1] == '?')
+		else if (line[i] == '$' && line[i + 1] == '?')
 		{
 			line = expanded_new_line(line, i, i + 2, ft_itoa(infos->exit_val));
 			if (!line)
 				return (ft_free_infos(infos, "ERROR : Bug during expand", 1));
 			i++;
 		}
-		if (line[i] && (line[0] != '$' || line[0] != 39))
+		else if (line[i] && (line[0] != '$' || line[0] != 39))
 			i++;
 	}
 	if (line[0])

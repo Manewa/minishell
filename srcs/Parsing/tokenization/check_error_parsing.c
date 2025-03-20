@@ -6,7 +6,7 @@
 /*   By: natgomali <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:01:20 by natgomali         #+#    #+#             */
-/*   Updated: 2025/03/11 13:02:04 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/20 13:11:16 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ int	redirection_error(char *line, size_t *i)
 	(*i)++;
 	if (line [*i] && line[*i] == line[*i - 1])
 		(*i)++;
-	while (line[*i] == ' ')
+	while (line[*i] == ' ' || line[*i] == '\t')
 		(*i)++;
-	if (line[*i] == '<' || line[*i] == '>' || line [*i] == '|')
+	if (line[*i -1] == '<' && line[*i] == '>')
+		return (++(*i));
+	else if (line[*i] == '<' || line[*i] == '>' || line [*i] == '|')
 		return (*i);
 	if (!line[*i])
 		return (*i);
@@ -29,7 +31,7 @@ int	redirection_error(char *line, size_t *i)
 int	pipe_error(char *line, size_t i)
 {
 	i++;
-	while (line [i] && line[i] == ' ')
+	while (line [i] && (line[i] == ' ' || line[i] == '\t'))
 		i++;
 	if (line[i] == '|')
 		return (DOUBLE_PIPE);
@@ -41,7 +43,7 @@ int check_error_parsing(t_infos *infos)
 	size_t	i;
 
 	i = 0;
-	while (infos && infos->line && infos->line[i] == ' ')
+	while (infos && infos->line && (infos->line[i] == ' ' || infos->line[i] == '\t'))
 		i++;
 	if (infos && infos->line && infos->line[i] == '|')
 		return (PIPE);

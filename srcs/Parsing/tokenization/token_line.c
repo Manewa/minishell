@@ -20,7 +20,7 @@ void ft_cpytoken(t_token *token, char *line,  int start, int readed)
 	size_t	i;
 
 	i = 0;
-	while (line[start] == ' ')
+	while (line[start] == ' ' || line[start] == '\t')
 		start++;
 	token->line_wip = malloc((readed - start + 1)*sizeof(char));
 	if (!token->line_wip)
@@ -42,11 +42,12 @@ int	line_heredoc(char *line, int *start, int *readed, t_token *token)
 	count_quote = 0;
 	while (line[*readed] == '<')
 		(*readed)++;
-	while (line[*readed] == ' ')
+	while (line[*readed] == ' ' || line[*readed] == '\t')
 		(*readed)++;
 	*start = *readed;
 	while (line[*readed] && is_separator(line[*readed]) == 0
-			&& count_quote % 2 == 0 && line[*readed] != ' ')
+			&& count_quote % 2 == 0 && (line[*readed] != ' '
+			|| line[*readed] == '\t'))
 	{
 		if (line[*readed] == '"')
 			count_quote += out_of_dquote(line, readed);
@@ -58,7 +59,8 @@ int	line_heredoc(char *line, int *start, int *readed, t_token *token)
 	if (count_quote % 2 != 0)
 		token->type = QUOTE_NOT_CLOSED;
 	ft_cpytoken(token, line, *start, *readed);
-	while (line[*readed] && line[*readed] && line[*readed] == ' ')
+	while (line[*readed] && line[*readed] && (line[*readed] == ' '
+		|| line[*readed] == '\t'))
 		(*readed)++;
 	*start = *readed;
 	return (count_quote);
@@ -78,11 +80,11 @@ void	token_line_wip(t_token *token, char *line, int *readed, int *start)
 		token->quotes = line_heredoc(line, start, readed, token);
 		return ;
 	}
-	while (line && line[*readed] && line[*readed] == ' ')
+	while (line && line[*readed] && (line[*readed] == ' ' || line[*readed] == '\t'))
 		(*readed)++;
 	while (line && line[*readed] && is_separator(line[*readed]) != 0)
 		(*readed)++;
-	while (line && line[*readed] && line[*readed] == ' ')
+	while (line && line[*readed] && (line[*readed] == ' ' || line[*readed] == '\t'))
 		(*readed)++;
 	*start = *readed;
 	while (line && line[*readed] && is_separator(line[*readed]) == 0
@@ -92,7 +94,8 @@ void	token_line_wip(t_token *token, char *line, int *readed, int *start)
 			count_quote += out_of_dquote(line, readed);
 		else if (line && line[*readed] == 39)
 			count_quote += out_of_squote(line, readed);
-		else if (line && line[*readed] && line[*readed] == ' ' && token->type != WORD)
+		else if (line && line[*readed] && (line[*readed] == ' '
+			|| line[*readed] == '\t') && token->type != WORD)
 			break;
 		if (line && line[*readed])
 			(*readed)++;

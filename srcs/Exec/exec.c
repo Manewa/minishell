@@ -171,9 +171,9 @@ void	ft_main_exec(t_exec *lst)//debut de l'exec avec récupération de la liste 
 	// }
 	if (sig == SIGINT)
 		write (1, "\n", 1);
-	if (sig_global == SIGINT_HD)
-		lst->infos->exit_val = 130;
-	else if(exec_ret <= ERROR_EXEC)
+	//if (sig_global == SIGINT_HD)
+	//	lst->infos->exit_val = 130;
+	if(exec_ret <= ERROR_EXEC)
 		lst->infos->exit_val = 1;//maj de infos->exit > 0//REVOIR : return value entre 0 & 255 (si en dehors => 255)
 	ft_clean_end_exec(lst);
 }

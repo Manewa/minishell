@@ -84,6 +84,7 @@ void *ft_error_parsing(t_infos *infos, t_token *token, char c)
 	else
 		write (1, "newline", 7);
 	write (2, "'\n", 2);
+	infos->exit_val = 2;
 	ft_free_infoken(infos, token, 0, 0);
 	return (NULL);
 }

@@ -19,7 +19,7 @@ void	get_readline(t_infos *infos)
 	infos->line = readline("minipouet> ");
 	if (!infos->line)
 		ft_free_infos(infos, 0, -1);
-	if (sig_global == SIGINT)
+	if (sig_global == SIGINT || sig_global == SIGINT_HD)
 	{
 		infos->exit_val = 130;
 		sig_global = 0;
