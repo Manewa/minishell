@@ -57,6 +57,7 @@ int	ft_builtin(t_exec *exec, int fd_pipe[2], int child)
 	int	ret_val;
 	int	std_fd;
 
+	ret_val = 0;
 	std_fd = ft_set_stdfd(exec);
 	if (exec->builtin == ECHO)
 		ret_val = ft_echo(exec);

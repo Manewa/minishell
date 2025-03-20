@@ -53,7 +53,7 @@ static int	ft_fill_heredoc(t_infos *infos, t_lim *heredoc, int fd, int fd_pipe[2
 	define_signal(SIGINT, &sig_handler_hd_c, infos);
 	line = readline("> ");
 	if (!line && sig_global != SIGINT_HD)//A checker : ctrl D n'est a gerer que pour exit du shell normalement
-		printf("minipouet: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", nb_line, heredoc->h_name);
+		printf("minipouet: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", nb_line, heredoc->limit);
 	else if (sig_global == SIGINT_HD)
 	{
 		dup2(dup_tmp, STDIN_FILENO);

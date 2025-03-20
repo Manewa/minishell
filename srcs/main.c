@@ -39,9 +39,7 @@ int main(int argc, char **argv, char **envp)
 	while(infos->pouexit)
 	{
 		exec = NULL;
-		set_signal(infos);
-		if (infos->line)
-			free(infos->line);
+		set_signal(infos);//apres
 		get_readline(infos);
 		if (infos->line && infos->line[0] && infos->line[0] != ' ')
 			add_history(infos->line);
@@ -49,8 +47,10 @@ int main(int argc, char **argv, char **envp)
 			exec = main_parsing(infos);
 		if (exec)
 			ft_main_exec(exec);
+		if (infos->line)//
+			free(infos->line);//
 	}
-	free(infos->line);
+	//free(infos->line);
 	rl_clear_history();
 	return (0);
 }

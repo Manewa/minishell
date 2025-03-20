@@ -155,19 +155,19 @@ void	ft_main_exec(t_exec *lst)//debut de l'exec avec récupération de la liste 
 		exec_ret = ft_exec(lst, &last);
 	// if (exec_ret > ERROR_EXEC)
 	// {
-		tmp = wait(&status);
-		while (tmp > 0)
+	tmp = wait(&status);
+	while (tmp > 0)
+	{
+		if(WIFEXITED(status) && last == tmp)
+			lst->infos->exit_val = WEXITSTATUS(status);
+		else if(WIFSIGNALED(status))
 		{
-			if(WIFEXITED(status) && last == tmp)
-				lst->infos->exit_val = WEXITSTATUS(status);
-			else if(WIFSIGNALED(status))
-			{
-				sig = WTERMSIG(status);
-				if (last == tmp)
-					lst->infos->exit_val = 128 + sig;
-			}
-			tmp = wait(&status);
+			sig = WTERMSIG(status);
+			if (last == tmp)
+				lst->infos->exit_val = 128 + sig;
 		}
+		tmp = wait(&status);
+	}
 	// }
 	if (sig == SIGINT)
 		write (1, "\n", 1);
