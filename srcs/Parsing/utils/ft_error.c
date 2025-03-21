@@ -78,7 +78,7 @@ void *ft_free_infoken(t_infos *infos, t_token *token, char *error, int exit_prg)
 
 void *ft_error_parsing(t_infos *infos, t_token *token, char c)
 {
-	ft_putstr_fd("pouetsh : syntax error near unexpected token '", 2);
+	ft_putstr_fd("pouetsh : syntax error near unexpected token `", 2);
 	if (c)
 		write (2, &c, 1);
 	else

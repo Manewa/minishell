@@ -6,14 +6,11 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:00:14 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/07 10:00:58 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/21 16:34:32 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-
-/* return a string with the new only word for cmd_array
- */
 
 char *fill_word(t_token *token, int *i)
 {
@@ -23,16 +20,20 @@ char *fill_word(t_token *token, int *i)
 
 	k = 0;
 	while (token->line_wip[*i] && token->line_wip[*i] == ' ')
-		i++;
+		(*i)++;
 	j = *i;
 	while (token->line_wip[*i] && token->line_wip[*i] != ' ')
 	{
+		if (token->line_wip[*i] == '"' || token->line_wip[*i] == 39)
+		{
 		if (token->line_wip[*i] == 39)
 			out_of_squote(token->line_wip, i);
 		else if (token->line_wip[*i] == '"')
 			out_of_dquote(token->line_wip, i);
-		else
-			(*i)++;
+		if (j == *i - 1)
+			j = *i + 1;
+		}
+		(*i)++;
 	}
 	str = malloc((*i - j + 1)*sizeof(char));
 	if (!str)
@@ -81,7 +82,7 @@ int exec_count_word(t_token *token)
 	while (tmp && tmp->type != PIPE)
 	{
 		if (tmp->type == WORD)
-			count += ft_count_word_quote(tmp->line_wip, ' ');
+			count += ft_count_word_quote(tmp->line_wip);//, ' ');
 		tmp = tmp->next;
 	}
 	return (count);

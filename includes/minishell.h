@@ -172,7 +172,7 @@ char	*strdup_end(char *line, int *readed, int start);
 /***********	utils/split_off_quote	******/
 
 char	**split_off_quote(char *s, char c);
-int		ft_count_word_quote(char *s, char c);
+int		ft_count_word_quote(char *s);//, char c);
 
 /***********    utils/ft_error      ***********/
 

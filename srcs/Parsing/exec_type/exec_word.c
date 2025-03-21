@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:18:10 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/16 14:48:55 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/21 18:02:38 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void exec_word(t_token *current, t_exec *exec)
 	fill_cmd_array(exec, current);
 	if (!exec->cmd_array)
 		return ;
+	quotes_detecter(exec);
 	exec->builtin = builtin_cmp(exec->cmd_array[0]);
 	if (exec->builtin == 0)
 		find_pathcmd(exec->path, exec);

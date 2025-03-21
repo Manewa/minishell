@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:36 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/18 12:59:07 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/21 18:47:02 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ char *check_name(char *value, char *to_expand)
 			i++;
 		}
 		name_value[i] = '\0';
-		return (free(value), name_value);
+		return (free(value), free(to_expand), name_value);
 	}
-	return (value);
+	return (free(to_expand), value);
 }
 
 /* expand_to_env will search for a key in infos->env (lst) and return the value associated to it.
@@ -144,8 +144,12 @@ char *substitute_expand(char *line, t_infos *infos, int exp)
 	start = exp;
 	end = exp;
 	j = 0;
-	while (line[end] && (ft_isalpha(line[end]) == 1 || line[end] == '_'))
+	if (line[end] && (ft_isalpha(line[end]) == 1 || line[end] == '_'))
+	{
+		end++;
+		while (line[end] && (ft_isalnum(line[end]) || line[end] == '_'))
 			end++;
+	}
 	expand = malloc((end - start + 1)*sizeof(char));
 	if (!expand)
 		return (ft_free_infos(infos, "ERROR : Can not malloc the expand", 1));
@@ -184,10 +188,19 @@ char *expand_main(char *line, t_infos *infos)
 			out_of_heredoc(line, &i);
 		if (line[i] == '$' && line[i + 1] != '?')
 		{
-			line = substitute_expand(line, infos, ++i);
-			if (!line)
-				return (ft_free_infos(infos, "ERROR : Bug during expand", 1));
-			i = 0;
+			if (ft_isalpha(line[i + 1]) || line[i + 1] == '_')
+			{
+				line = substitute_expand(line, infos, ++i);
+				if (!line)
+					return (ft_free_infos(infos, "ERROR : Bug during expand", 1));
+				i = 0;
+			}
+			else
+			{
+				line = expanded_new_line(line, i, i + 2, NULL); 
+				if (!line)
+					return (ft_free_infos(infos, "ERROR : Bug during expand", 1));
+			}
 		}
 		else if (line[i] == '$' && line[i + 1] == '?')
 		{

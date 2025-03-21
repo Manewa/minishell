@@ -107,7 +107,7 @@ t_exec	*main_parsing(t_infos *infos)
 {
 	t_token	*token;
 	t_exec	*exec;
-	t_exec	*tmp;
+	// t_exec	*tmp;
 
 	if (!check_quotes(infos->line))
 		return (ft_free_infos(infos, 0, 0));
@@ -117,14 +117,14 @@ t_exec	*main_parsing(t_infos *infos)
 	exec = tokens_for_exec(token);
 	if (!exec)
 		return (NULL);
-	tmp = exec;
-	while (tmp)
-	{
-		quotes_detecter(tmp);
-		if (tmp->limiter)
-			quotes_detecter_heredoc(tmp->limiter);
-		tmp = tmp->next;
-	}
+	// tmp = exec;
+	// while (tmp)
+	// {
+	// 	quotes_detecter(tmp);
+	// 	if (tmp->limiter)
+	// 		quotes_detecter_heredoc(tmp->limiter);
+	// 	tmp = tmp->next;
+	// }
 	ft_free_token(token);
 	return (exec);
 }

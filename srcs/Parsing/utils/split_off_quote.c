@@ -12,32 +12,45 @@
 
 #include "../../../includes/minishell.h"
 
-int	ft_count_word_quote(char *s, char c)
+void skip_quotes(char *s, int *i)
 {
-	int	count_word;
-	int	i;
+    char quote;
 
-	i = 0;
-	count_word = 0;
-	while (s[i])
+	quote = s[*i];
+    (*i)++;
+    while (s[*i] && s[*i] != quote)
+        (*i)++;
+}
+
+int	ft_count_word_quote(char *s)//, char c)
+{
+int count;
+int i;
+int	start;
+
+count = 0;
+i = 0;
+while (s[i]) 
+{	
+	while (s[i] && (s[i] == ' ' || s[i] == '\t'))
+		i++;
+	if (!s[i])
+		break;
+	if (s[i] == '"' || s[i] == 39)
 	{
-		if (s[i] != c)
-		{
-			count_word++;
-			while (s[i] && s[i] != c)
-			{
-				if (s[i] == 39)
-					out_of_squote(s, &i);
-				else if (s[i] == '"')
-					out_of_dquote(s, &i);
-				else
-					i++;
-			}
-		}
-		if (s[i])
+		start = i;
+		skip_quotes(s, &i);
+		if (i > start + 1)
+			count++;
+	}
+	else 
+	{
+		count++;
+		while (s[i] && s[i] != ' ' && s[i] != '\t' && s[i] != '"' && s[i] != 39)
 			i++;
 	}
-	return (count_word);
+}
+return count;
 }
 
 static char	*ft_cpy_str(char *str, char *s, int *i, char c)
@@ -60,11 +73,7 @@ static char	*ft_cpy_str(char *str, char *s, int *i, char c)
 	if (!str)
 		return (NULL);
 	while (ib < *i)
-	{
-		str[j] = s[ib];
-		j++;
-		ib++;
-	}
+		str[j++] = s[ib++];
 	str[j] = '\0';
 	return (str);
 }
@@ -75,7 +84,8 @@ static void	*ft_free(char **str, char *s, char c)
 	int	count;
 
 	i = 0;
-	count = ft_count_word_quote(s, c);
+	(void)c;
+	count = ft_count_word_quote(s);//, c);
 	while (i <= count)
 	{
 		free(str[i]);
@@ -89,15 +99,17 @@ char	**split_off_quote(char *s, char c)
 	int		i;
 	size_t	j;
 	char	**str;
+	int		count_word;
 
 	i = 0;
 	j = 0;
 	if (!s)
 		return (NULL);
-	str = malloc((ft_count_word_quote(s, c) + 1) * sizeof(char *));
+	count_word = ft_count_word_quote(s);
+	str = malloc(count_word * sizeof(char *));
 	if (!str)
 		return (NULL);
-	while ((int)j < ft_count_word_quote(s, c))
+	while ((int)j < count_word)
 	{
 		while (s[i] == c)
 			i++;
