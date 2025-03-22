@@ -27,16 +27,22 @@ int	ft_count_word_quote(char *s)//, char c)
 	int count;
 	int i;
 	int	start;
+	int	double_quote;
 
 	count = 0;
 	i = 0;
+	double_quote = 0;
 	while (s[i]) 
 	{	
 		while (s[i] && (s[i] == ' ' || s[i] == '\t'))
 			i++;
 		if (!s[i])
 			break;
-		if (s[i] == '"' || s[i] == 39)
+		if (s[i] == '"' && double_quote == 1)
+			double_quote = 0;
+		else if (s[i] == '"' && double_quote == 0)
+			double_quote = 1;
+		if (s[i] == 39 && double_quote == 0)
 		{
 			start = i;
 			skip_quotes(s, &i);
@@ -47,8 +53,15 @@ int	ft_count_word_quote(char *s)//, char c)
 		else 
 		{
 			count++;
-			while (s[i] && s[i] != ' ' && s[i] != '\t' && s[i] != '"' && s[i] != 39)
-				i++;
+			while (s[i] && !(s[i] == ' ' || s[i] == '\t'
+				|| (s[i] == 39 && double_quote != 1)))
+			{
+			if (s[i] == '"' && double_quote == 1)
+				double_quote = 0;
+			else if (s[i] == '"' && double_quote == 0)
+				double_quote = 1;
+			i++;
+			}
 		}
 	}
 	return count;

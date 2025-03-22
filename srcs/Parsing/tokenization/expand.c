@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:36 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/21 18:47:02 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/22 23:02:10 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,13 +178,19 @@ char *substitute_expand(char *line, t_infos *infos, int exp)
 char *expand_main(char *line, t_infos *infos)
 {
 	int		i;
+	int		double_quote;
 
 	i = 0;
+	double_quote = 0;
 	while (line && line[i])
 	{
-		if (line[i] == 39)
+		if (line[i] == '"' && double_quote == 1)
+			double_quote = 0;
+		else if (line[i] == '"' && double_quote == 0)
+			double_quote = 1;
+		if (line[i] == 39 && double_quote == 0)
 			out_of_squote(line, &i);
-		if (line[i] == '<' && line[i + 1] == '<')
+		if (line[i] == '<' && line[i + 1] == '<' && double_quote == 0)
 			out_of_heredoc(line, &i);
 		if (line[i] == '$' && line[i + 1] != '?')
 		{

@@ -77,6 +77,7 @@ int	check_error(t_infos *infos)
 	}
 	else if (error == DOUBLE_PIPE)
 	{
+		infos->exit_val = 2;
 		ft_free_infos(infos, "pouetsh : syntax error near unexpected token `|'\n", 0);
 		return (1);
 	}
