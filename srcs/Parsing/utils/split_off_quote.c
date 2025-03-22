@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:30:27 by namalier          #+#    #+#             */
-/*   Updated: 2025/02/18 12:20:07 by namalier         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:52:17 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,44 @@
 
 void skip_quotes(char *s, int *i)
 {
-    char quote;
+	char quote;
 
 	quote = s[*i];
-    (*i)++;
-    while (s[*i] && s[*i] != quote)
-        (*i)++;
+	(*i)++;
+	while (s[*i] && s[*i] != quote)
+		(*i)++;
 }
 
 int	ft_count_word_quote(char *s)//, char c)
 {
-int count;
-int i;
-int	start;
+	int count;
+	int i;
+	int	start;
 
-count = 0;
-i = 0;
-while (s[i]) 
-{	
-	while (s[i] && (s[i] == ' ' || s[i] == '\t'))
-		i++;
-	if (!s[i])
-		break;
-	if (s[i] == '"' || s[i] == 39)
-	{
-		start = i;
-		skip_quotes(s, &i);
-		if (i > start + 1)
-			count++;
-	}
-	else 
-	{
-		count++;
-		while (s[i] && s[i] != ' ' && s[i] != '\t' && s[i] != '"' && s[i] != 39)
+	count = 0;
+	i = 0;
+	while (s[i]) 
+	{	
+		while (s[i] && (s[i] == ' ' || s[i] == '\t'))
 			i++;
+		if (!s[i])
+			break;
+		if (s[i] == '"' || s[i] == 39)
+		{
+			start = i;
+			skip_quotes(s, &i);
+			if (i > start + 1)
+				count++;
+			i++;
+		}
+		else 
+		{
+			count++;
+			while (s[i] && s[i] != ' ' && s[i] != '\t' && s[i] != '"' && s[i] != 39)
+				i++;
+		}
 	}
-}
-return count;
+	return count;
 }
 
 static char	*ft_cpy_str(char *str, char *s, int *i, char c)
@@ -69,7 +70,7 @@ static char	*ft_cpy_str(char *str, char *s, int *i, char c)
 		else
 			(*i)++;
 	}
-		str = malloc((*i - ib + 1) * sizeof(char));
+	str = malloc((*i - ib + 1) * sizeof(char));
 	if (!str)
 		return (NULL);
 	while (ib < *i)
