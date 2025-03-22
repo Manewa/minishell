@@ -12,17 +12,43 @@
 
 #include "../../includes/minishell.h"
 
+static	int	ft_check_option_echo(char **cmd, int *i)
+{
+	int	j;
+	int	nl;
+
+	nl = 1;
+	while (cmd[*i])
+	{
+		j = 0;
+		if (cmd[*i][j] == '-')
+		{
+			j++;
+			while (cmd[*i][j] == 'n')
+				j++;
+			if (!cmd[*i][j])
+				nl = 0;
+			else
+				break;
+		}
+		else
+			break;
+		*i += 1;
+	}
+	return (nl);
+}
+
 int	ft_echo(t_exec *exec)
 {
 	int	i;
 	int	nl;
 
 	i = 1;
-	nl = 0;
-	if (!exec->cmd_array[i] || ft_strcmp("-n", exec->cmd_array[1]))
-		nl = 1;
-	else
-		i++;
+	nl = ft_check_option_echo(exec->cmd_array, &i);
+	// if (!exec->cmd_array[i] || ft_strcmp("-n", exec->cmd_array[1]))
+	// 	nl = 1;
+	// else
+	// 	i++;
 	if (exec->cmd_array[i])
 	{
 		ft_putstr_fd(exec->cmd_array[i], exec->files->outfile->fd);
