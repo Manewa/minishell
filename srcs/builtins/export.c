@@ -113,6 +113,7 @@ int	ft_export(t_exec *exec, int fd_out)
 				add_to_env(&(exec->infos->env), exec->cmd_array[i]);
 			else 
 			{
+				errno = i;
 				write (fd_out, "pouetsh: export: `", 18);
 				write (fd_out, exec->cmd_array[i],
 						ft_safe_strlen(exec->cmd_array[i]));

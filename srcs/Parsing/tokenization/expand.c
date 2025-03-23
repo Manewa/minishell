@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:36 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/22 23:02:10 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/23 02:24:08 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ char *expand_main(char *line, t_infos *infos)
 			out_of_squote(line, &i);
 		if (line[i] == '<' && line[i + 1] == '<' && double_quote == 0)
 			out_of_heredoc(line, &i);
-		if (line[i] == '$' && line[i + 1] != '?')
+		if (line[i + 1] && line[i] == '$' && line[i + 1] != '?')
 		{
 			if (ft_isalpha(line[i + 1]) || line[i + 1] == '_')
 			{
@@ -215,7 +215,7 @@ char *expand_main(char *line, t_infos *infos)
 				return (ft_free_infos(infos, "ERROR : Bug during expand", 1));
 			i++;
 		}
-		else if (line[i] && (line[0] != '$' || line[0] != 39))
+		else if (line[i] && (line[0] != '$' || line[0] != 39 || !line[i + 1]))
 			i++;
 	}
 	if (line[0])

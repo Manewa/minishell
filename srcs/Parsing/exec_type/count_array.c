@@ -12,6 +12,33 @@
 
 #include "../../../includes/minishell.h"
 
+int	ft_count_word_exec(char *s, char c)
+{
+	int	count_word;
+	int	i;
+
+	i = 0;
+	count_word = 0;
+	while (s[i])
+	{
+		if (s[i] != c)
+		{
+			count_word++;
+			while (s[i] && s[i] != c)
+			{
+				if (s[i] == 39)
+					out_of_squote(s, &i);
+				else if (s[i] == '"')
+					out_of_dquote(s, &i);
+				i++;
+			}
+		}
+		if (s[i])
+			i++;
+	}
+	return (count_word);
+}
+
 char *fill_word(t_token *token, int *i)
 {
 	int		j;
@@ -82,7 +109,7 @@ int exec_count_word(t_token *token)
 	while (tmp && tmp->type != PIPE)
 	{
 		if (tmp->type == WORD)
-			count += ft_count_word_quote(tmp->line_wip);//, ' ');
+			count += ft_count_word_exec(tmp->line_wip, ' ');
 		tmp = tmp->next;
 	}
 	return (count);
