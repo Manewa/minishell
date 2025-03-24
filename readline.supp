@@ -17,10 +17,3 @@
    obj:/*/bin/*
    ...
 }
-{
-   <A suppr : ft_infonew>
-   Memcheck:Leak
-   ...
-   fun:ft_infonew
-   ...
-}

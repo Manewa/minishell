@@ -88,7 +88,7 @@ static void	ft_child(int fd_pipe[2], t_exec *one)//ici on exit si error
 		if (one->builtin)
 			ft_builtin(one, fd_pipe, 1);//ft_builtin();//checker les acces des in et outfiles (faire des tests selon le builtin)
 		ft_check_access(one, fd_pipe);
-		execve(one->cmd_path, one->cmd_array, one->env);
+		execve(one->cmd_path, one->cmd_array, one->env);//je crois que cmd_array[0] contient le path et pas la commande, à voir avec Nathan
 		ft_error_child(one, fd_pipe, &(one->files->outfile->fd), 1);//code de sortie à 1 ? 128 ?
 	}
 	ft_free_infos(one->infos, 0, 0);
