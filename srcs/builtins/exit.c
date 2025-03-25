@@ -55,7 +55,8 @@ int	ft_exit(t_exec *exec, int fd_pipe[2])//42 ???
 	int	ret;
 	int	nb_arg;
 
-	ft_putstr_fd("exit\n", exec->files->outfile->fd);
+	if (exec == exec->head && exec->next == NULL)
+		ft_putstr_fd("exit\n", exec->files->outfile->fd);
 	nb_arg = ft_nb_args_exit(exec);
 	ret = 0;
 	if (nb_arg > 1 && ft_check_arg_exit(exec))
