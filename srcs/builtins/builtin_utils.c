@@ -27,7 +27,9 @@ int	ft_clean_end_builtin(t_exec *exec, int fd_pipe[2], int ret, int exit_proc)//
 		ft_close(&fd_pipe[1], exec_head, fd_pipe);
 	if (exit_proc)
 	{
+		ft_lstenvfree(exec->infos->env);
 		ft_free_infos(exec->infos, 0, 0);
+		free(exec->infos);
 		ft_clean_end_exec(exec_head);
 		exit(ret);
 	}

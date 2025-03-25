@@ -117,14 +117,8 @@ t_exec	*main_parsing(t_infos *infos)
 	exec = tokens_for_exec(token);
 	if (!exec)
 		return (NULL);
-	// tmp = exec;
-	// while (tmp)
-	// {
-	// 	quotes_detecter(tmp);
-	// 	if (tmp->limiter)
-	// 		quotes_detecter_heredoc(tmp->limiter);
-	// 	tmp = tmp->next;
-	// }
+	if (infos->line)
+		free(infos->line);
 	ft_free_token(token);
 	return (exec);
 }

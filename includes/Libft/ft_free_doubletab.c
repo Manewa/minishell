@@ -17,11 +17,12 @@ void	*ft_free_doubletab(char **str)
 	size_t	i;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		free(str[i]);
 		i++;
 	}
-	free(str);
+	if (str)
+		free(str);
 	return (NULL);
 }

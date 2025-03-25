@@ -78,7 +78,7 @@ static void	ft_child(int fd_pipe[2], t_exec *one)//ici on exit si error
 			ft_error_child(one, fd_pipe, NULL, 1);//code de sortie à 1
 	}
 	ft_open_outfile(fd_pipe, one, one->files->outfile, 1);//ouvrir l'outfile si besoin et éventuellement fermer l'écriture du pipe[1]
-	if (one->next != NULL)
+	if (one->next != NULL || one->files->outfile->name)
 	{
 		ft_dup2(&(one->files->outfile->fd), STDOUT_FILENO, fd_pipe, one->head);
 		fd_pipe[1] = -1;

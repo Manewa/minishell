@@ -72,7 +72,9 @@ void	ft_error_child(t_exec *exec, int fd_pipe[2], int *fd_to_close, int ret_val)
 	{
 		ft_close(&fd_pipe[1], exec_head, fd_pipe);
 	}
-	ft_free_infos(exec->infos, 0, 0);
+	ft_lstenvfree(exec_head->infos->env);
+	ft_free_infos(exec_head->infos, 0, 0);
+	free(exec_head->infos);
 	ft_clean_end_exec(exec_head);
 	exit(ret_val);
 }

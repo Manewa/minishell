@@ -47,10 +47,7 @@ int main(int argc, char **argv, char **envp)
 			exec = main_parsing(infos);
 		if (exec)
 			ft_main_exec(exec);
-		if (infos->line)//
-			free(infos->line);//
 	}
-	//free(infos->line);
 	rl_clear_history();
 	return (0);
 }
