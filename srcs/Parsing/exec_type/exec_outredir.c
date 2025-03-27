@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:18:03 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/11 17:00:55 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/27 14:25:01 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void exec_outredir(t_token **current, t_exec *exec)
 
 	if (exec->files->outfile->opening_failure == PERMISSION_DENIED)
 		return ;
+	if (exec->files->outfile->name)
+		free (exec->files->outfile->name);
 	exec->files->outfile->name = ft_strdup((*current)->line_wip);
 	if (access((*current)->line_wip, F_OK) == 0)
 	{

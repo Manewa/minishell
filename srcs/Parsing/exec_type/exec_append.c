@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:17:31 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/11 17:02:57 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/27 14:24:34 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,14 @@ void	error_write(t_token **current, t_exec *exec)
  * Check rights for outfile and store it's name in exec->files->outfile->name
  */
 
-void exec_append(t_token **current, t_exec *exec)
+void	exec_append(t_token **current, t_exec *exec)
 {
 	int	fd;
 
 	if (exec->files->outfile->opening_failure == PERMISSION_DENIED)
 		return ;
+	if (exec->files->outfile->name)
+		free (exec->files->outfile->name);
 	exec->files->outfile->name = ft_strdup((*current)->line_wip);
 	if (access((*current)->line_wip, F_OK) == 0)
 	{
