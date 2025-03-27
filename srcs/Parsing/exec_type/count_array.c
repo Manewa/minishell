@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:00:14 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/21 16:34:32 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/27 18:23:22 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void fill_cmd_array(t_exec *exec, t_token *token)
 				exec->cmd_array[k] = fill_word(token, &i);
 				k++;
 				if (token->line_wip[i])
+					i++;
+				while (token->line_wip[i] == ' ')
 					i++;
 			}
 		}

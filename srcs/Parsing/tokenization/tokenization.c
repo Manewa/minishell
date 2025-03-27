@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:59:53 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/20 13:10:44 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/27 18:05:42 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ t_token	*create_token(t_infos *infos, int *readed, int *start)
 	token_line_wip(token, infos->line, readed, start);
 	if (!token->line_wip || !token->line_wip[0])
 		return (ft_free_token(token));
+	while (infos->line[*readed] && infos->line[*readed] == ' ')
+		(*readed)++;
 	return(token);
 }
 

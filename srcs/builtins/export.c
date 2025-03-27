@@ -6,28 +6,33 @@
 /*   By: natgomali <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:41:09 by natgomali         #+#    #+#             */
-/*   Updated: 2025/03/17 15:32:37 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/27 17:44:19 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	check_key(t_env *new, t_env *env)
+int	check_key(t_env *new, t_env **env, char *str)
 {
 	t_env	*tmp;
 
-	tmp = env;
+	tmp = *env;
 	while (tmp)
 	{
 		if (ft_strcmp(new->key, tmp->key) == 0)
 		{
 			free(new->key);
 			free(new);
-			return (0);
+			free(tmp->value);
+			if (str[0])
+				tmp->value = ft_strdup(&str[1]);
+			else
+				tmp->value = NULL;
+			return (1);
 		}
 		tmp = tmp->next;
 	}
-	return (1);
+	return (0);
 }
 
 void	add_to_env(t_env **head, char *str)
@@ -50,7 +55,7 @@ void	add_to_env(t_env **head, char *str)
 		j++;
 	}
 	new->key[j] = '\0';
-	if (!check_key(new, *head))
+	if (check_key(new, head, &str[j]))
 		return ;
 	if (str[j++])
 		new->value = ft_strdup(&(str[j]));

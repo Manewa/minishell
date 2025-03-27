@@ -24,6 +24,8 @@ t_env	*insert_sorted(t_env *head, t_env *new)
 	}
 	while (current->next && ft_strcmp(current->next->key, new->key) < 0)
 		current = current->next;
+	// if (ft_strcmp(current->next->key, new->key) == 0)
+	// 	return (head);
 	new->next = current->next;
 	current->next = new;
 	return (head);

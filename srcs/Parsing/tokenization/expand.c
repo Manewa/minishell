@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:36 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/23 02:24:08 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/27 16:39:37 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,23 +192,31 @@ char *expand_main(char *line, t_infos *infos)
 			out_of_squote(line, &i);
 		if (line[i] == '<' && line[i + 1] == '<' && double_quote == 0)
 			out_of_heredoc(line, &i);
-		if (line[i + 1] && line[i] == '$' && line[i + 1] != '?')
+		if (line[i] && line[i + 1] && line[i] == '$' && line[i + 1] != '?')
 		{
-			if (ft_isalpha(line[i + 1]) || line[i + 1] == '_')
+			if (ft_isalpha(line[i + 1]) == 1 || line[i + 1] == '_')
 			{
 				line = substitute_expand(line, infos, ++i);
 				if (!line)
 					return (ft_free_infos(infos, "ERROR : Bug during expand", 1));
 				i = 0;
 			}
-			else
+/*			else if (line[i + 1] && line[i + 1] != '"' && line [i + 1] != 39)
 			{
 				line = expanded_new_line(line, i, i + 2, NULL); 
 				if (!line)
 					return (ft_free_infos(infos, "ERROR : Bug during expand", 1));
+			}*/
+			else if (line[i + 1] && (line[i + 1] == '"' || line[i + 1] == 39))
+			{
+				line = expanded_new_line(line, i, i + 1, NULL); 
+				if (!line)
+					return (ft_free_infos(infos, "ERROR : Bug during expand", 1));
 			}
+			else
+				i++;
 		}
-		else if (line[i] == '$' && line[i + 1] == '?')
+		else if (line[i] && line[i + 1] && line[i] == '$' && line[i + 1] == '?')
 		{
 			line = expanded_new_line(line, i, i + 2, ft_itoa(infos->exit_val));
 			if (!line)
