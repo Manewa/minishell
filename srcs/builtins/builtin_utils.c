@@ -38,8 +38,8 @@ int	ft_clean_end_builtin(t_exec *exec, int fd_pipe[2], int ret, int exit_proc)//
 
 static int	ft_set_stdfd(t_exec *exec)
 {
-	int	std_fd;//1 = in 2 = out 3 = in + out
-	
+	int	std_fd;
+
 	std_fd = 0;
 	if (exec->files->infile->fd == -1)
 	{

@@ -76,28 +76,67 @@ static int ft_set_pwd(t_exec *exec)
 	return (0);
 }
 
+char	*ft_cd_home(t_exec *exec, t_env *env)
+{
+	t_env *tmp;
+
+	tmp = env;
+	while (tmp && ft_strcmp(tmp->key, "HOME"))
+		tmp = tmp->next;
+	if (tmp)
+	{
+		if (exec->cmd_array[1])
+			free(exec->cmd_array[1]);
+		return (tmp->value);
+	}
+	ft_putstr_fd("minipouet: cd: HOME not set\n", 2);
+	return (NULL);
+}
+
+int	ft_chdir(t_exec *exec)
+{
+	if (chdir(exec->cmd_array[1]) == -1)
+	{
+		ft_putstr_fd("minipouet: ", 2);
+		ft_putstr_fd(exec->cmd_array[0], 2);
+		ft_putstr_fd(": ", 2);
+		perror(exec->cmd_array[1]);
+		return (1);
+	}
+	return (0);
+}
+
 int	ft_cd(t_exec *exec, int fd_pipe[2], int child, int std_fd)
 {
 	int	nb_arg;
+	int	home;
 
+	home = 0;
 	nb_arg = ft_nb_args_cd(exec, fd_pipe, child, std_fd); 
-	if (nb_arg != 2)
-		return (ft_clean_end_builtin(exec, fd_pipe, nb_arg, child));
-	else if (exec->cmd_array[1][0] && chdir(exec->cmd_array[1]) == -1)//si exec->cmd_array[1] = "" ?
+	if (nb_arg > 2)
+		return (1);
+	if(!exec->cmd_array[1] || !exec->cmd_array[1][0])
 	{
-		if (std_fd == 1 || std_fd == 3)
-			exec->files->infile->fd = -1;
-		if (std_fd == 2 || std_fd == 3)
-			exec->files->outfile->fd = -1;
-		ft_putstr_fd("minipouet: ", 2);
-		perror(exec->cmd_array[0]);
-		return (ft_clean_end_builtin(exec, fd_pipe, 1, child));
+		exec->cmd_array[1] = ft_cd_home(exec, exec->infos->env);
+		home = 1;
+		if (!exec->cmd_array[1])
+			return (1);
+	}
+	if (ft_chdir(exec))
+	{
+		if (home)
+			exec->cmd_array[1] = NULL;
+		return (1);
 	}
 	if (ft_set_pwd(exec))
 	{
+		if (home)
+			exec->cmd_array[1] = NULL;
 		ft_putstr_fd("minipouet: ", 2);
 		perror(exec->cmd_array[0]);
 		return (1);
 	}
+	if (home)
+		exec->cmd_array[1] = NULL;
 	return (0);
 }

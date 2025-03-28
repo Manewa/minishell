@@ -33,9 +33,11 @@ static void	ft_check_access(t_exec *exec, int fd_pipe[2])
 	struct stat	f_infos;
 
 	i = 0;
+// printf("exec->cmd_path = |%s|\t\texec->cmd_array[0] = |%s|\n", exec->cmd_path, exec->cmd_array[0]);
 	while (exec->cmd_path[i] && exec->cmd_path[i] != '/')
 		i++;
-	if (!exec->cmd_path[i])//Si pas de / on consid-re que c'est une cmd sinon un fichier ou un dossier
+// printf("exec->cmd_path[i] = |%c|\n", exec->cmd_path[i]);
+	if (!exec->cmd_path[i] || !exec->cmd_array[0][0])//Si pas de / ou pas de cmd on consid-re que c'est une cmd sinon un fichier ou un dossier
 	{
 		if (stat(exec->cmd_path, &f_infos) == -1 || S_ISDIR(f_infos.st_mode))//!exec->cmd_path[i] &&
 		{
@@ -44,6 +46,7 @@ static void	ft_check_access(t_exec *exec, int fd_pipe[2])
 			ft_putstr_fd(": command not found\n", 2);
 			ft_error_child(exec, fd_pipe, &(exec->files->outfile->fd), ERROR_NF);//ERR_NF code de sortie à 127
 		}
+// printf("Pouet\n");
 	}
 	if (stat(exec->cmd_path, &f_infos) == -1)//si le fichier n'existe pas, il le dit
 		ft_error_child(exec, fd_pipe, &(exec->files->outfile->fd), 127);//code de sortie à 127
@@ -59,6 +62,8 @@ static void	ft_check_access(t_exec *exec, int fd_pipe[2])
 	else
 	{
 		ft_putstr_fd("minipouet: ", 2);
+		ft_putstr_fd(exec->cmd_array[0], 2);
+		ft_putstr_fd(": ", 2);
 		errno = EISDIR;
 		ft_error_child(exec, fd_pipe, &(exec->files->outfile->fd), 126);//code de sortie à 126
 	}
