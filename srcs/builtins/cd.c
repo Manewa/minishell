@@ -76,21 +76,26 @@ static int ft_set_pwd(t_exec *exec)
 	return (0);
 }
 
-char	*ft_cd_home(t_exec *exec, t_env *env)
+int ft_cd_home(t_exec *exec, t_env *env)
 {
 	t_env *tmp;
 
 	tmp = env;
 	while (tmp && ft_strcmp(tmp->key, "HOME"))
 		tmp = tmp->next;
-	if (tmp)
+	if (tmp && tmp->value)
 	{
 		if (exec->cmd_array[1])
 			free(exec->cmd_array[1]);
-		return (tmp->value);
+		if (tmp->value[0])
+		{
+			exec->cmd_array[1] = tmp->value;
+			return (1);
+		}
+		return (-1);
 	}
 	ft_putstr_fd("minipouet: cd: HOME not set\n", 2);
-	return (NULL);
+	return (0);
 }
 
 int	ft_chdir(t_exec *exec)
@@ -117,10 +122,11 @@ int	ft_cd(t_exec *exec, int fd_pipe[2], int child, int std_fd)
 		return (1);
 	if(!exec->cmd_array[1] || !exec->cmd_array[1][0])
 	{
-		exec->cmd_array[1] = ft_cd_home(exec, exec->infos->env);
-		home = 1;
-		if (!exec->cmd_array[1])
+		home = ft_cd_home(exec, exec->infos->env);
+		if (!home)
 			return (1);
+		if (home == -1)
+			return (0);
 	}
 	if (ft_chdir(exec))
 	{

@@ -31,6 +31,7 @@ static void	ft_check_access(t_exec *exec, int fd_pipe[2])
 {
 	int	i;
 	struct stat	f_infos;
+// int tttt;
 
 	i = 0;
 // printf("exec->cmd_path = |%s|\t\texec->cmd_array[0] = |%s|\n", exec->cmd_path, exec->cmd_array[0]);
@@ -39,13 +40,15 @@ static void	ft_check_access(t_exec *exec, int fd_pipe[2])
 // printf("exec->cmd_path[i] = |%c|\n", exec->cmd_path[i]);
 	if (!exec->cmd_path[i] || !exec->cmd_array[0][0])//Si pas de / ou pas de cmd on consid-re que c'est une cmd sinon un fichier ou un dossier
 	{
-		if (stat(exec->cmd_path, &f_infos) == -1 || S_ISDIR(f_infos.st_mode))//!exec->cmd_path[i] &&
-		{
+// 		tttt=stat(exec->cmd_path, &f_infos);
+// printf("tttt = %d\n", tttt);
+// 		if (tttt == -1 || S_ISDIR(f_infos.st_mode))//!exec->cmd_path[i] &&
+// 		{
 			ft_putstr_fd("minipouet: ", 2);
 			ft_putstr_fd(exec->cmd_array[0], 2);
 			ft_putstr_fd(": command not found\n", 2);
 			ft_error_child(exec, fd_pipe, &(exec->files->outfile->fd), ERROR_NF);//ERR_NF code de sortie à 127
-		}
+		// }
 // printf("Pouet\n");
 	}
 	if (stat(exec->cmd_path, &f_infos) == -1)//si le fichier n'existe pas, il le dit
@@ -62,8 +65,8 @@ static void	ft_check_access(t_exec *exec, int fd_pipe[2])
 	else
 	{
 		ft_putstr_fd("minipouet: ", 2);
-		ft_putstr_fd(exec->cmd_array[0], 2);
-		ft_putstr_fd(": ", 2);
+		//ft_putstr_fd(exec->cmd_array[0], 2);
+		//ft_putstr_fd(": ", 2);
 		errno = EISDIR;
 		ft_error_child(exec, fd_pipe, &(exec->files->outfile->fd), 126);//code de sortie à 126
 	}
@@ -96,7 +99,9 @@ static void	ft_child(int fd_pipe[2], t_exec *one)//ici on exit si error
 		execve(one->cmd_path, one->cmd_array, one->env);//je crois que cmd_array[0] contient le path et pas la commande, à voir avec Nathan
 		ft_error_child(one, fd_pipe, &(one->files->outfile->fd), 1);//code de sortie à 1 ? 128 ?
 	}
+	ft_lstenvfree(one->infos->env);
 	ft_free_infos(one->infos, 0, 0);
+	free(one->infos);
 	ft_clean_end_exec(one->head);
 	exit(0);
 }
