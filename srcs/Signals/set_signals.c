@@ -6,7 +6,7 @@
 /*   By: natgomali <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 17:02:06 by natgomali         #+#    #+#             */
-/*   Updated: 2025/03/19 14:22:26 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/27 18:28:00 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,5 @@ void	set_signal(t_infos *infos)
 {
 	define_signal(SIGINT, &sig_handler_c, infos);
 	define_signal(SIGQUIT, SIG_IGN, infos);
+	define_signal(SIGTSTP, SIG_IGN, infos);
 }
