@@ -87,7 +87,7 @@ static int	ft_fill_heredoc(t_infos *infos, t_lim *heredoc, int fd, int fd_pipe[2
 	return (close(dup_tmp),0);//ft_close du coup ?
 }
 
-int	ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2])
+int	ft_sethd(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2])
 {
 	t_lim			*tmp;
 	unsigned long	i;

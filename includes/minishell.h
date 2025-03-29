@@ -226,7 +226,7 @@ char	*ft_ultoa(unsigned long n);
 
 //...................heredoc.c...................//
 
-int		ft_set_heredoc(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2]);
+int		ft_sethd(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2]);
 
 //...............heredoc_expand.c................//
 

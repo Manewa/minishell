@@ -90,7 +90,7 @@ int	ft_main_builtin_parent(t_exec *exec)
 	fd_pipe[1] = -1;
 	if (exec->is_heredoc)
 	{
-		if (ft_set_heredoc(exec, exec->limiter, exec->files->infile, fd_pipe))
+		if (ft_sethd(exec, exec->limiter, exec->files->infile, fd_pipe))
 			return (ft_clean_end_builtin(exec, fd_pipe, ERROR_HEREDOC, 0));
 	}
 	if (ft_open_infile(fd_pipe, exec, exec->files->infile, 0))
