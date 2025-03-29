@@ -29,10 +29,10 @@ static	int	ft_check_option_echo(char **cmd, int *i)
 			if (!cmd[*i][j])
 				nl = 0;
 			else
-				break;
+				break ;
 		}
 		else
-			break;
+			break ;
 		*i += 1;
 	}
 	return (nl);
@@ -45,10 +45,6 @@ int	ft_echo(t_exec *exec)
 
 	i = 1;
 	nl = ft_check_option_echo(exec->cmd_array, &i);
-	// if (!exec->cmd_array[i] || ft_strcmp("-n", exec->cmd_array[1]))
-	// 	nl = 1;
-	// else
-	// 	i++;
 	if (exec->cmd_array[i])
 	{
 		ft_putstr_fd(exec->cmd_array[i], exec->files->outfile->fd);
@@ -56,7 +52,7 @@ int	ft_echo(t_exec *exec)
 	}
 	while (exec->cmd_array[i])
 	{
-		ft_putstr_fd(" ",  exec->files->outfile->fd);
+		ft_putstr_fd(" ", exec->files->outfile->fd);
 		ft_putstr_fd(exec->cmd_array[i], exec->files->outfile->fd);
 		i++;
 	}
