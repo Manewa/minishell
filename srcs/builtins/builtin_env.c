@@ -24,7 +24,7 @@ size_t	ft_safe_strlen(const char *c)
 	return (i);
 }
 
-void print_keynvalue(int fd, t_env *env)
+void	print_keynvalue(int fd, t_env *env)
 {
 	write(fd, env->key, ft_safe_strlen(env->key));
 	write(fd, "=", 1);
