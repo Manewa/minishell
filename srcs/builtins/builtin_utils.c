@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int	ft_clean_end_builtin(t_exec *exec, int fd_pipe[2], int ret, int exit_proc)//met exec pas exec->head
+int	ft_clean_end_builtin(t_exec *exec, int fd_pipe[2], int ret, int exit_proc)
 {
 	t_exec	*exec_head;
 
@@ -70,7 +70,7 @@ int	ft_builtin(t_exec *exec, int fd_pipe[2], int child)
 	else if (exec->builtin == EXPORT)
 		ret_val = ft_export(exec, exec->files->outfile->fd);
 	else if (exec->builtin == UNSET)
-		ret_val = ft_unset(exec, exec->files->outfile->fd); 
+		ret_val = ft_unset(exec, exec->files->outfile->fd);
 	else if (exec->builtin == ENV)
 		ret_val = ft_env(exec->infos, exec, exec->files->outfile);
 	else if (exec->builtin == EXIT)
@@ -88,15 +88,14 @@ int	ft_main_builtin_parent(t_exec *exec)
 
 	fd_pipe[0] = -1;
 	fd_pipe[1] = -1;
-	//gerer les redir
 	if (exec->is_heredoc)
 	{
 		if (ft_set_heredoc(exec, exec->limiter, exec->files->infile, fd_pipe))
-			return (ft_clean_end_builtin(exec, fd_pipe, ERROR_HEREDOC,  0));
+			return (ft_clean_end_builtin(exec, fd_pipe, ERROR_HEREDOC, 0));
 	}
-	if (ft_open_infile(fd_pipe, exec, exec->files->infile, 0))//ouvrir l'infile si besoin et eventuellement fermer la lecture du pipe-1[0]
-		return (ft_clean_end_builtin(exec, fd_pipe, 1,  0));
+	if (ft_open_infile(fd_pipe, exec, exec->files->infile, 0))
+		return (ft_clean_end_builtin(exec, fd_pipe, 1, 0));
 	if (ft_open_outfile(fd_pipe, exec, exec->files->outfile, 0))
-		return (ft_clean_end_builtin(exec, fd_pipe, 1,  0));
+		return (ft_clean_end_builtin(exec, fd_pipe, 1, 0));
 	return (ft_builtin(exec, fd_pipe, 0));
 }
