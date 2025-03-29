@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-static void ft_del_file(t_fdata *file)
+static void	ft_del_file(t_fdata *file)
 {
 	if (file->name && file->heredoc != YES)
 		free(file->name);
@@ -21,14 +21,14 @@ static void ft_del_file(t_fdata *file)
 	free(file);
 }
 
-static void ft_free_files(t_files *files)
+static void	ft_free_files(t_files *files)
 {
 	ft_del_file(files->infile);
 	ft_del_file(files->outfile);
 	free(files);
 }
 
-static void ft_free_heredoc_lst(t_lim *lim)
+static void	ft_free_heredoc_lst(t_lim *lim)
 {
 	t_lim	*current;
 	t_lim	*nxt;
@@ -45,7 +45,7 @@ static void ft_free_heredoc_lst(t_lim *lim)
 	}
 }
 
-void ft_free_dbltab(char **str)
+void	ft_free_dbltab(char **str)
 {
 	size_t	i;
 
@@ -61,7 +61,7 @@ void ft_free_dbltab(char **str)
 	}
 }
 
-static void ft_delone_exec(t_exec *exec)
+static void	ft_delone_exec(t_exec *exec)
 {
 	if (exec)
 	{
@@ -72,11 +72,10 @@ static void ft_delone_exec(t_exec *exec)
 		if (exec->cmd_path)
 			free(exec->cmd_path);
 		free(exec);
-		//exec = NULL;
 	}
 }
 
-void ft_clean_end_exec(t_exec *exec)
+void	ft_clean_end_exec(t_exec *exec)
 {
 	t_exec	*tmp;
 	t_exec	*tmp_nxt;
