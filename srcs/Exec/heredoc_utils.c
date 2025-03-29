@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-static int ft_len_ul(unsigned long n)
+static int	ft_len_ul(unsigned long n)
 {
 	size_t	len;
 
@@ -26,7 +26,8 @@ static int ft_len_ul(unsigned long n)
 	}
 	return (len);
 }
-static void ft_change_ul(unsigned long n, char *s, size_t i)
+
+static void	ft_change_ul(unsigned long n, char *s, size_t i)
 {
 	s[i] = '\0';
 	i--;
@@ -39,7 +40,7 @@ static void ft_change_ul(unsigned long n, char *s, size_t i)
 	s[i] = n % 10 + 48;
 }
 
-char *ft_ultoa(unsigned long n)
+char	*ft_ultoa(unsigned long n)
 {
 	char			*str;
 	size_t			len;
