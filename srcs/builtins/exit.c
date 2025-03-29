@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-static int ft_nb_args_exit(t_exec *exec)
+static int	ft_nb_args_exit(t_exec *exec)
 {
 	int	i;
 
@@ -27,7 +27,7 @@ static int	ft_check_arg_exit(t_exec *exec)
 	int	i;
 
 	i = 0;
-	while (exec->cmd_array[1][i] == ' ')//exec->cmd_array[1][i] &&
+	while (exec->cmd_array[1][i] == ' ')
 		i++;
 	if (exec->cmd_array[1][i] == '+' || exec->cmd_array[1][i] == '-')
 		i++;
@@ -50,7 +50,7 @@ static int	ft_check_arg_exit(t_exec *exec)
 	return (0);
 }
 
-int	ft_exit(t_exec *exec, int fd_pipe[2])//42 ???
+int	ft_exit(t_exec *exec, int fd_pipe[2])
 {
 	int	ret;
 	int	nb_arg;
