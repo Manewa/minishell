@@ -21,7 +21,7 @@ char	*ft_getcwd(void)
 	return (ft_strdup(buffer));
 }
 
-int		ft_pwd(t_exec *exec)
+int	ft_pwd(t_exec *exec)
 {
 	char	*pwd;
 
