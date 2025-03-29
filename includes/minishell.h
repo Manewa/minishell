@@ -89,11 +89,12 @@ void	token_line_wip(t_token *token, char *line, int *readed, int *start);
 
 /***********	tokenization/expand	    ***********/
 
-char	*check_name(char *value, char *to_expand);
-char	*expand_to_env(char *to_expand, t_env *env);
-char	*expanded_new_line(char *old_line, int start, int end, char *expand);
-char	*substitute_expand(char *line, t_infos *infos, int exp);
-char	*expand_main(char *line, t_infos *infos);
+// char	*check_name(char *value, char *to_expand);
+// char	*expand_to_env(char *to_expand, t_env *env);
+// char	*expanded_new_line(char *old_line, int start, int end, char *expand);
+// char	*substitute_expand(char *line, t_infos *infos, int exp);
+// char	*expand_main(char *line, t_infos *infos);
+void    expand_token(t_token *toke, t_infos *infos);
 
 /***********     tokenization/tokens_for_exec **********/
 

@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:36 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/29 01:02:29 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/29 12:22:37 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * Problem : won't verify if $a = $b, $b = $c, $c = $a
  */
 
-char	*check_name(char *value, char *to_expand)
+static char	*check_name(char *value, char *to_expand)
 {
 	size_t	i;
 	char	*name_value;
@@ -69,7 +69,7 @@ static t_env	*get_node_key(t_env *tmp, char *to_expand)
  * if none is found, return NULL 
  * */
 
-char	*expand_to_env(char *to_expand, t_env *env)
+static char	*expand_to_env(char *to_expand, t_env *env)
 {
 	char	*value;
 	t_env	*tmp;
@@ -94,11 +94,22 @@ char	*expand_to_env(char *to_expand, t_env *env)
 	return (to_expand);
 }
 
-static void	cp_extended_new_line(int start, char *old, char *new, char *expand)
+static char	*cp_extended_new_line(int start, int end, char *old, char *expand)
 {
-	int	i;
+	int		i;
+	int		j;
+	char	*new;
 
 	i = 0;
+	j = 0;
+	if (!expand)
+		new = malloc((ft_strlen(old) - (end - start) + 1)
+				* sizeof(char));
+	else
+		new = malloc((ft_strlen(old) - (end - start)
+					+ ft_strlen(expand) + 1) * sizeof(char));
+	if (!new)
+		return (NULL);
 	while (i < start && old[i] != '$')
 	{
 		new[i] = old[i];
@@ -109,6 +120,7 @@ static void	cp_extended_new_line(int start, char *old, char *new, char *expand)
 	while (old[end])
 		new[i++] = old[end++];
 	new[i] = '\0';
+	return (new);
 }
 
 /* Expanded_new_line will replace the old key by the value in infos->env
@@ -118,27 +130,19 @@ static void	cp_extended_new_line(int start, char *old, char *new, char *expand)
  * Will free the old_line and the value and return the new line malloc
  */
 
-char	*expanded_new_line(char *old_line, int start, int end, char *expand)
+static char	*expanded_new_line(char *old_line, int start, int end, char *expand)
 {
 	int		i;
-	size_t	j;
 	char	*new_line;
 
 	i = 0;
-	j = 0;
-	if (!expand)
-		new_line = malloc((ft_strlen(old_line) - (end - start) + 1)
-				* sizeof(char));
-	else
-		new_line = malloc((ft_strlen(old_line) - (end - start)
-					+ ft_strlen(expand) + 1) * sizeof(char));
+	new_line = cp_extended_new_line(start, end, old_line, expand);
 	if (!new_line)
 	{
 		if (expand)
 			free(expand);
 		return (free(old_line), NULL);
 	}
-	cp_extended_new_line(start, old_line, new_line, expand);
 	return (free(old_line), free(expand), new_line);
 }
 
@@ -149,7 +153,7 @@ char	*expanded_new_line(char *old_line, int start, int end, char *expand)
  * Return expand, the line with the expand.
  */
 
-char	*substitute_expand(char *line, t_infos *infos, int exp)
+static char	*substitute_expand(char *line, t_infos *infos, int exp, t_token *token)
 {
 	int		end;
 	size_t	j;
@@ -167,13 +171,13 @@ char	*substitute_expand(char *line, t_infos *infos, int exp)
 	}
 	expand = malloc((end - start + 1) * sizeof(char));
 	if (!expand)
-		return (ft_free_infos(infos, "ERROR : Can not malloc the expand", 1));
+		return (ft_free_infoken(infos, token, "ERROR : Can not malloc the expand", 1));
 	while (start < end)
 		expand[j++] = line[start++];
 	expand[j] = '\0';
 	expand = expand_to_env(expand, infos->env);
 	if (!expand)
-		return (ft_free_infos(infos, "ERROR : Can not malloc the expand", 1));
+		return (ft_free_infoken(infos, token, "ERROR : Can not malloc the expand", 1));
 	expand = expanded_new_line(line, exp - 1, end, expand);
 	return (expand);
 }
@@ -190,7 +194,7 @@ char	*substitute_expand(char *line, t_infos *infos, int exp)
  * Return line (with the new expand)
  */
 
-char	*expand_main(char *line, t_infos *infos)
+static char	*expand_main(char *line, t_infos *infos, t_token *token)
 {
 	int		i;
 	int		double_quote;
@@ -211,7 +215,7 @@ char	*expand_main(char *line, t_infos *infos)
 		{
 			if (ft_isalpha(line[i + 1]) == 1 || line[i + 1] == '_')
 			{
-				line = substitute_expand(line, infos, ++i);
+				line = substitute_expand(line, infos, ++i, token);
 				i = 0;
 			}
 			else if (line[i + 1] && (line[i + 1] == '"' || line[i + 1] == 39))
@@ -228,8 +232,21 @@ char	*expand_main(char *line, t_infos *infos)
 			i++;
 	}
 	if (!line)
-		return (ft_free_infos(infos, "ERROR : Bug during expand", 1));
+		return (ft_free_infoken(infos, token, "ERROR : Bug during expand", 1));
 	else if (line[0])
 		return (line);
 	return (NULL);
+}
+
+void	expand_token(t_token *token, t_infos *infos)
+{
+	t_token	*tmp;
+
+	tmp = token;
+	while (tmp)
+	{
+		if (tmp->line_wip && tmp->line_wip[0])
+			tmp->line_wip = expand_main(tmp->line_wip, infos, token);
+		tmp = tmp->next;
+	}
 }

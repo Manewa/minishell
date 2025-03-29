@@ -6,7 +6,7 @@
 #    By: namalier <namalier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 16:29:28 by namalier          #+#    #+#              #
-#    Updated: 2025/03/28 20:55:50 by namalier         ###   ########.fr        #
+#    Updated: 2025/03/29 11:28:19 by namalier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ OBJDIR 			= obj
 LIBA			= includes/Libft/libft.a
 
 SRCS 			=	srcs/main.c srcs/init_prompt.c ${ENV}/env.c \
-					${ENV}/utils_ env.c ${TOKENS}/check_error_parsing.c \
+					${ENV}/sorted_env.c ${TOKENS}/check_error_parsing.c \
 					${TOKENS}/tokenization.c ${TOKENS}/expand.c \
 					${TOKENS}/token_line.c ${TOKENS}/tokens_for_exec.c \
 					${EXEC_TYPE}/exec_append.c ${EXEC_TYPE}/exec_word.c \
@@ -36,7 +36,7 @@ SRCS 			=	srcs/main.c srcs/init_prompt.c ${ENV}/env.c \
 					${UTILS}/utils_lst.c ${UTILS}/utils_lst2.c \
 					${UTILS}/utils_lst3.c \
 					${UTILS}/utils_parsing.c ${UTILS}/ft_error.c \
-					${UTILS}/split_off_quote.c \
+					${UTILS}/ft_error2.c ${UTILS}/split_off_quote.c \
 					${CHECK_BLTIN}/check_builtins.c \
 					${BUILTINS}/builtin_env.c ${BUILTINS}/cd.c \
 					${BUILTINS}/builtin_utils.c ${BUILTINS}/pwd.c \
