@@ -263,6 +263,11 @@ int		ft_main_builtin_parent(t_exec *exec);
 
 int		ft_cd(t_exec *exec, int fd_pipe[2], int child, int std_fd);
 
+//..................cd_utils.c.................//
+
+int		ft_chdir(t_exec *exec);
+t_env	*ft_get_env_value(t_env *tmp, char *to_find, int len);
+
 //....................pwd.c....................//
 
 char	*ft_getcwd(void);
