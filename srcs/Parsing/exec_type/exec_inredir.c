@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:17:55 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/29 00:25:58 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/29 14:10:36 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	exec_inredir(t_token **current, t_exec *exec)
 	exec->files->infile->heredoc = NO;
 	if (access(((*current)->line_wip), F_OK) == 0)
 	{
-		if (access(((*current)->line_wip), R_OK) != 1)
+		if (access(((*current)->line_wip), R_OK) != 0)
 			return (error_read(current, exec));
-		else
-			exec->files->infile->opening_failure = FILE_DOES_NOT_EXIST;
 	}
+	else
+		exec->files->infile->opening_failure = FILE_DOES_NOT_EXIST;
 }

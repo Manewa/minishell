@@ -6,29 +6,29 @@
 /*   By: natgomali <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 17:02:06 by natgomali         #+#    #+#             */
-/*   Updated: 2025/03/27 18:28:00 by namalier         ###   ########.fr       */
+/*   Updated: 2025/03/29 17:11:43 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-extern int sig_global;
+extern int	g_sig;
 
-void sig_handler_hd_c(int signum)
+void	sig_handler_hd_c(int signum)
 {
 	(void)signum;
-	sig_global = SIGINT_HD;
+	g_sig = SIGINT_HD;
 	rl_on_new_line();
 	rl_redisplay();
 	close(STDIN_FILENO);
 	write(STDOUT_FILENO, "\n", 1);
 }
 
-void sig_handler_c(int signum)
+void	sig_handler_c(int signum)
 {
 	if (signum == SIGINT)
 	{
-		sig_global = signum;
+		g_sig = signum;
 		write (STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
@@ -39,14 +39,16 @@ void sig_handler_c(int signum)
 /*
  * define_signal
  *
- * define what does each signal, redirect to sig_fun(signum) each time a signal is received
+ * define what does each signal, redirect to sig_fun(signum)
+ * each time a signal is received
  * sigaction is two things :
  * 			1) Struct from signal.h
  * 				sa_handler = function to exec when found a signal
  * 				sa_flags = no flags used in minishell
  * 				sa_mask = blocke signals during exec
  * 			2) function taking sigaction struct as argument
- * 				sigaction (int signum, struct sigaction new, struct sigaction old which is NULL here)
+ * 				sigaction (int signum, struct sigaction new, struct sigaction 
+ * 				old which is NULL here)
  * 				return 0 if success
  * 				return -1 if failed
  */

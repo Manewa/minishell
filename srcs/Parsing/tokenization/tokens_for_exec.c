@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:28:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/29 01:10:09 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/29 15:24:36 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ t_exec	*tokens_for_exec(t_token *head_token)
 	head_exec->env = env_double_tab(head_exec->infos->env);
 	if (!head_exec->env)
 		ft_exit_exec(head_token, head_exec, 1);
-	exec_type(head_exec, &current_token);
+	if (head_token->line_wip && head_token->line_wip[0])
+		exec_type(head_exec, &current_token);
 	while (current_token != NULL)
 	{
 		if (current_token && current_token->type == PIPE)
@@ -90,7 +91,8 @@ t_exec	*tokens_for_exec(t_token *head_token)
 		if (!current_exec)
 			ft_exit_exec(head_token, head_exec, 1);
 		current_exec->env = current_exec->head->env;
-		exec_type(current_exec, &current_token);
+		if (current_token->line_wip && current_token->line_wip[0])
+			exec_type(current_exec, &current_token);
 		ft_execadd_back(&head_exec, current_exec);
 		if (current_token && current_token->next != NULL
 			&& current_token->type != 5)

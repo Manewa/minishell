@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-extern int	sig_global;
+extern int	g_sig;
 
 static char	*ft_set_heredoc_name(unsigned long i_heredoc)
 {
@@ -52,9 +52,9 @@ static int	ft_fill_heredoc(t_infos *infos, t_lim *heredoc, int fd, int fd_pipe[2
 	dup_tmp = dup(STDIN_FILENO);
 	define_signal(SIGINT, &sig_handler_hd_c, infos);
 	line = readline("> ");
-	if (!line && sig_global != SIGINT_HD)//A checker : ctrl D n'est a gerer que pour exit du shell normalement
+	if (!line && g_sig != SIGINT_HD)//A checker : ctrl D n'est a gerer que pour exit du shell normalement
 		printf("\nminipouet: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", nb_line, heredoc->limit);
-	else if (sig_global == SIGINT_HD)
+	else if (g_sig == SIGINT_HD)
 	{
 		dup2(dup_tmp, STDIN_FILENO);
 		close(dup_tmp);
@@ -73,9 +73,9 @@ static int	ft_fill_heredoc(t_infos *infos, t_lim *heredoc, int fd, int fd_pipe[2
 		ft_putstr_fd("\n", fd);
 		free(line);
 		line = readline("> ");
-		if (!line && sig_global != SIGINT_HD)//A checker : ctrl D n'est a gerer que pour exit du shell normalement
+		if (!line && g_sig != SIGINT_HD)//A checker : ctrl D n'est a gerer que pour exit du shell normalement
 			printf("minipouet: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", nb_line, heredoc->h_name);
-		else if (sig_global == SIGINT_HD)
+		else if (g_sig == SIGINT_HD)
 		{
 			dup2(dup_tmp, STDIN_FILENO);
 			close(dup_tmp);//ft_close ?

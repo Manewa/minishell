@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:36 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/29 12:22:37 by namalier         ###   ########.fr       */
+/*   Updated: 2025/03/29 15:33:48 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,7 @@ static char	*expand_main(char *line, t_infos *infos, t_token *token)
 	}
 	if (!line)
 		return (ft_free_infoken(infos, token, "ERROR : Bug during expand", 1));
-	else if (line[0])
+	else if (line)
 		return (line);
 	return (NULL);
 }

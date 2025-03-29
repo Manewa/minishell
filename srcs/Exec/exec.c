@@ -6,13 +6,13 @@
 /*   By: aibonade <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 12:30:52 by aibonade          #+#    #+#             */
-/*   Updated: 2025/03/13 19:09:10 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/29 14:59:50 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-extern int	sig_global;
+extern int	g_sig;
 
 static void	ft_dup2(int *old, int new, int fd_pipe[2], t_exec *lst)
 {
@@ -181,7 +181,7 @@ void	ft_main_exec(t_exec *lst)//debut de l'exec avec récupération de la liste 
 	// }
 	if (sig == SIGINT)
 		write (1, "\n", 1);
-	//if (sig_global == SIGINT_HD)
+	//if (g_sig == SIGINT_HD)
 	//	lst->infos->exit_val = 130;
 	if(exec_ret <= ERROR_EXEC)
 		lst->infos->exit_val = 1;//maj de infos->exit > 0//REVOIR : return value entre 0 & 255 (si en dehors => 255)

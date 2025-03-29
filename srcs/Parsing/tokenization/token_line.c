@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:47:11 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/29 01:08:21 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/29 18:52:00 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ int	line_heredoc(char *line, int *start, int *readed, t_token *token)
 		&& count_quote % 2 == 0 && (line[*readed] != ' '
 			|| line[*readed] == '\t'))
 	{
-		if (line[*readed] == '"')
-			count_quote += out_of_dquote(line, readed);
-		if (line[*readed] == 39)
-			count_quote += out_of_squote(line, readed);
+		out_of_quotes(line, readed);
 		if (line[*readed])
 			(*readed)++;
 	}
@@ -66,20 +63,12 @@ int	line_heredoc(char *line, int *start, int *readed, t_token *token)
 	return (count_quote);
 }
 
-/* token_line a pour but de remplir la line_wip dans token, 
- * et donc de connaitre le debut du token et ou il s'arrete
- * Permet aussi de verifier que les quotes sont bien fermees, 
- * sinon change le type de la node a QUOTE_NOT_CLOSED*/
-
-void	token_line_wip(t_token *token, char *line, int *readed, int *start)
+static int	no_space_sep(char *line, int *start, int *readed, t_token *token)
 {
-	int		count_quote;
-
-	count_quote = 0;
 	if (token->type == HEREDOC)
 	{
 		token->quotes = line_heredoc(line, start, readed, token);
-		return ;
+		return (1);
 	}
 	while (line && line[*readed] && (line[*readed] == ' '
 			|| line[*readed] == '\t'))
@@ -89,6 +78,16 @@ void	token_line_wip(t_token *token, char *line, int *readed, int *start)
 	while (line && line[*readed] && (line[*readed] == ' '
 			|| line[*readed] == '\t'))
 		(*readed)++;
+	return (0);
+}
+
+void	token_line_wip(t_token *token, char *line, int *readed, int *start)
+{
+	int		count_quote;
+
+	count_quote = 0;
+	if (no_space_sep(line, start, readed, token))
+		return ;
 	*start = *readed;
 	while (line && line[*readed] && is_separator(line[*readed]) == 0
 		&& count_quote % 2 == 0)
