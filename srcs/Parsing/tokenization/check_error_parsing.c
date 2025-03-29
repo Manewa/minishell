@@ -6,7 +6,7 @@
 /*   By: natgomali <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:01:20 by natgomali         #+#    #+#             */
-/*   Updated: 2025/03/20 13:11:16 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/29 00:41:02 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,13 @@ int	pipe_error(char *line, size_t i)
 	return (0);
 }
 
-int check_error_parsing(t_infos *infos)
+int	check_error_parsing(t_infos *infos)
 {
 	size_t	i;
 
 	i = 0;
-	while (infos && infos->line && (infos->line[i] == ' ' || infos->line[i] == '\t'))
+	while (infos && infos->line && (infos->line[i] == ' '
+			|| infos->line[i] == '\t'))
 		i++;
 	if (infos && infos->line && infos->line[i] == '|')
 		return (PIPE);
@@ -53,7 +54,7 @@ int check_error_parsing(t_infos *infos)
 		if (infos->line[i] == '|')
 		{
 			if (pipe_error(infos->line, i))
-					return (DOUBLE_PIPE);
+				return (DOUBLE_PIPE);
 		}
 		if (infos->line[i] == '<' || infos->line[i] == '>')
 		{
@@ -78,7 +79,8 @@ int	check_error(t_infos *infos)
 	else if (error == DOUBLE_PIPE)
 	{
 		infos->exit_val = 2;
-		ft_free_infos(infos, "pouetsh : syntax error near unexpected token `|'\n", 0);
+		ft_free_infos(infos,
+			"pouetsh : syntax error near unexpected token `|'\n", 0);
 		return (1);
 	}
 	else if (error != 0)
@@ -88,7 +90,6 @@ int	check_error(t_infos *infos)
 	}
 	else
 		return (0);
-
 }
 
 /*int	check_error_parsing(t_infos *infos)

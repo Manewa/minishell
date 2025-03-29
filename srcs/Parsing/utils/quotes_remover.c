@@ -6,13 +6,13 @@
 /*   By: natgomali <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:49:18 by natgomali         #+#    #+#             */
-/*   Updated: 2025/03/18 13:50:37 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/29 01:16:58 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
-int quotes_count(char *str)
+int	quotes_count(char *str)
 {
 	int		quotes;
 	size_t	i;
@@ -28,7 +28,7 @@ int quotes_count(char *str)
 	return (quotes);
 }
 
-static char *quotes_remover(char *str, int *first, int second)
+static char	*quotes_remover(char *str, int *first, int second)
 {
 	int		i;
 	int		j;
@@ -91,7 +91,7 @@ void	quotes_detecter_heredoc(t_lim *head)
 {
 	int		first;
 	int		second;
-	t_lim 	*current;
+	t_lim	*current;
 
 	current = head;
 	while (current && current->limit)

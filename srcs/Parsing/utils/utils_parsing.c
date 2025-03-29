@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 17:55:57 by namalier          #+#    #+#             */
-/*   Updated: 2025/01/20 14:47:04 by namalier         ###   ########.fr       */
+/*   Updated: 2025/03/29 01:21:39 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	out_of_heredoc(char *line, int *i)
 	(*i)++;
 	(*i)++;
 	while (line[*i] && (line[*i] == ' ' || line[*i] == '\t'))
-	(*i)++;
+		(*i)++;
 	while (line[*i] && (line[*i] != ' ' || line[*i] == '\t')
-		 && is_separator(line[*i]) == 0)
+		&& is_separator(line[*i]) == 0)
 	{
 		if (line[*i] == 39)
 			out_of_squote(line, i);
@@ -28,14 +28,13 @@ void	out_of_heredoc(char *line, int *i)
 		else
 			(*i)++;
 	}
-
 }
 
 int	is_special_char(t_infos *infos, size_t *i)
 {
 	if (infos->line[*i] == 34 || infos->line[*i] == 39 || infos->line[*i] == '<'
-			|| infos->line[*i] == '>' || infos->line[*i] == '|'
-			|| infos->line[*i] == ' ' || infos->line[*i] == '\t')
+		|| infos->line[*i] == '>' || infos->line[*i] == '|'
+		|| infos->line[*i] == ' ' || infos->line[*i] == '\t')
 		return (1);
 	return (0);
 }
@@ -52,7 +51,7 @@ char	is_separator(char c)
 		return (0);
 }
 
-char *strdup_end(char *line, int *readed, int start)
+char	*strdup_end(char *line, int *readed, int start)
 {
 	int		i;
 	size_t	j;
@@ -68,4 +67,3 @@ char *strdup_end(char *line, int *readed, int start)
 	str[j] = '\0';
 	return (str);
 }
-

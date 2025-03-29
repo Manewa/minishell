@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_lst2.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: natgomali <marvin@42.fr>                   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/29 01:19:27 by natgomali         #+#    #+#             */
+/*   Updated: 2025/03/29 01:20:02 by natgomali        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
-t_exec *ft_execlast(t_exec *lst)
+t_exec	*ft_execlast(t_exec *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -18,13 +30,13 @@ void	ft_execadd_back(t_exec **head, t_exec *new)
 	if (!*head)
 	{
 		*head = new;
-		return;
+		return ;
 	}
 	tmp = *head;
 	ft_execlast(tmp)->next = new;
 }
 
-t_lim	*ft_limnew()
+t_lim	*ft_limnew(void)
 {
 	t_lim	*new;
 
@@ -36,7 +48,7 @@ t_lim	*ft_limnew()
 	return (new);
 }
 
-t_lim *ft_limlast(t_lim *lst)
+t_lim	*ft_limlast(t_lim *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -59,4 +71,3 @@ t_env	*ft_envnew(t_env *prev)
 	new->next = NULL;
 	return (new);
 }
-

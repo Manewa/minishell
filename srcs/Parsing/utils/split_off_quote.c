@@ -6,15 +6,15 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:30:27 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/22 17:52:17 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/29 01:18:49 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-void skip_quotes(char *s, int *i)
+void	skip_quotes(char *s, int *i)
 {
-	char quote;
+	char	quote;
 
 	quote = s[*i];
 	(*i)++;
@@ -24,20 +24,20 @@ void skip_quotes(char *s, int *i)
 
 int	ft_count_word_quote(char *s)//, char c)
 {
-	int count;
-	int i;
+	int	count;
+	int	i;
 	int	start;
 	int	double_quote;
 
 	count = 0;
 	i = 0;
 	double_quote = 0;
-	while (s[i]) 
-	{	
+	while (s[i])
+	{
 		while (s[i] && (s[i] == ' ' || s[i] == '\t'))
 			i++;
 		if (!s[i])
-			break;
+			break ;
 		if (s[i] == '"' && double_quote == 1)
 			double_quote = 0;
 		else if (s[i] == '"' && double_quote == 0)
@@ -50,21 +50,21 @@ int	ft_count_word_quote(char *s)//, char c)
 				count++;
 			i++;
 		}
-		else 
+		else
 		{
 			count++;
 			while (s[i] && !(s[i] == ' ' || s[i] == '\t'
-				|| (s[i] == 39 && double_quote != 1)))
+					|| (s[i] == 39 && double_quote != 1)))
 			{
-			if (s[i] == '"' && double_quote == 1)
-				double_quote = 0;
-			else if (s[i] == '"' && double_quote == 0)
-				double_quote = 1;
-			i++;
+				if (s[i] == '"' && double_quote == 1)
+					double_quote = 0;
+				else if (s[i] == '"' && double_quote == 0)
+					double_quote = 1;
+				i++;
 			}
 		}
 	}
-	return count;
+	return (count);
 }
 
 static char	*ft_cpy_str(char *str, char *s, int *i, char c)

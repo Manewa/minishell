@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:17:46 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/11 16:43:41 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/29 00:36:33 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* initialise limiter struct
  */
 
-t_lim *limiter_init(t_token *token)
+t_lim	*limiter_init(t_token *token)
 {
 	t_lim	*lim;
 
@@ -37,7 +37,7 @@ t_lim *limiter_init(t_token *token)
  * Use an int YES in exec->files->heredoc
  */
 
-void exec_heredoc(t_token *current, t_exec *exec)
+void	exec_heredoc(t_token *current, t_exec *exec)
 {
 	t_lim	*lim;
 

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_lst3.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: natgomali <marvin@42.fr>                   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/29 01:20:13 by natgomali         #+#    #+#             */
+/*   Updated: 2025/03/29 01:20:34 by natgomali        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
-t_env *ft_envlast(t_env *lst)
+t_env	*ft_envlast(t_env *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -39,7 +51,7 @@ void	ft_limadd_back(t_lim **lst, t_lim *new)
 	ft_limlast(tmp)->next = new;
 }
 
-int ft_infonew(t_infos **infos, char **envp)
+int	ft_infonew(t_infos **infos, char **envp)
 {
 	t_infos	*new;
 

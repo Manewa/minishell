@@ -6,11 +6,11 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:18:10 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/21 18:02:38 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/29 00:37:32 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 /*
  * Malloc the new path + cmd and put it in cmd_array[0]
@@ -26,7 +26,7 @@ char	*ft_pathcmd(char *argv, char *path)
 	j = 0;
 	if (!argv)
 	{
-		cpath = malloc(1*sizeof(char));
+		cpath = malloc(1 * sizeof(char));
 		cpath[0] = '\0';
 		return (cpath);
 	}
@@ -80,11 +80,11 @@ void	find_pathcmd(char **path, t_exec *exec)
  * main for exec_word
  */
 
-void exec_word(t_token *current, t_exec *exec)
+void	exec_word(t_token *current, t_exec *exec)
 {
 	if (exec->cmd_array)
 		return ;
-	exec->cmd_array = malloc(exec_count_word(current) * sizeof(char*));
+	exec->cmd_array = malloc(exec_count_word(current) * sizeof(char *));
 	fill_cmd_array(exec, current);
 	if (!exec->cmd_array)
 		return ;
@@ -93,4 +93,3 @@ void exec_word(t_token *current, t_exec *exec)
 	if (exec->builtin == 0)
 		find_pathcmd(exec->path, exec);
 }
-

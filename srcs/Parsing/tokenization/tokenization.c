@@ -6,17 +6,19 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:59:53 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/27 18:05:42 by namalier         ###   ########.fr       */
+/*   Updated: 2025/03/29 01:05:18 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
 /* line -> Toute la line envoye au prompt
- * readed -> ce qui a ete lu. Envoye en pointeur pour mettre a jour l'avancement dans la line
+ * readed -> ce qui a ete lu. Envoye en pointeur pour mettre a jour
+ * l'avancement dans la line
  * start -> point de depart avant de trouver le type du nouveau token
  * sep -> Le char qui a defini un nouveau token
- Cette fonction permet de trouver le type du token, sans prendre en compte les quotes*/
+ Cette fonction permet de trouver le type du token,
+ sans prendre en compte les quotes*/
 
 int	token_type(char *line, int readed, int start, char sep)
 {
@@ -40,12 +42,13 @@ int	token_type(char *line, int readed, int start, char sep)
 	}
 	else if (sep == '|' && readed - start == 1)
 		return (PIPE);
-	return  (ERROR_PARSING);
+	return (ERROR_PARSING);
 }
 
-/* Permet d'initialiser un nouveau token avec la tete si jamais ce ne l'est pas deja)*/
+/* Permet d'initialiser un nouveau token avec la tete
+ * si jamais ce ne l'est pas deja)*/
 
-t_token *init_token(t_infos *infos, t_token *head)
+t_token	*init_token(t_infos *infos, t_token *head)
 {
 	t_token	*token;
 
@@ -71,7 +74,7 @@ t_token	*create_token(t_infos *infos, int *readed, int *start)
 	if (infos && infos->line)
 		token->type = token_type(infos->line, *readed, *start,
 				is_separator(infos->line[*readed]));
-	if	(token->type == ERROR_PARSING)
+	if (token->type == ERROR_PARSING)
 		return (ft_error_parsing(infos, token, infos->line[*readed]));
 	else if (token->type == PIPE)
 		return (token);
@@ -80,7 +83,7 @@ t_token	*create_token(t_infos *infos, int *readed, int *start)
 		return (ft_free_token(token));
 	while (infos->line[*readed] && infos->line[*readed] == ' ')
 		(*readed)++;
-	return(token);
+	return (token);
 }
 
 t_token	*tokenization(t_infos *infos)
@@ -99,7 +102,7 @@ t_token	*tokenization(t_infos *infos)
 		return (NULL);
 	token_head = create_token(infos, &readed, &start);
 	if (!token_head)
-		return(0);
+		return (0);
 	while (infos->line[readed])
 	{
 		start = readed;
@@ -110,22 +113,22 @@ t_token	*tokenization(t_infos *infos)
 		ft_tokenadd_back(&token_head, token_new);
 		token_new->type = token_type(infos->line, readed, start,
 				is_separator(infos->line[readed]));
-		if	(token_new->type == ERROR_PARSING)
+		if (token_new->type == ERROR_PARSING)
 			return (ft_error_parsing(infos, token_head, infos->line[readed]));
 		else if (token_new->type != PIPE)
 		{
 			token_line_wip(token_new, infos->line, &readed, &start);
 			if (!(token_new->line_wip) || !(token_new->line_wip[0]))
-					return (ft_free_infoken(infos, token_head, "malloc\n", 0));
+				return (ft_free_infoken(infos, token_head, "malloc\n", 0));
 			while (infos->line[readed] && (infos->line[readed] == ' '
-				|| infos->line[readed] == '\t'))
+					|| infos->line[readed] == '\t'))
 				readed++;
 		}
 		else if (token_new && token_new->prev && token_new->prev->type == PIPE)
 			return (ft_free_infoken(infos, token_head, "psh : double pipe", 0));
 		else if (token_new->type == PIPE)
 			while (infos->line[++readed] && (infos->line[readed] == ' '
-		|| infos->line[readed] == '\t'));
+					|| infos->line[readed] == '\t'));
 		else if (infos->line[readed])
 			readed++;
 	}

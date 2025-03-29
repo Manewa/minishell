@@ -6,13 +6,13 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:17:55 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/11 16:51:35 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/29 00:25:58 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-void error_read(t_token **current, t_exec *exec)
+void	error_read(t_token **current, t_exec *exec)
 {
 	exec->files->infile->opening_failure = PERMISSION_DENIED;
 	while ((*current)->next && (*current)->next->type != PIPE)
@@ -24,7 +24,7 @@ void error_read(t_token **current, t_exec *exec)
 	return ;
 }
 
-void exec_inredir(t_token **current, t_exec *exec)
+void	exec_inredir(t_token **current, t_exec *exec)
 {
 	exec->files->infile->name = ft_strdup((*current)->line_wip);
 	exec->files->infile->heredoc = NO;

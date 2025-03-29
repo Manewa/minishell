@@ -195,6 +195,7 @@ void	quotes_detecter_heredoc(t_lim *head);
 
 int		out_of_dquote(char *line, int *readed);
 int		out_of_squote(char *line, int *readed);
+void    out_of_quotes(char *str, int *i);
 int	    check_quotes(char *str);
 
 /************   builtins/env                ***********/

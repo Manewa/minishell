@@ -6,37 +6,37 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:28:29 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/20 12:38:30 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/29 01:10:09 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 /*
  * for each type, redirect to the right exec_type function
  */
 
-int exec_type(t_exec *exec, t_token **current)
+int	exec_type(t_exec *exec, t_token **current)
 {
 	while (*current && (*current)->type != PIPE)
 	{
-			if ((*current)->type == INREDIR)
-				exec_inredir(current, exec);
-			else if ((*current)->type == OUTREDIR)
-				exec_outredir(current, exec);
-			else if ((*current)->type == APPEND_MODE)
-				exec_append(current, exec);
-			else if ((*current)->type == WORD)
-				exec_word(*current, exec);
-			else if ((*current)->type == HEREDOC)
-				exec_heredoc(*current, exec);
-			if ((*current) && (*current)->next != NULL)
-				*current = (*current)->next;
-			else if ((*current) && (*current)->next == NULL)
-			{
-				*current = NULL;
-				break ;
-			}
+		if ((*current)->type == INREDIR)
+			exec_inredir(current, exec);
+		else if ((*current)->type == OUTREDIR)
+			exec_outredir(current, exec);
+		else if ((*current)->type == APPEND_MODE)
+			exec_append(current, exec);
+		else if ((*current)->type == WORD)
+			exec_word(*current, exec);
+		else if ((*current)->type == HEREDOC)
+			exec_heredoc(*current, exec);
+		if ((*current) && (*current)->next != NULL)
+			*current = (*current)->next;
+		else if ((*current) && (*current)->next == NULL)
+		{
+			*current = NULL;
+			break ;
+		}
 	}
 	return (1);
 }
@@ -45,7 +45,7 @@ int exec_type(t_exec *exec, t_token **current)
  * Initialize the exec node
  */
 
-t_exec *exec_init(t_exec *head, t_token *current)
+t_exec	*exec_init(t_exec *head, t_token *current)
 {
 	t_exec	*exec;
 
@@ -93,7 +93,7 @@ t_exec	*tokens_for_exec(t_token *head_token)
 		exec_type(current_exec, &current_token);
 		ft_execadd_back(&head_exec, current_exec);
 		if (current_token && current_token->next != NULL
-				&& current_token->type != 5)
+			&& current_token->type != 5)
 			current_token = current_token->next;
 		else if (current_token && current_token->type == 5)
 			continue ;
@@ -107,8 +107,7 @@ t_exec	*main_parsing(t_infos *infos)
 {
 	t_token	*token;
 	t_exec	*exec;
-	// t_exec	*tmp;
-
+	
 	if (!check_quotes(infos->line))
 		return (ft_free_infos(infos, 0, 0));
 	token = tokenization(infos);

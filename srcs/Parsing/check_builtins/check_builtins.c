@@ -6,7 +6,7 @@
 /*   By: natgomali <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:01:45 by natgomali         #+#    #+#             */
-/*   Updated: 2025/03/20 12:32:18 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/28 23:55:56 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_strcmp(char *line, char *builtin)
  * return an int, alias in minishell.h stored in to_exec->builtin
  */
 
-int builtin_cmp(char *line)
+int	builtin_cmp(char *line)
 {
 	if (line && ft_strcmp(line, "echo") == 0)
 		return (ECHO);

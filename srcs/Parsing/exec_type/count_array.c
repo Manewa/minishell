@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:00:14 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/27 18:23:22 by namalier         ###   ########.fr       */
+/*   Updated: 2025/03/29 00:36:14 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_count_word_exec(char *s, char c)
 	return (count_word);
 }
 
-char *fill_word(t_token *token, int *i)
+char	*fill_word(t_token *token, int *i)
 {
 	int		j;
 	int		k;
@@ -53,16 +53,13 @@ char *fill_word(t_token *token, int *i)
 	{
 		if (token->line_wip[*i] == '"' || token->line_wip[*i] == 39)
 		{
-		if (token->line_wip[*i] == 39)
-			out_of_squote(token->line_wip, i);
-		else if (token->line_wip[*i] == '"')
-			out_of_dquote(token->line_wip, i);
-		if (j == *i - 1)
-			j = *i + 1;
+			out_of_quotes(token->line_wip, i);
+			if (j == *i - 1)
+				j = *i + 1;
 		}
 		(*i)++;
 	}
-	str = malloc((*i - j + 1)*sizeof(char));
+	str = malloc((*i - j + 1) * sizeof(char));
 	if (!str)
 		return (NULL);
 	while (j < *i)
@@ -71,7 +68,7 @@ char *fill_word(t_token *token, int *i)
 	return (str);
 }
 
-void fill_cmd_array(t_exec *exec, t_token *token)
+void	fill_cmd_array(t_exec *exec, t_token *token)
 {
 	int	i;
 	int	k;
@@ -101,9 +98,9 @@ void fill_cmd_array(t_exec *exec, t_token *token)
  * Count the number of word in each token
  */
 
-int exec_count_word(t_token *token)
+int	exec_count_word(t_token *token)
 {
-	t_token *tmp;
+	t_token	*tmp;
 	int		count;
 
 	tmp = token;

@@ -22,9 +22,9 @@ OBJDIR 			= obj
 LIBA			= includes/Libft/libft.a
 
 SRCS 			=	srcs/main.c srcs/init_prompt.c ${ENV}/env.c \
+					${ENV}/utils_ env.c ${TOKENS}/check_error_parsing.c \
 					${TOKENS}/tokenization.c ${TOKENS}/expand.c \
 					${TOKENS}/token_line.c ${TOKENS}/tokens_for_exec.c \
-					${TOKENS}/check_error_parsing.c \
 					${EXEC_TYPE}/exec_append.c ${EXEC_TYPE}/exec_word.c \
 					${EXEC_TYPE}/exec_heredoc.c ${EXEC_TYPE}/exec_inredir.c \
 					${EXEC_TYPE}/exec_outredir.c ${EXEC_TYPE}/count_array.c \
