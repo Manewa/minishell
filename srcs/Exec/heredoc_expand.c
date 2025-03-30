@@ -65,6 +65,7 @@ static char	*expand_to_env_hd(char *to_expand, t_env *env)
 		value = check_name_hd(value, to_expand);
 		if (!value)
 			return (NULL);
+		free (to_expand);
 		return (value);
 	}
 	free (to_expand);

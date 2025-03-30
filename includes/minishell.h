@@ -199,8 +199,8 @@ void	quotes_detecter_heredoc(t_lim *head);
 
 int		out_of_dquote(char *line, int *readed);
 int		out_of_squote(char *line, int *readed);
-int     out_of_quotes(char *str, int *i);
-int	    check_quotes(char *str);
+int		out_of_quotes(char *str, int *i);
+int		check_quotes(char *str);
 
 /************   builtins/env				***********/
 
@@ -262,8 +262,8 @@ int		ft_fork_and_child(pid_t *id, t_exec *now, int fd_pipe[2]);
 
 //.................exec_error.c.................//
 
-int		ft_err_exc(char *perror_str, int ret_val, t_exec *current, int fd_pipe[2]);
-void	ft_error_child(t_exec *exec, int fd_pipe[2], int *fd_to_close, int ret_val);
+int		ft_err_exc(char *perr_str, int ret, t_exec *current, int fd_pipe[2]);
+void	ft_error_child(t_exec *exc, int fd_pipe[2], int *to_close, int ret_val);
 void	ft_error_close(int fd, t_exec *data, int fd_pipe[2]);
 
 //..................builtin.c..................//
