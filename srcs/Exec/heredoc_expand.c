@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 /* Check_name will verify that there's not a infinite boucle.
  * For example :
@@ -20,7 +20,7 @@
  * Problem : won't verify if $a = $b, $b = $c, $c = $a
  */
 
-static char *check_name_hd(char *value, char *to_expand)
+static char	*check_name_hd(char *value, char *to_expand)
 {
 	size_t	i;
 	char	*name_value;
@@ -31,7 +31,7 @@ static char *check_name_hd(char *value, char *to_expand)
 	if (!value[i + 1] && !to_expand[i])
 	{
 		i = 0;
-		name_value = malloc(ft_strlen(value)*sizeof(char));
+		name_value = malloc(ft_strlen(value) * sizeof(char));
 		if (!name_value)
 			return (free(value), free(to_expand), NULL);
 		while (value[i + 1])
@@ -45,34 +45,26 @@ static char *check_name_hd(char *value, char *to_expand)
 	return (value);
 }
 
-/* expand_to_env will search for a key in infos->env (lst) and return the value associated to it.
+/* expand_to_env will search for a key in infos->env (lst) and return the value
+ * associated to it.
  * if none is found, return NULL 
  * */
 
-static char *expand_to_env_hd(char *to_expand, t_env *env)
+static char	*expand_to_env_hd(char *to_expand, t_env *env)
 {
-	char 	*value;
+	char	*value;
 	t_env	*tmp;
 
 	tmp = env;
-	while (tmp)
-	{
-		while (tmp &&
-				(ft_memcmp(to_expand, tmp->key, ft_strlen(to_expand)+1)) != 0)
-			tmp = tmp->next;
-		if (tmp && ft_strlen(to_expand) == ft_strlen(tmp->key))
-			break;
-		else if (tmp)
-			tmp = tmp->next;
-	}
+	tmp = get_node_key(tmp, to_expand);
 	if (tmp)
 	{
 		value = ft_strdup(tmp->value);
 		if (!value)
-			return(NULL);
+			return (NULL);
 		value = check_name_hd(value, to_expand);
 		if (!value)
-			return(NULL);
+			return (NULL);
 		return (value);
 	}
 	free (to_expand);
@@ -83,13 +75,14 @@ static char *expand_to_env_hd(char *to_expand, t_env *env)
 	return (to_expand);
 }
 
-/* Expanded_new_line will replace the old key by the value in infos->env found by expand_to_env.
+/* Expanded_new_line will replace the old key by the value in infos->env found
+ * by expand_to_env.
  *
  * if none is found, delete the $KEY
- * Will free the old_line and the value and return the new line malloc
+ * Will free the old_l and the value and return the new line malloc
  */
 
-static char *expanded_new_line_hd(char *old_line, int start, int end, char *expand)
+static char	*expanded_new_line_hd(char *old_l, int start, int end, char *expand)
 {
 	int		i;
 	size_t	j;
@@ -97,40 +90,30 @@ static char *expanded_new_line_hd(char *old_line, int start, int end, char *expa
 
 	i = 0;
 	j = 0;
-	if (!expand)
-		new_line = malloc((ft_strlen(old_line) - (end - start) + 1)
-				* sizeof(char));
-	else
-		new_line = malloc((ft_strlen(old_line) - (end - start)
-					+ ft_strlen(expand) + 1)*sizeof(char));
+	new_line = ft_malloc_exp(old_l, start, end, expand);
 	if (!new_line)
-    {
-        if (expand)
-            free(expand);
-        return (free(old_line), NULL);
-    }
-    while (i < start && old_line[i] != '$')
+		return (free(old_l), NULL);
+	while (i < start && old_l[i] != '$')
 	{
-		new_line[i] = old_line[i];
+		new_line[i] = old_l[i];
 		i++;
 	}
 	while (expand && expand[j])
 		new_line[i++] = expand[j++];
-	while (old_line[end])
-		new_line[i++] = old_line[end++];
+	while (old_l[end])
+		new_line[i++] = old_l[end++];
 	new_line[i] = '\0';
-	return (free(old_line), free(expand), new_line);
+	return (free(old_l), free(expand), new_line);
 }
 
-
-
-/* Substitute expand defines start and end of an the expand to change ($USER for exemple)
+/* Substitute expand defines start and end of an the expand to change ($USER 
+ * for exemple)
  *
  * The expand run until finding anything else than alnum char or '_'
  * Return expand, the line with the expand.
  */
 
-static char *substitute_expand_heredoc(char *line, t_infos *infos, int exp)
+static char	*substitute_expand_heredoc(char *line, t_infos *infos, int exp)
 {
 	int		end;
 	size_t	j;
@@ -142,7 +125,7 @@ static char *substitute_expand_heredoc(char *line, t_infos *infos, int exp)
 	j = 0;
 	while (line[end] && (ft_isalpha(line[end]) == 1 || line[end] == '_'))
 			end++;
-	expand = malloc((end - start + 1)*sizeof(char));
+	expand = malloc((end - start + 1) * sizeof(char));
 	if (!expand)
 		return (free(line), NULL);
 	while (start < end)
@@ -157,9 +140,9 @@ static char *substitute_expand_heredoc(char *line, t_infos *infos, int exp)
 
 /* Main expand with rules :
  * line -> line where we search for a '$'
- * infos -> Env (lst) inside
+ * inf -> Env (lst) inside
  * 
- * -> check for '$?' with exit_val in infos
+ * -> check for '$?' with exit_val in inf
  *
  *	While until the end of line and get back to 0 each time we find an expand
  *	to verify that there's no expand in an expand.
@@ -167,7 +150,7 @@ static char *substitute_expand_heredoc(char *line, t_infos *infos, int exp)
  * Return line (with the new expand)
  */
 
-char *expand_main_heredoc(char *line, t_infos *infos)
+char	*expand_main_heredoc(char *line, t_infos *inf)
 {
 	int		i;
 
@@ -176,14 +159,14 @@ char *expand_main_heredoc(char *line, t_infos *infos)
 	{
 		if (line[i] == '$' && line[i + 1] != '?')
 		{
-			line = substitute_expand_heredoc(line, infos, ++i);
+			line = substitute_expand_heredoc(line, inf, ++i);
 			if (!line)
 				return (NULL);
 			i = 0;
 		}
 		else if (line[i] == '$' && line[i + 1] == '?')
 		{
-			line = expanded_new_line_hd(line, i, i + 2, ft_itoa(infos->exit_val));
+			line = expanded_new_line_hd(line, i, i + 2, ft_itoa(inf->exit_val));
 			if (!line)
 				return (NULL);
 			i++;

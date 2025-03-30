@@ -41,7 +41,7 @@ static char	*check_name(char *value, char *to_expand)
 	return (free(to_expand), value);
 }
 
-static t_env	*get_node_key(t_env *tmp, char *to_expand)
+t_env	*get_node_key(t_env *tmp, char *to_expand)
 {
 	while (tmp)
 	{

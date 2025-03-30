@@ -6,7 +6,6 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/30 17:35:18 by namalier         ###   ########.fr       */
 /*   Updated: 2025/03/30 17:20:16 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -90,11 +89,12 @@ void	token_line_wip(t_token *token, char *line, int *readed, int *start);
 
 /***********	tokenization/expand	    ***********/
 
-int cpy_part_line(char *old, char *expand, int start, char *new);
+int		cpy_part_line(char *old, char *expand, int start, char *new);
 void	get_out_of_rules(char *line, int *i);
 char	*expand_to_env(char *to_expand, t_env *env);
 char	*expanded_new_line(char *old_line, int start, int end, char *expand);
 void	expand_token(t_token *toke, t_infos *infos);
+t_env	*get_node_key(t_env *tmp, char *to_expand);
 
 /***********     tokenization/tokens_for_exec **********/
 
@@ -226,6 +226,7 @@ int		ft_unset(t_exec *exec, int fd_out);
 //................heredoc_utils.c................//
 
 char	*ft_ultoa(unsigned long n);
+char	*ft_malloc_exp(char *old_l, int start, int end, char *expand);
 
 //...............heredoc_utils2.c................//
 

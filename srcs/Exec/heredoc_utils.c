@@ -54,3 +54,19 @@ char	*ft_ultoa(unsigned long n)
 	ft_change_ul(nbr, str, len);
 	return (str);
 }
+
+char	*ft_malloc_exp(char *old_l, int start, int end, char *expand)
+{
+	char	*new_line;
+
+	if (!expand)
+		new_line = malloc((ft_strlen(old_l) - (end - start) + 1)
+				* sizeof(char));
+	else
+		new_line = malloc((ft_strlen(old_l) - (end - start)
+					+ ft_strlen(expand) + 1) * sizeof(char));
+	if (!new_line)
+		if (expand)
+			free(expand);
+	return (new_line);
+}
