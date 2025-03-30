@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:57:36 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/30 13:46:34 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/30 16:51:33 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,9 @@ char	*expand_to_env(char *to_expand, t_env *env)
 static char	*cp_extended_new_line(int start, int end, char *old, char *expand)
 {
 	int		i;
-	int		j;
-	int		k;
 	char	*new;
 
 	i = 0;
-	j = 0;
-	k = 0;
 	if (!expand)
 		new = malloc((ft_strlen(old) - (end - start) + 1)
 				* sizeof(char));
@@ -104,19 +100,7 @@ static char	*cp_extended_new_line(int start, int end, char *old, char *expand)
 					+ ft_strlen(expand) + 1) * sizeof(char));
 	if (!new)
 		return (NULL);
-	get_out_of_rules(old, &i);
-	while (k < i)
-	{
-		new[k] = old[k];
-		k++;
-	}
-	while (i < start && old[i] != '$')
-	{
-		new[i] = old[i];
-		i++;
-	}
-	while (expand && expand[j])
-		new[i++] = expand[j++];
+	i = cpy_part_line(old, expand, start, new);
 	while (old[end])
 		new[i++] = old[end++];
 	new[i] = '\0';

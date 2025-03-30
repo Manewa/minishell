@@ -6,7 +6,7 @@
 /*   By: natgomali <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 13:45:32 by natgomali         #+#    #+#             */
-/*   Updated: 2025/03/30 13:46:05 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/30 16:53:10 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	expand_token(t_token *token, t_infos *infos)
 	tmp = token;
 	while (tmp)
 	{
-		if (tmp->line_wip && tmp->line_wip[0])
+		if (tmp->line_wip && tmp->line_wip[0] && tmp->type != HEREDOC)
 			tmp->line_wip = expand_main(tmp->line_wip, infos, token);
 		tmp = tmp->next;
 	}

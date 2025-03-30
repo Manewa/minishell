@@ -6,7 +6,7 @@
 #    By: namalier <namalier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 16:29:28 by namalier          #+#    #+#              #
-#    Updated: 2025/03/30 14:06:32 by natgomali        ###   ########.fr        #
+#    Updated: 2025/03/30 17:19:54 by namalier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS 			=	srcs/main.c srcs/init_prompt.c ${ENV}/env.c \
 					${TOKENS}/tokenization.c ${TOKENS}/expand.c \
 					${TOKENS}/token_line.c ${TOKENS}/tokens_for_exec.c \
 					${TOKENS}/expand_main.c ${TOKENS}/tokenization2.c \
+					${TOKENS}/expand2.c \
 					${EXEC_TYPE}/exec_append.c ${EXEC_TYPE}/exec_word.c \
 					${EXEC_TYPE}/exec_heredoc.c ${EXEC_TYPE}/exec_inredir.c \
 					${EXEC_TYPE}/exec_outredir.c ${EXEC_TYPE}/count_array.c \

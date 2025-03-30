@@ -6,7 +6,11 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/03/30 16:37:16 by aibonade         ###   ########.fr       */
+=======
+/*   Updated: 2025/03/30 17:20:16 by namalier         ###   ########.fr       */
+>>>>>>> 5949276 (Norm over for Parsing)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +94,7 @@ void	token_line_wip(t_token *token, char *line, int *readed, int *start);
 
 /***********	tokenization/expand	    ***********/
 
+int cpy_part_line(char *old, char *expand, int start, char *new);
 void	get_out_of_rules(char *line, int *i);
 char	*expand_to_env(char *to_expand, t_env *env);
 char	*expanded_new_line(char *old_line, int start, int end, char *expand);
