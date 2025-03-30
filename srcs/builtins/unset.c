@@ -63,7 +63,7 @@ int	ft_unset(t_exec *ex, int fd_out)
 			unset_var(&(ex->infos->env), ex->cmd_array[i]);
 		else
 		{
-			write(fd_out, "pouetsh: unset: `", 17);
+			write(fd_out, "minipouet: unset: `", 17);
 			write(fd_out, ex->cmd_array[i], ft_safe_strlen(ex->cmd_array[i]));
 			write(fd_out, "': not a valid identifier\n", 27);
 			errno = 1;

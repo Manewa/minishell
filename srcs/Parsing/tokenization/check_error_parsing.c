@@ -80,7 +80,7 @@ int	check_error(t_infos *infos)
 	{
 		infos->exit_val = 2;
 		ft_free_infos(infos,
-			"pouetsh : syntax error near unexpected token `|'\n", 0);
+			"minipouet : syntax error near unexpected token `|'\n", 0);
 		return (1);
 	}
 	else if (error != 0)

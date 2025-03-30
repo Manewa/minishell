@@ -73,7 +73,7 @@ int	check_quotes(char *str)
 	}
 	if (count_quotes % 2 != 0)
 	{
-		ft_putstr_fd("pouetsh : error quote not closed\n", 2);
+		ft_putstr_fd("minipouet : error quote not closed\n", 2);
 		return (0);
 	}
 	return (1);

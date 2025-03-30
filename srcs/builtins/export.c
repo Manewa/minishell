@@ -119,7 +119,7 @@ int	ft_export(t_exec *exec, int fd_out)
 			else
 			{
 				errno = i;
-				write (fd_out, "pouetsh: export: `", 18);
+				write (fd_out, "minipouet: export: `", 18);
 				write (fd_out, exec->cmd_array[i],
 					ft_safe_strlen(exec->cmd_array[i]));
 				write (fd_out, "': not a valid identifier\n", 26);

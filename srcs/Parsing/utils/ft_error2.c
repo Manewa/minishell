@@ -14,7 +14,7 @@
 
 void	*ft_error_parsing(t_infos *infos, t_token *token, char c)
 {
-	ft_putstr_fd("pouetsh : syntax error near unexpected token `", 2);
+	ft_putstr_fd("minipouet : syntax error near unexpected token `", 2);
 	if (c)
 		write (2, &c, 1);
 	else
@@ -29,7 +29,7 @@ void	*ft_exit_exec(t_token *token, t_exec *head_exec, int exit_prg)
 {
 	t_exec	*exec;
 
-	ft_free_infoken(head_exec->infos, token, "pouetsh: Can't malloc\n", 0);
+	ft_free_infoken(head_exec->infos, token, "minipouet: Can't malloc\n", 0);
 	while (head_exec)
 	{
 		exec = head_exec;
