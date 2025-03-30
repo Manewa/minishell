@@ -86,23 +86,23 @@ t_token	*create_token(t_infos *infos, int *readed, int *start)
 	return (token);
 }
 
-static void	*get_lin(t_infos *infos, t_token *token_new, int *start, int *readed)
+static void	*get_lin(t_infos *infos, t_token *token, int *start, int *readed)
 {
-	if (token_new->type == ERROR_PARSING)
-		return (ft_error_parsing(infos, token_new->head, infos->line[*readed]));
-	else if (token_new->type != PIPE)
+	if (token->type == ERROR_PARSING)
+		return (ft_error_parsing(infos, token->head, infos->line[*readed]));
+	else if (token->type != PIPE)
 	{
-		token_line_wip(token_new, infos->line, readed, start);
-		if (!(token_new->line_wip) || !(token_new->line_wip[0]))
-			return (ft_free_infoken(infos, token_new->head, "malloc\n", 0));
+		token_line_wip(token, infos->line, readed, start);
+		if (!(token->line_wip) || !(token->line_wip[0]))
+			return (ft_free_infoken(infos, token->head, "malloc\n", 0));
 		while (infos->line[*readed] && (infos->line[*readed] == ' '
 				|| infos->line[*readed] == '\t'))
 			(*readed)++;
 	}
-	else if (token_new && token_new->prev && token_new->prev->type == PIPE)
-		return (ft_free_infoken(infos, token_new->head,
+	else if (token && token->prev && token->prev->type == PIPE)
+		return (ft_free_infoken(infos, token->head,
 				"psh : double pipe", 0));
-	else if (token_new->type == PIPE)
+	else if (token->type == PIPE)
 		while (infos->line[++(*readed)] && (infos->line[*readed] == ' '
 				|| infos->line[*readed] == '\t'));
 	else if (infos->line[*readed])
@@ -127,11 +127,7 @@ t_token	*tokenization(t_infos *infos)
 	while (infos->line[readed])
 	{
 		start = readed;
-		token_new = init_token(infos, token_head);
-		if (!token_new)
-			return (NULL);
-		token_new->prev = ft_tokenlast(token_head);
-		ft_tokenadd_back(&token_head, token_new);
+		token_new = add_new_node(infos, token_head);
 		token_new->type = token_type(infos->line, readed, start,
 				is_separator(infos->line[readed]));
 		get_lin(infos, token_new, &start, &readed);

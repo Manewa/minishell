@@ -6,7 +6,7 @@
 #    By: namalier <namalier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 16:29:28 by namalier          #+#    #+#              #
-#    Updated: 2025/03/29 11:28:19 by namalier         ###   ########.fr        #
+#    Updated: 2025/03/30 14:06:32 by natgomali        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS 			=	srcs/main.c srcs/init_prompt.c ${ENV}/env.c \
 					${ENV}/sorted_env.c ${TOKENS}/check_error_parsing.c \
 					${TOKENS}/tokenization.c ${TOKENS}/expand.c \
 					${TOKENS}/token_line.c ${TOKENS}/tokens_for_exec.c \
+					${TOKENS}/expand_main.c ${TOKENS}/tokenization2.c \
 					${EXEC_TYPE}/exec_append.c ${EXEC_TYPE}/exec_word.c \
 					${EXEC_TYPE}/exec_heredoc.c ${EXEC_TYPE}/exec_inredir.c \
 					${EXEC_TYPE}/exec_outredir.c ${EXEC_TYPE}/count_array.c \
@@ -34,7 +35,7 @@ SRCS 			=	srcs/main.c srcs/init_prompt.c ${ENV}/env.c \
 					${EXEC}/heredoc.c ${EXEC}/heredoc_expand.c \
 					${UTILS}/quotes.c ${UTILS}/quotes_remover.c \
 					${UTILS}/utils_lst.c ${UTILS}/utils_lst2.c \
-					${UTILS}/utils_lst3.c \
+					${UTILS}/utils_lst3.c ${UTILS}/split2.c \
 					${UTILS}/utils_parsing.c ${UTILS}/ft_error.c \
 					${UTILS}/ft_error2.c ${UTILS}/split_off_quote.c \
 					${CHECK_BLTIN}/check_builtins.c \

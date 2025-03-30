@@ -19,7 +19,7 @@ int	ft_count_word_exec(char *s, char c)
 
 	i = 0;
 	count_word = 0;
-	while (s[i])
+	while (s && s[i])
 	{
 		if (s[i] != c)
 		{

@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/19 11:41:59 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/30 14:48:38 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ char	**env_double_tab(t_env *env);
 
 /************	tokenization/tokenization	**********/
 
+t_token *add_new_node(t_infos *infos, t_token *token_head);
 int		token_type(char *line, int readed, int start, char sep);
 t_token	*init_token(t_infos *infos, t_token *head);
 t_token	*create_token(t_infos *infos, int *readed, int *start);
@@ -89,11 +90,9 @@ void	token_line_wip(t_token *token, char *line, int *readed, int *start);
 
 /***********	tokenization/expand	    ***********/
 
-// char	*check_name(char *value, char *to_expand);
-// char	*expand_to_env(char *to_expand, t_env *env);
-// char	*expanded_new_line(char *old_line, int start, int end, char *expand);
-// char	*substitute_expand(char *line, t_infos *infos, int exp);
-// char	*expand_main(char *line, t_infos *infos);
+void	get_out_of_rules(char *line, int *i);
+char	*expand_to_env(char *to_expand, t_env *env);
+char	*expanded_new_line(char *old_line, int start, int end, char *expand);
 void    expand_token(t_token *toke, t_infos *infos);
 
 /***********     tokenization/tokens_for_exec **********/
@@ -172,15 +171,18 @@ char	*strdup_end(char *line, int *readed, int start);
 
 /***********	utils/split_off_quote	******/
 
+void	skip_quotes(char *s, int *i);
 char	**split_off_quote(char *s, char c);
 int		ft_count_word_quote(char *s);//, char c);
+int		check_first_quote(char *s, int *i, int *double_quote);
+int		count_word_n_quotes(char *s, int *i, int *double_quote, int *start);
 
 /***********    utils/ft_error      ***********/
 
 void	ft_lstenvfree(t_env *env);
 void	*ft_free_infos(t_infos *infos, char *error, int exit_prg);
 void	*ft_free_token(t_token *token);
-void	*ft_free_infoken(t_infos *infos, t_token *token, char *error, int exit_prg);
+void	*ft_free_infoken(t_infos *infos, t_token *token, char *error, int exit);
 void	*ft_error_parsing(t_infos *infos, t_token *token, char c);
 void    *ft_exit_exec(t_token *head_token, t_exec *exec, int exit_prg);
 void    ft_free_limiter(t_lim *lim);

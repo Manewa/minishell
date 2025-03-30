@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:30:27 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/29 01:18:49 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/30 12:47:39 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	skip_quotes(char *s, int *i)
 		(*i)++;
 }
 
-int	ft_count_word_quote(char *s)//, char c)
+int	ft_count_word_quote(char *s)
 {
 	int	count;
 	int	i;
@@ -32,37 +32,12 @@ int	ft_count_word_quote(char *s)//, char c)
 	count = 0;
 	i = 0;
 	double_quote = 0;
-	while (s[i])
+	while (s && s[i])
 	{
-		while (s[i] && (s[i] == ' ' || s[i] == '\t'))
-			i++;
-		if (!s[i])
+		if (check_first_quote(s, &i, &double_quote) == 1)
 			break ;
-		if (s[i] == '"' && double_quote == 1)
-			double_quote = 0;
-		else if (s[i] == '"' && double_quote == 0)
-			double_quote = 1;
-		if (s[i] == 39 && double_quote == 0)
-		{
-			start = i;
-			skip_quotes(s, &i);
-			if (i > start + 1)
-				count++;
-			i++;
-		}
 		else
-		{
-			count++;
-			while (s[i] && !(s[i] == ' ' || s[i] == '\t'
-					|| (s[i] == 39 && double_quote != 1)))
-			{
-				if (s[i] == '"' && double_quote == 1)
-					double_quote = 0;
-				else if (s[i] == '"' && double_quote == 0)
-					double_quote = 1;
-				i++;
-			}
-		}
+			count += count_word_n_quotes(s, &i, &double_quote, &start);
 	}
 	return (count);
 }
@@ -99,7 +74,7 @@ static void	*ft_free(char **str, char *s, char c)
 
 	i = 0;
 	(void)c;
-	count = ft_count_word_quote(s);//, c);
+	count = ft_count_word_quote(s);
 	while (i <= count)
 	{
 		free(str[i]);
@@ -117,8 +92,6 @@ char	**split_off_quote(char *s, char c)
 
 	i = 0;
 	j = 0;
-	if (!s)
-		return (NULL);
 	count_word = ft_count_word_quote(s);
 	str = malloc(count_word * sizeof(char *));
 	if (!str)

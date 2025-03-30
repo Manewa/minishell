@@ -45,44 +45,47 @@ static char	*quotes_remover(char *str, int *first, int second)
 	while (*first < second)
 		new_line[j++] = str[(*first)++];
 	while (str[++second])
-	{
 		new_line[j++] = str[second];
-	}
 	new_line[j] = '\0';
 	*first -= 1;
 	free(str);
 	return (new_line);
 }
 
+char	*advanced_quotes(char *cmd_array, int *first)
+{
+	int	second;
+
+	while (cmd_array && cmd_array[*first])
+	{
+		if (cmd_array[*first] == '"')
+		{
+			second = *first;
+			out_of_dquote(cmd_array, &second);
+			cmd_array = quotes_remover(cmd_array, first, second);
+		}
+		else if (cmd_array && cmd_array[*first] && cmd_array[*first] == 39)
+		{
+			second = *first;
+			out_of_squote(cmd_array, &second);
+			cmd_array = quotes_remover(cmd_array, first, second);
+		}
+		else
+			(*first)++;
+	}
+	return (cmd_array);
+}
+
 void	quotes_detecter(t_exec *current)
 {
 	int	i;
 	int	first;
-	int	second;
 
 	i = 0;
 	while (current && current->cmd_array && current->cmd_array[i])
 	{
 		first = 0;
-		while (current->cmd_array[i][first])
-		{
-			if (current->cmd_array[i][first] == '"')
-			{
-				second = first;
-				out_of_dquote(current->cmd_array[i], &second);
-				current->cmd_array[i] = quotes_remover(current->cmd_array[i],
-						&first, second);
-			}
-			else if (current->cmd_array[i][first] == 39)
-			{
-				second = first;
-				out_of_squote(current->cmd_array[i], &second);
-				current->cmd_array[i] = quotes_remover(current->cmd_array[i],
-						&first, second);
-			}
-			else
-				first++;
-		}
+		current->cmd_array[i] = advanced_quotes(current->cmd_array[i], &first);
 		i++;
 	}
 }
@@ -90,32 +93,13 @@ void	quotes_detecter(t_exec *current)
 void	quotes_detecter_heredoc(t_lim *head)
 {
 	int		first;
-	int		second;
 	t_lim	*current;
 
 	current = head;
 	while (current && current->limit)
 	{
 		first = 0;
-		while (current->limit[first])
-		{
-			if (current->limit[first] == '"')
-			{
-				second = first;
-				out_of_dquote(current->limit, &second);
-				current->limit = quotes_remover(current->limit,
-						&first, second);
-			}
-			else if (current->limit[first] == 39)
-			{
-				second = first;
-				out_of_squote(current->limit, &second);
-				current->limit = quotes_remover(current->limit,
-						&first, second);
-			}
-			else
-				first++;
-		}
+		current->limit = advanced_quotes(current->limit, &first);
 		current = current->next;
 	}
 }
