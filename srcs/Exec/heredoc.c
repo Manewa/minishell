@@ -20,115 +20,144 @@ static char	*ft_set_heredoc_name(unsigned long i_heredoc)
 	char	*str_i;
 
 	str_i = ft_ultoa(i_heredoc);
-	h_name = ft_strjoin("/tmp/.heredoc", str_i);//a modifier selon l'endroit ou on mettra les tmps
+	h_name = ft_strjoin("/tmp/.heredoc", str_i);
 	free(str_i);
 	if (access(h_name, F_OK) != -1)
 	{
 		free(h_name);
-		if (i_heredoc < 4294967295)//faire du unsigned long long ? : 18446744073709551615
+		if (i_heredoc < 4294967295)
 			h_name = ft_set_heredoc_name(i_heredoc + 1);
 		else
 		{
-			errno = EAGAIN;//ft_putstr_fd("ERROR: create heredoc is impossible.\n", 2);//ERROR
+			errno = EAGAIN;
 			return (NULL);
 		}
 	}
-	errno = 0;//utile ?
+	errno = 0;
 	return (h_name);
 }
 
-
-static int	ft_fill_heredoc(t_infos *infos, t_lim *heredoc, int fd, int fd_pipe[2])//dans les child, voir set_heredoc
+static int	ft_readline(char **line, int nbl, int dup_tmp, char *lim)
 {
-	char	*line;
-	char	*lim;
-	int		nb_line;
-	int		dup_tmp;
-
-//fd_pipe pour les signaux & gestion d'erreur
-	(void)fd_pipe;//A Supprimer une fois implemente !!!!!!!!! (pouet)
-	nb_line = 1;
-	lim = heredoc->limit;
-	dup_tmp = dup(STDIN_FILENO);
-	define_signal(SIGINT, &sig_handler_hd_c, infos);
-	line = readline("> ");
-	if (!line && g_sig != SIGINT_HD)//A checker : ctrl D n'est a gerer que pour exit du shell normalement
-		printf("\nminipouet: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", nb_line, heredoc->limit);
+	*line = readline("> ");
+	if (!(*line) && g_sig != SIGINT_HD)
+	{
+		ft_putstr_fd("minipouet: warning: here-document at line ", 1);
+		printf("%d delimited by end-of-file (wanted `%s')\n", nbl, lim);
+	}
 	else if (g_sig == SIGINT_HD)
 	{
 		dup2(dup_tmp, STDIN_FILENO);
 		close(dup_tmp);
 		return (130);
 	}
+	return (0);
+}
+
+static int	ft_expand_line(char **line, t_infos *infos, t_lim *heredoc)
+{
+	if (heredoc->quotes == NO)
+	{
+		*line = expand_main_heredoc(*line, infos);
+		if (!line)
+			return (ERROR_HEREDOC);
+	}
+	return (0);
+}
+
+static int	ft_fill_heredoc(t_infos *infos, t_lim *heredoc, int fd)
+{
+	char	*line;
+	char	*lim;
+	int		nb_line;
+	int		dup_tmp;
+
+	nb_line = 1;
+	lim = heredoc->limit;
+	dup_tmp = dup(STDIN_FILENO);
+	define_signal(SIGINT, &sig_handler_hd_c, infos);
+	if (ft_readline(&line, nb_line, dup_tmp, heredoc->limit))
+		return (130);
 	while (line && ft_strncmp(line, lim, ft_strlen(lim) + 1))
 	{
 		nb_line++;
-		if (heredoc->quotes == NO)
-		{
-			line = expand_main_heredoc(line, infos);//line = ft_expand pour les var uniquement...
-			if (!line)
-				return (ERROR_HEREDOC);
-		}
+		if (ft_expand_line(&line, infos, heredoc))
+			return (ERROR_HEREDOC);
 		ft_putstr_fd(line, fd);
 		ft_putstr_fd("\n", fd);
 		free(line);
-		line = readline("> ");
-		if (!line && g_sig != SIGINT_HD)//A checker : ctrl D n'est a gerer que pour exit du shell normalement
-			printf("minipouet: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", nb_line, heredoc->h_name);
-		else if (g_sig == SIGINT_HD)
-		{
-			dup2(dup_tmp, STDIN_FILENO);
-			close(dup_tmp);//ft_close ?
+		if (ft_readline(&line, nb_line, dup_tmp, heredoc->limit))
 			return (130);
-		}
 	}
 	if (line)
 		free(line);
-	return (close(dup_tmp),0);//ft_close du coup ?
+	return (close(dup_tmp), 0);
 }
 
-int	ft_sethd(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2])
+static int	ft_fill_check_hd(t_exec *exec, t_lim *tmp, int *fd, int fdp[2])
+{
+	int	ret_fill;
+
+	ret_fill = ft_fill_heredoc(exec->infos, tmp, *fd);
+	if (ret_fill)
+	{
+		ft_close(fd, exec, fdp);
+		unlink(tmp->h_name);
+		return (ft_err_exc("minipouet", ret_fill, exec, fdp));
+	}
+	return (0);
+}
+
+static int	ft_close_sethd(t_exec *exec, int *fd, int fdp[2], char *tmp_file)
+{
+	if (ft_close(fd, exec, fdp) == -1)
+	{
+		unlink(tmp_file);
+		return (ft_err_exc("minipouet", ERROR_HEREDOC, exec, fdp));
+	}
+	return (0);
+}
+
+static int	ft_open_fill_and_close(t_exec *exec, t_lim *tmp, int fdp[2])
+{
+	int	ret;
+	int	fd;
+
+	fd = open(tmp->h_name, O_WRONLY | O_TRUNC | O_CREAT, 0664);
+	if (fd == -1)
+		return (ft_err_exc("minipouet", ERROR_HEREDOC, exec, fdp));
+	ret = ft_fill_check_hd(exec, tmp, &fd, fdp);
+	if (ret)
+		return (ret);
+	ret = ft_close_sethd(exec, &fd, fdp, tmp->h_name);
+	if (ret)
+		return (ret);
+	return (0);
+}
+
+int	ft_sethd(t_exec *exec, t_lim *hd, t_fdata *infile, int fdp[2])
 {
 	t_lim			*tmp;
 	unsigned long	i;
 	int				nb_lim;
-	int				fd;
-	int				ret_fill;
+	int				ret;
 
 	tmp = hd;
 	i = 0;
-	nb_lim = exec->is_heredoc;
-	while (nb_lim)
+	nb_lim = exec->is_heredoc + 1;
+	while (--nb_lim)
 	{
-		tmp->h_name = NULL;//utile ? 
-		tmp->h_name = ft_set_heredoc_name(i);
+		tmp->h_name = ft_set_heredoc_name(i++);
 		if (!tmp->h_name)
-			return (ft_error_exec("minipouet: heredoc", ERROR_HEREDOC, exec, fdpipe));
+			return (ft_err_exc("minipouet: heredoc", ERROR_HEREDOC, exec, fdp));
 		if (nb_lim == 1 && infile->heredoc == YES)
 			infile->name = tmp->h_name;
-		fd = open(tmp->h_name, O_WRONLY | O_TRUNC | O_CREAT, 0664);
-		if (fd == -1)
-			return (ft_error_exec("minipouet", ERROR_HEREDOC, exec, fdpipe));//minipouet ou pouetsh ?
-		ret_fill = ft_fill_heredoc(exec->infos, tmp, fd, fdpipe);
-		if (ret_fill)
-		{
-			ft_close(&fd, exec, fdpipe);
-			unlink(tmp->h_name);
-			return (ft_error_exec("minipouet", ret_fill, exec, fdpipe));
-		}
-		if (ft_close(&fd, exec, fdpipe) == -1)
-		{
-			unlink(tmp->h_name);
-			return (ft_error_exec("minipouet", ERROR_HEREDOC, exec, fdpipe));
-		}
-		if (nb_lim > 1 || infile->heredoc != YES)
-		{
-			if (unlink(tmp->h_name) == -1)
-				return (ft_error_exec("minipouet", ERROR_HEREDOC, exec, fdpipe));
-		}
+		ret = ft_open_fill_and_close(exec, tmp, fdp);
+		if (ret)
+			return (ret);
+		if ((nb_lim > 1 || infile->heredoc != YES) && unlink(tmp->h_name) == -1)
+			return (ft_err_exc("minipouet", ERROR_HEREDOC, exec, fdp));
 		tmp = tmp->next;
-		nb_lim--;
-		i++;
 	}
 	return (0);
 }

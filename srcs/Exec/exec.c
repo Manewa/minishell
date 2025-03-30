@@ -122,13 +122,13 @@ static int	ft_exec(t_exec *lst, pid_t *last)
 		if (nw->is_heredoc && ft_sethd(nw, nw->limiter, nw->files->infile, fdp))
 			return (ERROR_HEREDOC);
 		if ((nw->next != NULL) && (pipe(fdp) == -1))
-			return (ft_error_exec("minipouet", ERROR_PIPE, nw, fdp));
+			return (ft_err_exc("minipouet", ERROR_PIPE, nw, fdp));
 		if (ft_fork_and_child(&id, nw, fdp))
-			return (ft_error_exec("minipouet", ERROR_FORK, nw, fdp));
+			return (ft_err_exc("minipouet", ERROR_FORK, nw, fdp));
 		if (nw != nw->head && ft_close(&(nw->files->infile->fd), nw, fdp) == -1)
-			return (ft_error_exec("minipouet", ERROR_CLOSE, nw, fdp));
+			return (ft_err_exc("minipouet", ERROR_CLOSE, nw, fdp));
 		if (nw->next != NULL && ft_close(&fdp[1], nw, fdp) == -1)
-			return (ft_error_exec("minipouet", ERROR_CLOSE, nw, fdp));
+			return (ft_err_exc("minipouet", ERROR_CLOSE, nw, fdp));
 		if (nw->next != NULL)
 			nw->next->files->infile->fd = fdp[0];
 		nw = nw->next;

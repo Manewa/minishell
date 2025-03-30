@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int	ft_error_exec(char *perr_str, int ret_val, t_exec *current, int fd_pipe[2])
+int	ft_err_exc(char *perr_str, int ret_val, t_exec *current, int fd_pipe[2])
 {
 	if (ret_val != 130)
 		perror(perr_str);

@@ -251,7 +251,7 @@ void	ft_main_exec(t_exec *lst);
 
 //.................exec_error.c.................//
 
-int		ft_error_exec(char *perror_str, int ret_val, t_exec *current, int fd_pipe[2]);
+int		ft_err_exc(char *perror_str, int ret_val, t_exec *current, int fd_pipe[2]);
 void	ft_error_child(t_exec *exec, int fd_pipe[2], int *fd_to_close, int ret_val);
 void	ft_error_close(int fd, t_exec *data, int fd_pipe[2]);
 
