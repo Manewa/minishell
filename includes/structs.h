@@ -6,20 +6,17 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 17:43:47 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/28 18:04:42 by namalier         ###   ########.fr       */
+/*   Updated: 2025/03/30 18:31:44 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-/* Si jamais on a un pipe qui suit un autre pipe, il faut renvoyer une erreur et renvoyer au prompt*/
-/* Changer le heredoc qui est considere comme un delimiter par uniquement le pipe*/
-
 typedef struct s_infos
 {
 	int				exit_val;
-	char			*line; // A free avant token_to_exec
+	char			*line;
 	struct s_env	*env;
 	int				pouexit;
 }					t_infos;
@@ -32,7 +29,7 @@ typedef struct s_env
 	char			*key;
 }						t_env;
 
-typedef struct s_token // A free une fois exec envoye
+typedef struct s_token
 {
 	struct s_token	*head;
 	struct s_token	*prev;
@@ -45,7 +42,6 @@ typedef struct s_token // A free une fois exec envoye
 
 typedef struct s_filesdata
 {
-//	int		rights;
 	int		heredoc;
 	int		opening_failure;
 	int		fd;
@@ -82,6 +78,4 @@ typedef struct s_exec
 	char			*cmd_path;
 }				t_exec;
 
-
 #endif
-
