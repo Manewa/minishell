@@ -6,11 +6,8 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/03/30 16:37:16 by aibonade         ###   ########.fr       */
-=======
+/*   Updated: 2025/03/30 17:35:18 by namalier         ###   ########.fr       */
 /*   Updated: 2025/03/30 17:20:16 by namalier         ###   ########.fr       */
->>>>>>> 5949276 (Norm over for Parsing)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,8 +199,8 @@ void	quotes_detecter_heredoc(t_lim *head);
 
 int		out_of_dquote(char *line, int *readed);
 int		out_of_squote(char *line, int *readed);
-void	out_of_quotes(char *str, int *i);
-int		check_quotes(char *str);
+int     out_of_quotes(char *str, int *i);
+int	    check_quotes(char *str);
 
 /************   builtins/env				***********/
 

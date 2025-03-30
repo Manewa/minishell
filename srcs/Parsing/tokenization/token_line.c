@@ -17,16 +17,27 @@
 
 void	ft_cpytoken(t_token *token, char *line, int start, int readed)
 {
-	size_t	i;
+	int	i;
+	int	j;
 
 	i = 0;
+	j = 0;
 	while (line[start] == ' ' || line[start] == '\t')
 		start++;
 	token->line_wip = malloc((readed - start + 1) * sizeof(char));
 	if (!token->line_wip)
 		return ;
 	while (start < readed)
-		token->line_wip[i++] = line[start++];
+	{
+		if (line[start] == 39 || line[start] == '"')
+		{	
+			out_of_quotes(line, &j);
+			while (++start < j)
+				token->line_wip[i++] = line[start];
+		}
+		else
+			token->line_wip[i++] = line[start++];
+	}
 	token->line_wip[i] = '\0';
 }
 
@@ -49,7 +60,7 @@ int	line_heredoc(char *line, int *start, int *readed, t_token *token)
 		&& count_quote % 2 == 0 && (line[*readed] != ' '
 			|| line[*readed] == '\t'))
 	{
-		out_of_quotes(line, readed);
+		count_quote = out_of_quotes(line, readed);
 		if (line[*readed])
 			(*readed)++;
 	}

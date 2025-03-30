@@ -79,10 +79,14 @@ int	check_quotes(char *str)
 	return (1);
 }
 
-void	out_of_quotes(char *str, int *i)
+int	out_of_quotes(char *str, int *i)
 {
+	int	count_quotes;
+
+	count_quotes = 0;
 	if (str[*i] == 39)
-		out_of_squote(str, i);
+		count_quotes = out_of_squote(str, i);
 	else if (str[*i] == '"')
-		out_of_dquote(str, i);
+		count_quotes = out_of_dquote(str, i);
+	return (count_quotes);
 }

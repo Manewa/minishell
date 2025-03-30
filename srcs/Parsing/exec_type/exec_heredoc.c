@@ -43,6 +43,7 @@ void	exec_heredoc(t_token *current, t_exec *exec)
 
 	exec->is_heredoc += 1;
 	lim = limiter_init(current);
+	quotes_detecter_heredoc(lim);
 	ft_limadd_back(&(exec->limiter), lim);
 	exec->files->infile->heredoc = YES;
 }

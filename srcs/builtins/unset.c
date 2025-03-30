@@ -6,7 +6,7 @@
 /*   By: natgomali <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:59 by natgomali         #+#    #+#             */
-/*   Updated: 2025/03/17 16:02:24 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/30 17:35:58 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	unset_var(t_env **head, char *unset)
 			if (current->value)
 				free(current->value);
 			free(current);
-			break;
+			break ;
 		}
 		prev = current;
 		current = current->next;
@@ -48,22 +48,23 @@ int	check_var_name(char *str)
 		return (1);
 	return (0);
 }
-int	ft_unset(t_exec *exec, int fd_out)
+
+int	ft_unset(t_exec *ex, int fd_out)
 {
 	size_t	i;
 	int		errno;
 
 	errno = 0;
 	i = 1;
-	while (exec->cmd_array[i])
+	while (ex->cmd_array[i])
 	{
-		if ((ft_isalpha(exec->cmd_array[i][0]) || exec->cmd_array[i][0] == '_')
-				&& !check_var_name(exec->cmd_array[i]))
-			unset_var(&(exec->infos->env), exec->cmd_array[i]);
+		if ((ft_isalpha(ex->cmd_array[i][0]) || ex->cmd_array[i][0] == '_')
+				&& !check_var_name(ex->cmd_array[i]))
+			unset_var(&(ex->infos->env), ex->cmd_array[i]);
 		else
 		{
 			write(fd_out, "pouetsh: unset: `", 17);
-			write(fd_out, exec->cmd_array[i], ft_safe_strlen(exec->cmd_array[i]));
+			write(fd_out, ex->cmd_array[i], ft_safe_strlen(ex->cmd_array[i]));
 			write(fd_out, "': not a valid identifier\n", 27);
 			errno = 1;
 		}

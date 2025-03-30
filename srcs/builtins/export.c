@@ -6,7 +6,7 @@
 /*   By: natgomali <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:41:09 by natgomali         #+#    #+#             */
-/*   Updated: 2025/03/27 17:44:19 by namalier         ###   ########.fr       */
+/*   Updated: 2025/03/30 17:38:09 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	add_to_env(t_env **head, char *str)
 	new->key = malloc((i + 1) * sizeof(char));
 	if (!new->key)
 		return ;
-	while(j < i)
+	while (j < i)
 	{
 		new->key[j] = str[j];
 		j++;
@@ -74,7 +74,7 @@ int	check_var(char *var)
 	while (var[i] && var[i] != '=')
 	{
 		if ((i == 0 && !ft_isalnum(var[i]))
-				|| (!ft_isalnum(var[i]) && var[i] != '_'))
+			|| (!ft_isalnum(var[i]) && var[i] != '_'))
 			return (0);
 		i++;
 	}
@@ -107,24 +107,23 @@ int	ft_export(t_exec *exec, int fd_out)
 	size_t	i;
 	int		errno;
 
-	i = 1;
+	i = 0;
 	if (!exec->cmd_array[1])
 		write_env(exec->infos->env, fd_out);
 	else
 	{
-		while (exec->cmd_array[i])
+		while (exec->cmd_array[++i])
 		{
 			if (check_var(exec->cmd_array[i]))
 				add_to_env(&(exec->infos->env), exec->cmd_array[i]);
-			else 
+			else
 			{
 				errno = i;
 				write (fd_out, "pouetsh: export: `", 18);
 				write (fd_out, exec->cmd_array[i],
-						ft_safe_strlen(exec->cmd_array[i]));
-				write (fd_out,  "': not a valid identifier\n", 26);
+					ft_safe_strlen(exec->cmd_array[i]));
+				write (fd_out, "': not a valid identifier\n", 26);
 			}
-			i++;
 		}
 	}
 	if (errno != 0)
