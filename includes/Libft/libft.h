@@ -126,7 +126,7 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 void	ft_lstfree(t_list **a);
 void	*ft_free_doubletab(char **str);
-char    *ft_strstr(char *str, char *to_find);
+char	*ft_strstr(char *str, char *to_find);
 int		ft_strcmp(char *s1, char *s2);
 
 #endif
