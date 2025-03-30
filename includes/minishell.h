@@ -14,49 +14,48 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include "structs.h"
 # include "Libft/libft.h"
 # include "libs.h"
 
-#define	ERROR_TO0_MANY		-20
-#define	ERROR_OUTFILE		-17
-#define	ERROR_INFILE		-16
-#define	ERROR_NF			-15
-#define	ERROR_HEREDOC		-14
-#define	ERROR_CLOSE			-13
-#define	ERROR_FORK			-12
-#define	ERROR_PIPE			-11
-#define	ERROR_EXEC			-10
-#define NO					0
-#define YES					1
-#define DOUBLE_QUOTE		2
-#define INREDIR				3
-#define OUTREDIR			4
-#define HEREDOC				5
-#define WORD				6
-#define SINGLE_QUOTE		7
-#define APPEND_MODE			8
-#define	ERROR_PARSING		10
-#define QUOTE_NOT_CLOSED	11
-#define	NO_PATH				12
-#define	PIPE				-1
-#define	ECHO				14
-#define	CD					15
-#define PWD					16
-#define	EXPORT				17
-#define UNSET				18
-#define	ENV					19
-#define EXIT				20
-#define DOUBLE_PIPE			-2
-#define	NO_INFO				22
-#define	FILE_DOES_NOT_EXIST	23
-#define	PERMISSION_DENIED	24
-#define	POUET				42
-#define	SIGINT_HD			43
-
+# define ERROR_TO0_MANY			-20
+# define ERROR_OUTFILE			-17
+# define ERROR_INFILE			-16
+# define ERROR_NF				-15
+# define ERROR_HEREDOC			-14
+# define ERROR_CLOSE			-13
+# define ERROR_FORK				-12
+# define ERROR_PIPE				-11
+# define ERROR_EXEC				-10
+# define NO						0
+# define YES					1
+# define DOUBLE_QUOTE			2
+# define INREDIR				3
+# define OUTREDIR				4
+# define HEREDOC				5
+# define WORD					6
+# define SINGLE_QUOTE			7
+# define APPEND_MODE			8
+# define ERROR_PARSING			10
+# define QUOTE_NOT_CLOSED		11
+# define NO_PATH				12
+# define PIPE					-1
+# define ECHO					14
+# define CD						15
+# define PWD					16
+# define EXPORT					17
+# define UNSET					18
+# define ENV					19
+# define EXIT					20
+# define DOUBLE_PIPE			-2
+# define NO_INFO				22
+# define FILE_DOES_NOT_EXIST	23
+# define PERMISSION_DENIED		24
+# define POUET					42
+# define SIGINT_HD				43
 
 /************		main 			**********/
 
@@ -71,8 +70,8 @@ int		init_prompt(t_infos *infos, char **envp);
 
 t_env	*insert_sorted(t_env *head, t_env *new);
 void	sort_env_list(t_env **head);
-void 	ft_cpypath(t_infos *infos, t_exec *exec);
-void 	env_key_n_value(t_env *env, char **envp, size_t i);
+void	ft_cpypath(t_infos *infos, t_exec *exec);
+void	env_key_n_value(t_env *env, char **envp, size_t i);
 t_env	*ft_cpyenv(char **envp);
 int		len_env_line(t_env *tmp);
 void	cat_key_n_value(t_env *tmp, char **tab, size_t i);
@@ -80,7 +79,7 @@ char	**env_double_tab(t_env *env);
 
 /************	tokenization/tokenization	**********/
 
-t_token *add_new_node(t_infos *infos, t_token *token_head);
+t_token	*add_new_node(t_infos *infos, t_token *token_head);
 int		token_type(char *line, int readed, int start, char sep);
 t_token	*init_token(t_infos *infos, t_token *head);
 t_token	*create_token(t_infos *infos, int *readed, int *start);
@@ -88,7 +87,7 @@ t_token	*tokenization(t_infos *infos);
 
 /************	token/token_line	         ***********/
 
-void    ft_cpytoken(t_token *token, char *line,  int start, int readed);
+void	ft_cpytoken(t_token *token, char *line, int start, int readed);
 int		line_heredoc(char *line, int *start, int *readed, t_token *token);
 void	token_line_wip(t_token *token, char *line, int *readed, int *start);
 
@@ -98,24 +97,24 @@ int cpy_part_line(char *old, char *expand, int start, char *new);
 void	get_out_of_rules(char *line, int *i);
 char	*expand_to_env(char *to_expand, t_env *env);
 char	*expanded_new_line(char *old_line, int start, int end, char *expand);
-void    expand_token(t_token *toke, t_infos *infos);
+void	expand_token(t_token *toke, t_infos *infos);
 
 /***********     tokenization/tokens_for_exec **********/
 
-int     exec_type(t_exec *exec, t_token **current);
-t_exec  *exec_init(t_exec *head, t_token *current);
+int		exec_type(t_exec *exec, t_token **current);
+t_exec	*exec_init(t_exec *head, t_token *current);
 t_exec	*tokens_for_exec(t_token *head_token);
 t_exec	*main_parsing(t_infos *infos);
 
-/***********      exec_type                 ***********/
+/***********	  exec_type				 ***********/
 
-void    exec_append(t_token **current, t_exec *exec);
-void    exec_heredoc(t_token *current, t_exec *exec);
-void    exec_inredir(t_token **current, t_exec *exec);
-void    exec_outredir(t_token **current, t_exec *exec);
+void	exec_append(t_token **current, t_exec *exec);
+void	exec_heredoc(t_token *current, t_exec *exec);
+void	exec_inredir(t_token **current, t_exec *exec);
+void	exec_outredir(t_token **current, t_exec *exec);
 char	*ft_pathcmd(char *argv, char *path);
 void	find_pathcmd(char **path, t_exec *exec);
-void    exec_word(t_token *current, t_exec *exec);
+void	exec_word(t_token *current, t_exec *exec);
 void	error_write(t_token **current, t_exec *exec);
 
 /***********	exec_type/count_array	***********/
@@ -130,25 +129,25 @@ int		ft_strcmp(char *line, char *builtin);
 int		builtin_cmp(char *line);
 void	check_builtin(t_exec *head_exec);
 
-/***********    set_signals.c               ***********/
+/***********	set_signals.c			   ***********/
 
 void	sig_handler_hd_c(int signum);
 void	sig_handler_c(int signum);
 int		define_signal(int signum, void (*sig_fun)(int), t_infos *infos);
 void	set_signal(t_infos *infos);
 
-/***********    check_error_parsing         ***********/
+/***********	check_error_parsing		 ***********/
 
 int		redirection_error(char *line, size_t *i);
 int		pipe_error(char *line, size_t i);
 int		check_error_parsing(t_infos *infos);
 int		check_error(t_infos *infos);
 
-/************	utils/utils_lst	    	    ***********/
+/************	utils/utils_lst				***********/
 
 t_token	*ft_tokenlast(t_token *lst);
 void	ft_tokenadd_back(t_token **lst, t_token *new);
-t_exec  *ft_execnew(t_exec *prev, t_infos *infos);
+t_exec	*ft_execnew(t_exec *prev, t_infos *infos);
 t_token	*ft_tokennew(t_token *head);
 t_files	*ft_filenew(void);
 
@@ -182,48 +181,48 @@ int		ft_count_word_quote(char *s);//, char c);
 int		check_first_quote(char *s, int *i, int *double_quote);
 int		count_word_n_quotes(char *s, int *i, int *double_quote, int *start);
 
-/***********    utils/ft_error      ***********/
+/***********	utils/ft_error	  ***********/
 
 void	ft_lstenvfree(t_env *env);
 void	*ft_free_infos(t_infos *infos, char *error, int exit_prg);
 void	*ft_free_token(t_token *token);
 void	*ft_free_infoken(t_infos *infos, t_token *token, char *error, int exit);
 void	*ft_error_parsing(t_infos *infos, t_token *token, char c);
-void    *ft_exit_exec(t_token *head_token, t_exec *exec, int exit_prg);
-void    ft_free_limiter(t_lim *lim);
+void	*ft_exit_exec(t_token *head_token, t_exec *exec, int exit_prg);
+void	ft_free_limiter(t_lim *lim);
 void	ft_free_files_parsing(t_files *files);
 
 /************   utils/quotes_remover   **********/
 
-int     quotes_count(char *str);
-void    quotes_detecter(t_exec *current);
+int		quotes_count(char *str);
+void	quotes_detecter(t_exec *current);
 void	quotes_detecter_heredoc(t_lim *head);
 
-/************	utils/quotes	            ***********/
+/************	utils/quotes				***********/
 
 int		out_of_dquote(char *line, int *readed);
 int		out_of_squote(char *line, int *readed);
-void    out_of_quotes(char *str, int *i);
-int	    check_quotes(char *str);
+void	out_of_quotes(char *str, int *i);
+int		check_quotes(char *str);
 
-/************   builtins/env                ***********/
+/************   builtins/env				***********/
 
 size_t	ft_safe_strlen(const char *c);
 void	print_keynvalue(int fd, t_env *env);
 int		ft_env(t_infos *infos, t_exec *exec, t_fdata *outfile);
 
-/************   builtins/export                ***********/
+/************   builtins/export				***********/
 
 void	add_to_env(t_env **head, char *str);
 int		check_var(char *var);
 void	write_env(t_env *head, int fd_out);
 int		ft_export(t_exec *exec, int fd_out);
 
-/************   builtins/unset                  **********/
+/************   builtins/unset				  **********/
 
 void	unset_var(t_env **head, char *unset);
-int	    check_var_name(char *str);
-int	    ft_unset(t_exec *exec, int fd_out);
+int		check_var_name(char *str);
+int		ft_unset(t_exec *exec, int fd_out);
 
 /*************THE POUETERS EXECUTIONERS*****************/
 
@@ -242,7 +241,7 @@ int		ft_sethd(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2]);
 
 //...............heredoc_expand.c................//
 
-char    *expand_main_heredoc(char *line, t_infos *infos);
+char	*expand_main_heredoc(char *line, t_infos *infos);
 
 //..................exec_free.c..................//
 
