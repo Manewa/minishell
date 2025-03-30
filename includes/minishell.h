@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 14:47:04 by namalier          #+#    #+#             */
-/*   Updated: 2025/03/30 14:48:38 by natgomali        ###   ########.fr       */
+/*   Updated: 2025/03/30 16:37:16 by aibonade         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,6 +226,11 @@ int	    ft_unset(t_exec *exec, int fd_out);
 
 char	*ft_ultoa(unsigned long n);
 
+//...............heredoc_utils2.c................//
+
+void	ft_free_dbltab(char **str);
+int		ft_fill_heredoc(t_infos *infos, t_lim *heredoc, int fd);
+
 //...................heredoc.c...................//
 
 int		ft_sethd(t_exec *exec, t_lim *hd, t_fdata *infile, int fdpipe[2]);
@@ -236,7 +241,6 @@ char    *expand_main_heredoc(char *line, t_infos *infos);
 
 //..................exec_free.c..................//
 
-void	ft_free_dbltab(char **str);//Si Nathan en a besoin aussi, on peut le mettre dans un autre fichier
 void	ft_clean_end_exec(t_exec *exec);
 
 //.................exec_files.c.................//
@@ -248,6 +252,11 @@ int		ft_open_outfile(int fd_pipe[2], t_exec *exec, t_fdata *out, int child);
 //....................exec.c....................//
 
 void	ft_main_exec(t_exec *lst);
+
+//.................exec_utils.c.................//
+
+void	ft_dup2(int *old, int nw, int fd_pipe[2], t_exec *lst);
+int		ft_fork_and_child(pid_t *id, t_exec *now, int fd_pipe[2]);
 
 //.................exec_error.c.................//
 

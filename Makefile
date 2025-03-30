@@ -33,6 +33,7 @@ SRCS 			=	srcs/main.c srcs/init_prompt.c ${ENV}/env.c \
 					${EXEC}/exec_error.c ${EXEC}/exec.c ${EXEC}/exec_files.c \
 					${EXEC}/exec_free.c ${EXEC}/heredoc_utils.c \
 					${EXEC}/heredoc.c ${EXEC}/heredoc_expand.c \
+					${EXEC}/exec_utils.c ${EXEC}/heredoc_utils2.c\
 					${UTILS}/quotes.c ${UTILS}/quotes_remover.c \
 					${UTILS}/utils_lst.c ${UTILS}/utils_lst2.c \
 					${UTILS}/utils_lst3.c ${UTILS}/split2.c \
@@ -43,7 +44,7 @@ SRCS 			=	srcs/main.c srcs/init_prompt.c ${ENV}/env.c \
 					${BUILTINS}/builtin_utils.c ${BUILTINS}/pwd.c \
 					${BUILTINS}/exit.c ${BUILTINS}/echo.c \
 					${BUILTINS}/export.c ${BUILTINS}/unset.c\
-					${BUILTINS}/cd_utils.c\
+					${BUILTINS}/cd_utils.c \
 
 
 OBJS 			=	$(patsubst %.c,${OBJDIR}/%.o,$(notdir ${SRCS}))

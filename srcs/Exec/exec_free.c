@@ -45,22 +45,6 @@ static void	ft_free_heredoc_lst(t_lim *lim)
 	}
 }
 
-void	ft_free_dbltab(char **str)
-{
-	size_t	i;
-
-	if (str)
-	{
-		i = 0;
-		while (str[i])
-		{
-			free(str[i]);
-			i++;
-		}
-		free(str);
-	}
-}
-
 static void	ft_delone_exec(t_exec *exec)
 {
 	if (exec)
